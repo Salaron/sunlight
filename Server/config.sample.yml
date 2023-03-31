@@ -1,0 +1,32 @@
+﻿server:
+  server_version: "59.4"
+  x_message_code_verification_enabled: true
+  rsa_private_key: # your private key
+  release_info_keys:
+    - id: 1
+      key: asdsadasda
+    - id: 2
+      key: 12345
+
+kestrel:
+  endpoints:
+    http:
+      url: http://0.0.0.0:5000
+    https:
+      url: http://0.0.0.0:5001
+
+award:
+  unlock_all: true
+
+background:
+  unlock_all: true
+
+live:
+  unlock_all: true
+
+unit:
+  muse_center_unit_ids: [ 49, 50, 51, 52, 53, 54, 55, 56, 57 ]
+  aqours_center_unit_ids: [ 788, 789, 790, 791, 792, 793, 794, 795, 796 ]
+
+connection_strings:
+  default_connection_string: 12345
