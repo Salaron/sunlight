@@ -7,11 +7,10 @@ using SunLight.Dtos.Response.Tos;
 namespace SunLight.Controllers;
 
 [ApiController]
+[XMessageCodeCheck]
 [Route("main.php/tos")]
 public class TosController : LlsifController
 {
-
-    [XMessageCodeCheck]
     [HttpPost("tosCheck")]
     [Produces(typeof(ServerResponse<TosCheckResponse>))]
     public IActionResult TosCheck([FromForm] BaseRequest request)
@@ -26,7 +25,6 @@ public class TosController : LlsifController
         return SendResponse(response);
     }
 
-    [XMessageCodeCheck]
     [HttpPost("tosAgree")]
     [Produces(typeof(ServerResponse<TosCheckResponse>))]
     public IActionResult TosAgree([FromForm] BaseRequest request)
