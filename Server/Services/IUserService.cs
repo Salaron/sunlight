@@ -7,4 +7,6 @@ public interface IUserService
     Task<User> GetUserInfoAsync(uint userId);
 
     Task ChangeNameAsync(uint userId, string newName);
+
+    Task UpdateTutorialStateAsync(uint userId, int state);
 }

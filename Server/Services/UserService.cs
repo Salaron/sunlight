@@ -27,4 +27,13 @@ internal class UserService : IUserService
         _dbContext.Update(userInfo);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task UpdateTutorialStateAsync(uint userId, int state)
+    {
+        var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
+
+        userInfo.TutorialState = state;
+        _dbContext.Update(userInfo);
+        await _dbContext.SaveChangesAsync();
+    }
 }
