@@ -15,7 +15,6 @@ builder.Services
     .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower);
 
 builder.Services.AddRouting();
-
 builder.Services.AddServices();
 
 var app = builder.Build();
@@ -23,11 +22,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UsePerformanceMeter();
-    app.UseXMessageHeaders();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseRouting();
-app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+app.Use(next => context =>
+{
+    context.Request.EnableBuffering();
+    return next(context);
+});
+
+app.UseCustomResponseHeaders();
+
+app.MapControllers();
 app.Run();
