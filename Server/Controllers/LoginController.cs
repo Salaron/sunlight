@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SunLight.Dtos.Login;
+using SunLight.Authorization;
 using SunLight.Dtos.Request.Login;
+using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.Login;
 using SunLight.Services;
 
 namespace SunLight.Controllers;
@@ -17,17 +19,20 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost("authkey")]
-    public async Task<AuthKeyResponse> AuthKeyAsync([FromBody] AuthKeyRequest requestData)
+    public async Task<ServerResponse<AuthKeyResponse>> AuthKeyAsync([FromBody] AuthKeyRequest requestData)
     {
         var userSession = await _loginService.StartSessionAsync(requestData.DummyToken);
 
-        return new AuthKeyResponse
+        var response = new AuthKeyResponse
         {
             AuthorizeToken = userSession.AuthorizeToken.ToString(),
             DummyToken = userSession.ServerKey
         };
+
+        return new ServerResponse<AuthKeyResponse>(response);
     }
 
+    [XMessageCodeCheck]
     [HttpPost("login")]
     public LoginResponse LoginAsync([FromBody] LoginRequest requestData, [FromHeader] string authorize)
     {

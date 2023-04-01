@@ -6,9 +6,9 @@ internal static class MiddlewaresExtensions
     {
         return builder.UseMiddleware<PerformanceMeterMiddleware>();
     }
-    
-    public static IApplicationBuilder UseXMessageHeaders(this IApplicationBuilder builder)
+
+    public static IApplicationBuilder UseCustomResponseHeaders(this IApplicationBuilder builder)
     {
-        return builder.UseMiddleware<XMessageHeadersMiddleware>();
+        return builder.UseMiddleware<CustomResponseHeadersMiddleware>();
     }
 }

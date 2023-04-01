@@ -1,4 +1,4 @@
-﻿namespace SunLight.Dtos;
+﻿namespace SunLight.Dtos.Response;
 
 [Serializable]
 public abstract class BaseResponse
