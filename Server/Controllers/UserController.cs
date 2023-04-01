@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
+using SunLight.Dtos.Request.User;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.User;
 using SunLight.Services;
@@ -9,6 +10,7 @@ using SunLight.Services;
 namespace SunLight.Controllers;
 
 [ApiController]
+[XMessageCodeCheck]
 [Route("main.php/user")]
 public class UserController : LlsifController
 {
@@ -21,7 +23,6 @@ public class UserController : LlsifController
         _mapper = mapper;
     }
 
-    [XMessageCodeCheck]
     [HttpPost("userInfo")]
     [Produces(typeof(ServerResponse<UserInfoResponse>))]
     public async Task<IActionResult> UserInfoAsync([FromForm] BaseRequest request)
@@ -30,6 +31,21 @@ public class UserController : LlsifController
         var response = new UserInfoResponse
         {
             User = _mapper.Map<UserInfoDto>(userInfo)
+        };
+
+        return SendResponse(response);
+    }
+
+    [HttpPost("changeName")]
+    [Produces(typeof(ServerResponse<ChangeNameResponse>))]
+    public async Task<IActionResult> ChangeNameAsync([FromForm] ChangeNameRequest request)
+    {
+        await _userService.ChangeNameAsync(userId: 1, request.Name);
+
+        var response = new ChangeNameResponse
+        {
+            BeforeName = "",
+            AfterName = request.Name
         };
 
         return SendResponse(response);
