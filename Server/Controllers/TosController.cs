@@ -25,4 +25,19 @@ public class TosController : LlsifController
 
         return SendResponse(response);
     }
+
+    [XMessageCodeCheck]
+    [HttpPost("tosAgree")]
+    [Produces(typeof(ServerResponse<TosCheckResponse>))]
+    public IActionResult TosAgree([FromForm] BaseRequest request)
+    {
+        var response = new TosCheckResponse
+        {
+            TosId = 1,
+            TosType = 3,
+            IsAgreed = true
+        };
+
+        return SendResponse(response);
+    }
 }

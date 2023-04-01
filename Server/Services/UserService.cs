@@ -18,4 +18,13 @@ internal class UserService : IUserService
 
         return userInfo;
     }
+
+    public async Task ChangeNameAsync(uint userId, string newName)
+    {
+        var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
+
+        userInfo.Name = newName;
+        _dbContext.Update(userInfo);
+        await _dbContext.SaveChangesAsync();
+    }
 }
