@@ -8,5 +8,6 @@ public static class ApplicationBuilderExtensions
     {
         serviceCollection.AddSingleton<ICryptoService, CryptoService>();
         serviceCollection.AddScoped<ILoginService, LoginService>();
+        serviceCollection.AddScoped<IUserService, UserService>();
     }
 }

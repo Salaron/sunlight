@@ -18,7 +18,7 @@ public class LoginController : LlsifController
         _loginService = loginService;
     }
 
-    [HttpPost("authkey")]
+    [HttpPost("authKey")]
     [Produces(typeof(ServerResponse<AuthKeyResponse>))]
     public async Task<IActionResult> AuthKeyAsync([FromBody] AuthKeyRequest requestData)
     {
@@ -63,7 +63,7 @@ public class LoginController : LlsifController
     }
 
     [XMessageCodeCheck]
-    [HttpPost("startup")]
+    [HttpPost("startUp")]
     [Produces(typeof(ServerResponse<LoginResponse>))]
     public async Task<IActionResult> StartUpAsync([FromBody] LoginRequest requestData, [FromHeader] string authorize)
     {

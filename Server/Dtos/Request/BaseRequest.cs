@@ -1,12 +1,13 @@
-﻿namespace SunLight.Dtos;
+﻿namespace SunLight.Dtos.Request;
 
+[Serializable]
 public class BaseRequest
 {
-    public string Module { get; set; }
-    public string Action { get; set; }
-    public long TimeStamp { get; set; }
-    public GameMode Mgd { get; set; }
-    public string CommandNum { get; set; } // loginKey.timeStamp.nonce
+    public string Module { get; init; }
+    public string Action { get; init; }
+    public long TimeStamp { get; init; }
+    public GameMode Mgd { get; init; }
+    public string CommandNum { get; init; } // loginKey.timeStamp.nonce
 }
 
 public enum GameMode

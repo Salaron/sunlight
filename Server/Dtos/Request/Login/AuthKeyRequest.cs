@@ -2,11 +2,12 @@
 
 namespace SunLight.Dtos.Request.Login;
 
+[Serializable]
 public class AuthKeyRequest
 {
-    [Required] 
+    [Required]
     public string DummyToken { get; set; }
-    
-    [Required] 
+
+    [Required]
     public string AuthData { get; set; }
 }

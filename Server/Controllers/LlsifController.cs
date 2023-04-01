@@ -9,7 +9,7 @@ public abstract class LlsifController : ControllerBase
     {
         Response.Headers.Add("status_code", jsonStatusCode.ToString());
 
-        var serverResponse = new ServerResponse<T>(response);
+        var serverResponse = new ServerResponse<T>(response, jsonStatusCode);
         return Ok(serverResponse);
     }
 }
