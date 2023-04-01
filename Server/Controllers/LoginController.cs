@@ -8,6 +8,7 @@ using SunLight.Services;
 namespace SunLight.Controllers;
 
 [ApiController]
+[XMessageCodeCheck]
 [Route("main.php/login")]
 public class LoginController : LlsifController
 {
@@ -19,6 +20,7 @@ public class LoginController : LlsifController
     }
 
     [HttpPost("authKey")]
+    [XMessageCodeCheck(performCheck: false)]
     [Produces(typeof(ServerResponse<AuthKeyResponse>))]
     public async Task<IActionResult> AuthKeyAsync([FromBody] AuthKeyRequest requestData)
     {
@@ -33,7 +35,6 @@ public class LoginController : LlsifController
         return SendResponse(response);
     }
 
-    [XMessageCodeCheck]
     [HttpPost("login")]
     [Produces(typeof(ServerResponse<LoginResponse>))]
     public async Task<IActionResult> LoginAsync([FromBody] LoginRequest requestData, [FromHeader] string authorize)
@@ -62,7 +63,6 @@ public class LoginController : LlsifController
         }
     }
 
-    [XMessageCodeCheck]
     [HttpPost("startUp")]
     [Produces(typeof(ServerResponse<LoginResponse>))]
     public async Task<IActionResult> StartUpAsync([FromBody] LoginRequest requestData, [FromHeader] string authorize)
@@ -89,5 +89,35 @@ public class LoginController : LlsifController
         {
             return SendResponse(new ErrorResponse(errorCode: 407), jsonStatusCode: 600);
         }
+    }
+
+    [HttpPost("topInfo")]
+    [ApiCall("login", "topInfo")]
+    [Produces(typeof(ServerResponse<LoginResponse>))]
+    public IActionResult TopInfo()
+    {
+        var response = new LoginResponse
+        {
+            IdfaEnabled = false,
+            SkipLoginNews = true
+        };
+
+        return Ok(response);
+    }
+
+    [HttpPost("topInfoOnce")]
+    [ApiCall("login", "topInfoOnce")]
+    [Produces(typeof(ServerResponse<LoginResponse>))]
+    public async Task<IActionResult> TopInfoOnceAsync()
+    {
+        var response = new LoginResponse
+        {
+            IdfaEnabled = false,
+            SkipLoginNews = true
+        };
+
+        await Task.Delay(100);
+
+        return Ok(response);
     }
 }

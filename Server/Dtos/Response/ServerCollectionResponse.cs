@@ -3,13 +3,13 @@
 namespace SunLight.Dtos.Response;
 
 [Serializable]
-public class ServerResponse<T> where T : BaseResponse
+public class ServerCollectionResponse<T> where T : BaseResponse
 {
-    public T ResponseData { get; set; }
+    public ICollection<T> ResponseData { get; set; }
     public int StatusCode { get; set; }
     public List<ReleaseInfo> ReleaseInfo { get; } = new();
 
-    public ServerResponse(T responseData, int statusCode)
+    public ServerCollectionResponse(ICollection<T> responseData, int statusCode)
     {
         ResponseData = responseData;
         StatusCode = statusCode;

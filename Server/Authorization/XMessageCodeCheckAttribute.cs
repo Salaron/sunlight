@@ -1,33 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace SunLight.Authorization;
 
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 internal class XMessageCodeCheckAttribute : Attribute, IAsyncActionFilter
 {
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    private readonly bool _performCheck;
+
+    public XMessageCodeCheckAttribute(bool performCheck = true)
     {
-        var requestBody = await ReadBodyAsStringAsync(context.HttpContext.Request);
-
-        var hasXmcHeader =
-            context.HttpContext.Request.Headers.TryGetValue("X-Message-Code", out var xMessageCodeHeader);
-
-        await next();
+        _performCheck = performCheck;
     }
 
-    private static async Task<string> ReadBodyAsStringAsync(HttpRequest request)
+    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        var initialBody = request.Body;
+        if (_performCheck)
+        {
+            var requestBody = JsonSerializer.Serialize(context.ModelState.Root.RawValue);
 
-        try
-        {
-            var reader = new StreamReader(request.Body);
-            var text = await reader.ReadToEndAsync();
-            return text;
+            var hasXmcHeader =
+                context.HttpContext.Request.Headers.TryGetValue("X-Message-Code", out var xMessageCodeHeader);
         }
-        finally
-        {
-            request.Body = initialBody;
-        }
+
+        await next();
     }
 }
