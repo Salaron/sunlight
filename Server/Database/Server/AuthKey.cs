@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace SunLight.Database.Server;
 
@@ -8,5 +9,7 @@ public class AuthKey
     public Guid AuthorizeToken { get; set; }
     public string SessionKey { get; set; }
     public string ServerKey { get; set; }
-    public DateTime CreationTime { get; set; }
+
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime? CreationTime { get; set; }
 }

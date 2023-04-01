@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using SunLight.Database.Server;
 using SunLight.Dtos;
 using SunLight.Middlewares;
 using SunLight.Startup;
@@ -13,6 +15,9 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddControllers(opts => opts.ModelBinderProviders.Insert(0, new FormDataBinderProvider()))
     .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower);
+
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+builder.Services.AddDbContext<ServerDbContext>(opts => opts.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddRouting();
 builder.Services.AddServices();

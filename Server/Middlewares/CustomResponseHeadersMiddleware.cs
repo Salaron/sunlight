@@ -8,7 +8,6 @@ internal class CustomResponseHeadersMiddleware
     private readonly RequestDelegate _next;
     private readonly ICryptoService _cryptoService;
 
-
     public CustomResponseHeadersMiddleware(RequestDelegate next, ICryptoService cryptoService)
     {
         _next = next;
@@ -42,7 +41,6 @@ internal class CustomResponseHeadersMiddleware
 
             httpContext.Response.Headers.Add("user_id", "");
             httpContext.Response.Headers.Add("version_up", "0");
-            httpContext.Response.Headers.Add("status_code", "200");
             httpContext.Response.Headers.Add("authorize", new AuthorizeHeader().ToString());
         }
         finally
