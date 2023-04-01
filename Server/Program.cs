@@ -11,12 +11,14 @@ builder.Configuration.AddYamlFile("config.yml", optional: false);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services
     .AddControllers(opts => opts.ModelBinderProviders.Insert(0, new FormDataBinderProvider()))
     .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower);
 
-var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
+var selectedDatabase = builder.Configuration["Server:Database"] ?? throw new Exception("Database not provided");
+var connectionString = builder.Configuration.GetConnectionString(selectedDatabase);
 builder.Services.AddDbContext<ServerDbContext>(opts => opts.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
 
 builder.Services.AddRouting();

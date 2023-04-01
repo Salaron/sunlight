@@ -1,12 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace SunLight.Dtos.Response.User;
 
-namespace SunLight.Database.Server;
-
-public class User
+[Serializable]
+public class UserInfoDto
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public uint UserId { get; init; }
-
+    public uint UserId { get; set; }
     public string Name { get; set; }
     public uint Level { get; set; }
     public uint PreviousExp { get; set; }
@@ -26,14 +23,7 @@ public class User
     public uint TrainingEnergy { get; set; }
     public uint TrainingEnergyMax { get; set; }
     public uint FriendMax { get; set; }
-    public string InviteCode => UserId.ToString();
-
+    public string InviteCode { get; set; }
     public int TutorialState { get; set; }
-
-    //public object LpRecoveryItem { get; set; }
-    public string LoginKey { get; set; }
-    public string LoginPasswd { get; set; }
-    public Guid AuthorizeToken { get; set; }
-    public DateTime LastLogin { get; set; }
-    public DateTime CreationTime { get; set; }
+    public object LpRecoveryItem { get; set; }
 }
