@@ -13,10 +13,12 @@ public class ApiController : LlsifController
 {
     private readonly Dictionary<string, MethodInfo> _apiMethods = new();
     private readonly IServiceProvider _serviceProvider;
+    private readonly ILogger _logger;
 
-    public ApiController(IServiceProvider serviceProvider)
+    public ApiController(IServiceProvider serviceProvider, ILogger logger)
     {
         _serviceProvider = serviceProvider;
+        _logger = logger;
 
         var methods = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(x => x.GetTypes())
@@ -38,15 +40,18 @@ public class ApiController : LlsifController
         var response = new List<ApiResponse>();
         foreach (var module in modules)
         {
-            var actionMethodExists = _apiMethods.TryGetValue($"{module.Module}/{module.Action}", out var actionMethod);
+            var moduleAction = $"{module.Module}/{module.Action}";
+            var actionMethodExists = _apiMethods.TryGetValue(moduleAction, out var actionMethod);
 
             if (actionMethod == null)
+            {
+                _logger.LogWarning($"Method for {moduleAction} not exist");
+                response.Add(new ApiResponse(new ErrorResponse(1234), 600));
                 continue;
-            // return Forbid();
+            }
 
-            var instance = ActivatorUtilities.CreateInstance(_serviceProvider, actionMethod.DeclaringType);
-
-            var result = actionMethod.Invoke(instance, null);
+            var controllerInstance = ActivatorUtilities.CreateInstance(_serviceProvider, actionMethod.DeclaringType);
+            var result = actionMethod.Invoke(controllerInstance, null);
 
             if (result is Task task)
                 await task;

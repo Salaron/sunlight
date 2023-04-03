@@ -93,13 +93,34 @@ public class LoginController : LlsifController
 
     [HttpPost("topInfo")]
     [ApiCall("login", "topInfo")]
-    [Produces(typeof(ServerResponse<LoginResponse>))]
+    [Produces(typeof(ServerResponse<TopInfoResponse>))]
     public IActionResult TopInfo()
     {
-        var response = new LoginResponse
+        var response = new TopInfoResponse
         {
-            IdfaEnabled = false,
-            SkipLoginNews = true
+            FriendActionCnt = 0,
+            FriendGreetCnt = 0,
+            FriendVarietyCnt = 0,
+            FriendNewCnt = 0,
+            FriendsApprovalWaitCnt = 0,
+            FriendsRequestCnt = 0,
+            IsTodayBirthday = false,
+            PresentCnt = 0,
+            SecretBoxBadgeFlag = false,
+            ServerDatetime = "",
+            LicenseInfo = new LicenseInfoDto(),
+            UsingBuffInfo = new List<object>(),
+            IsKlabIdTaskFlag = false,
+            KlabIdTaskCanSync = false,
+            HasUnreadAnnounce = false,
+            ExchangeBadgeCnt = new List<int>
+            {
+                0, // seal shop
+                0, // point shop
+                0 // idk
+            },
+            AdFlag = false,
+            HasAdReward = false
         };
 
         return Ok(response);
@@ -107,16 +128,23 @@ public class LoginController : LlsifController
 
     [HttpPost("topInfoOnce")]
     [ApiCall("login", "topInfoOnce")]
-    [Produces(typeof(ServerResponse<LoginResponse>))]
-    public async Task<IActionResult> TopInfoOnceAsync()
+    [Produces(typeof(ServerResponse<TopInfoOnceResponse>))]
+    public IActionResult TopInfoOnceAsync()
     {
-        var response = new LoginResponse
+        var response = new TopInfoOnceResponse
         {
-            IdfaEnabled = false,
-            SkipLoginNews = true
+            NewAchievementCnt = 0,
+            UnaccomplishedAchievementCnt = 0,
+            LiveDailyRewardExist = false,
+            TrainingEnergy = 5,
+            TrainingEnergyMax = 5,
+            Notification = new NotificationDto(),
+            OpenArena = false,
+            CostumeStatus = false,
+            OpenAccessory = false,
+            ArenaSiSkillUniqueCheck = false,
+            OpenV98 = true // m_live_custom
         };
-
-        await Task.Delay(100);
 
         return Ok(response);
     }
