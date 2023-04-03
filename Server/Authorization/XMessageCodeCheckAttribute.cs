@@ -7,10 +7,12 @@ namespace SunLight.Authorization;
 internal class XMessageCodeCheckAttribute : Attribute, IAsyncActionFilter
 {
     private readonly bool _performCheck;
+    private readonly bool _isSpecialApi;
 
-    public XMessageCodeCheckAttribute(bool performCheck = true)
+    public XMessageCodeCheckAttribute(bool performCheck = true, bool specialApi = false)
     {
         _performCheck = performCheck;
+        _isSpecialApi = specialApi;
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)

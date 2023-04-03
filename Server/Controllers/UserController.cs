@@ -50,4 +50,12 @@ public class UserController : LlsifController
 
         return SendResponse(response);
     }
+
+    [HttpPost("getNavi")]
+    public IActionResult GetNavi([FromForm] BaseRequest request)
+    {
+        var response = new EmptyResponse();
+
+        return SendResponse(response);
+    }
 }

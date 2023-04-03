@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
+using SunLight.Database.Server;
 using SunLight.Dtos.Request.Login;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Login;
@@ -13,10 +15,12 @@ namespace SunLight.Controllers;
 public class LoginController : LlsifController
 {
     private readonly ILoginService _loginService;
+    private readonly IMapper _mapper;
 
-    public LoginController(ILoginService loginService)
+    public LoginController(ILoginService loginService, IMapper mapper)
     {
         _loginService = loginService;
+        _mapper = mapper;
     }
 
     [HttpPost("authKey")]
@@ -24,13 +28,9 @@ public class LoginController : LlsifController
     [Produces(typeof(ServerResponse<AuthKeyResponse>))]
     public async Task<IActionResult> AuthKeyAsync([FromBody] AuthKeyRequest requestData)
     {
-        var userSession = await _loginService.StartSessionAsync(requestData.DummyToken);
+        var userAuthKey = await _loginService.StartSessionAsync(requestData.DummyToken);
 
-        var response = new AuthKeyResponse
-        {
-            AuthorizeToken = userSession.AuthorizeToken.ToString(),
-            DummyToken = userSession.ServerKey
-        };
+        var response = _mapper.Map<AuthKey, AuthKeyResponse>(userAuthKey);
 
         return SendResponse(response);
     }
@@ -92,7 +92,7 @@ public class LoginController : LlsifController
     }
 
     [HttpPost("topInfo")]
-    [ApiCall("login", "topInfo")]
+    [BatchApiCall("login", "topInfo")]
     [Produces(typeof(ServerResponse<TopInfoResponse>))]
     public IActionResult TopInfo()
     {
@@ -123,11 +123,11 @@ public class LoginController : LlsifController
             HasAdReward = false
         };
 
-        return Ok(response);
+        return SendResponse(response);
     }
 
     [HttpPost("topInfoOnce")]
-    [ApiCall("login", "topInfoOnce")]
+    [BatchApiCall("login", "topInfoOnce")]
     [Produces(typeof(ServerResponse<TopInfoOnceResponse>))]
     public IActionResult TopInfoOnceAsync()
     {
@@ -146,6 +146,6 @@ public class LoginController : LlsifController
             OpenV98 = true // m_live_custom
         };
 
-        return Ok(response);
+        return SendResponse(response);
     }
 }

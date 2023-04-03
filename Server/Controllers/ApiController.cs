@@ -24,11 +24,11 @@ public class ApiController : LlsifController
             .SelectMany(x => x.GetTypes())
             .Where(x => x.IsClass)
             .SelectMany(x => x.GetMethods())
-            .Where(x => x.GetCustomAttributes(typeof(ApiCallAttribute), false).FirstOrDefault() != null);
+            .Where(x => x.GetCustomAttributes(typeof(BatchApiCallAttribute), false).FirstOrDefault() != null);
 
         foreach (var method in methods)
         {
-            var attribute = (ApiCallAttribute)Attribute.GetCustomAttribute(method, typeof(ApiCallAttribute));
+            var attribute = (BatchApiCallAttribute)Attribute.GetCustomAttribute(method, typeof(BatchApiCallAttribute))!;
             _apiMethods.Add($"{attribute.Module}/{attribute.Action}", method);
         }
     }
@@ -43,7 +43,7 @@ public class ApiController : LlsifController
             var moduleAction = $"{module.Module}/{module.Action}";
             var actionMethodExists = _apiMethods.TryGetValue(moduleAction, out var actionMethod);
 
-            if (actionMethod == null)
+            if (!actionMethodExists)
             {
                 _logger.LogWarning($"Method for {moduleAction} not exist");
                 response.Add(new ApiResponse(new ErrorResponse(1234), 600));
