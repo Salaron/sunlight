@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class BackgroundController : LlsifController
 {
     [HttpPost("backgroundInfo")]
-    [BatchApiCall("background", "backgroundInfo")]
-    public IActionResult BackgroundInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult BackgroundInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

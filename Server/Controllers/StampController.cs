@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class StampController : LlsifController
 {
     [HttpPost("stampInfo")]
-    [BatchApiCall("stamp", "stampInfo")]
-    public IActionResult StampInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult StampInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

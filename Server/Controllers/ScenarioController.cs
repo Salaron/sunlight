@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class ScenarioController : LlsifController
 {
     [HttpPost("scenarioStatus")]
-    [BatchApiCall("scenario", "scenarioStatus")]
-    public IActionResult ScenarioStatus([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult ScenarioStatus([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

@@ -1,4 +1,4 @@
-﻿namespace SunLight.Models;
+﻿namespace SunLight.Dtos.Response;
 
 public class ReleaseInfo
 {

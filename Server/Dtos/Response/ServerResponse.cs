@@ -1,9 +1,7 @@
-﻿using SunLight.Models;
-
-namespace SunLight.Dtos.Response;
+﻿namespace SunLight.Dtos.Response;
 
 [Serializable]
-public class ServerResponse<T> where T : BaseResponse
+public class ServerResponse<T>
 {
     public T ResponseData { get; set; }
     public int StatusCode { get; set; }

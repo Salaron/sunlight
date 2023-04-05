@@ -3,7 +3,7 @@
 [Serializable]
 public class LicenseInfoDto
 {
-    public List<object> LicenseList { get; set; }
-    public List<object> LicensedInfo { get; set; }
-    public List<object> ExpiredInfo { get; set; }
+    public IEnumerable<object> LicensedInfo { get; set; }
+    public IEnumerable<object> ExpiredInfo { get; set; }
+    public IEnumerable<object> LicenseList { get; set; }
 }

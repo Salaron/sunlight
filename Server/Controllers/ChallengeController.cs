@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class ChallengeController : LlsifController
 {
     [HttpPost("challengeInfo")]
-    [BatchApiCall("challenge", "challengeInfo")]
-    public IActionResult ChallengeInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult ChallengeInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

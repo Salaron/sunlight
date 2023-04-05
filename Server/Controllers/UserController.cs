@@ -25,12 +25,14 @@ public class UserController : LlsifController
 
     [HttpPost("userInfo")]
     [Produces(typeof(ServerResponse<UserInfoResponse>))]
-    public async Task<IActionResult> UserInfoAsync([FromForm] BaseRequest request)
+    public async Task<IActionResult> UserInfoAsync([FromForm] ClientRequest request)
     {
         var userInfo = await _userService.GetUserInfoAsync(1); // TODO
         var response = new UserInfoResponse
         {
-            User = _mapper.Map<UserInfoDto>(userInfo)
+            User = _mapper.Map<UserInfoDto>(userInfo),
+            Birth = null,
+            AdStatus = false
         };
 
         return SendResponse(response);
@@ -52,9 +54,10 @@ public class UserController : LlsifController
     }
 
     [HttpPost("getNavi")]
-    public IActionResult GetNavi([FromForm] BaseRequest request)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult GetNavi([FromForm] ClientRequest request)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

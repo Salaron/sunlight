@@ -60,7 +60,7 @@ public class TutorialController : LlsifController
 
     [HttpPost("skip")]
     [Produces(typeof(ServerResponse<EmptyResponse>))]
-    public IActionResult TosAgree([FromForm] BaseRequest request)
+    public IActionResult TosAgree([FromForm] ClientRequest request)
     {
         _userService.UpdateTutorialStateAsync(1, -1);
 

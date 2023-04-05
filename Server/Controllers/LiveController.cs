@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
+using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Live;
 
 namespace SunLight.Controllers;
@@ -11,8 +12,8 @@ namespace SunLight.Controllers;
 public class LiveController : LlsifController
 {
     [HttpPost("liveStatus")]
-    [BatchApiCall("live", "liveStatus")]
-    public IActionResult LiveStatus([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<LiveStatusResponse>))]
+    public IActionResult LiveStatus([FromBody] ClientRequest requestData)
     {
         var response = new LiveStatusResponse
         {
@@ -28,8 +29,8 @@ public class LiveController : LlsifController
     }
 
     [HttpPost("schedule")]
-    [BatchApiCall("live", "schedule")]
-    public IActionResult Schedule([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<LiveScheduleResponse>))]
+    public IActionResult Schedule([FromBody] ClientRequest requestData)
     {
         var response = new LiveScheduleResponse
         {

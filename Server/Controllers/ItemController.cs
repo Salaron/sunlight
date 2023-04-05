@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class ItemController : LlsifController
 {
     [HttpPost("list")]
-    [BatchApiCall("item", "list")]
-    public IActionResult ItemList([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult ItemList([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

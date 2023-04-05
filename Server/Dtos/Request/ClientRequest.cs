@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Request;
 
 [Serializable]
-public class BaseRequest
+public class ClientRequest
 {
     public string Module { get; init; }
     public string Action { get; init; }

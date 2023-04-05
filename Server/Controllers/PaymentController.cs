@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class PaymentController : LlsifController
 {
     [HttpPost("productList")]
-    [BatchApiCall("payment", "productList")]
-    public IActionResult ProductList([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult ProductList([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

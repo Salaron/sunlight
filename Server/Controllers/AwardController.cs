@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class AwardController : LlsifController
 {
     [HttpPost("awardInfo")]
-    [BatchApiCall("award", "awardInfo")]
-    public IActionResult AwardInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult AwardInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

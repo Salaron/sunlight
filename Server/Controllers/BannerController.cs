@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class BannerController : LlsifController
 {
     [HttpPost("bannerList")]
-    [BatchApiCall("banner", "bannerList")]
-    public IActionResult BannerList([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult BannerList([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

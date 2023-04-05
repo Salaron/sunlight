@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response;
 
 [Serializable]
-public class ApiResponse : BaseResponse
+public class ApiResponse
 {
     public object Result { get; set; }
     public int Status { get; set; }

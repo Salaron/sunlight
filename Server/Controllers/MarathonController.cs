@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class MarathonController : LlsifController
 {
     [HttpPost("marathonInfo")]
-    [BatchApiCall("marathon", "marathonInfo")]
-    public IActionResult MarathonInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult MarathonInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

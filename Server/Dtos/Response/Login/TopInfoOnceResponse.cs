@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response.Login;
 
 [Serializable]
-public class TopInfoOnceResponse : BaseResponse
+public class TopInfoOnceResponse
 {
     public uint NewAchievementCnt { get; set; }
     public uint UnaccomplishedAchievementCnt { get; set; }
