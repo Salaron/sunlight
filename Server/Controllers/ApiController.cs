@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
@@ -9,57 +10,59 @@ namespace SunLight.Controllers;
 
 [ApiController]
 [Route("main.php/api")]
-[Produces("application/json")]
 public class ApiController : LlsifController
 {
     private readonly ILogger<ApiController> _logger;
-    private readonly IConfiguration _configuration;
+    private static readonly HttpClient Client = new();
 
-    private static readonly HttpClient _httpClient = new();
-
-    public ApiController(ILogger<ApiController> logger, IConfiguration configuration)
+    public ApiController(ILogger<ApiController> logger)
     {
         _logger = logger;
-        _configuration = configuration;
     }
 
     [HttpPost]
     [XMessageCodeCheck]
     [Produces(typeof(ServerResponse<List<ApiResponse>>))]
-    public async Task<IActionResult> CallApiAsync([FromBody] IEnumerable<ClientApiRequest> modules)
+    public async Task<IActionResult> CallApiAsync([FromBody] IEnumerable<ClientApiRequest> apiRequests)
     {
+        // Because of the limitations of the ASP.NET platform, we cannot directly call a controller method
+        // (no, actually we can, but then there would be a lot of problems),
+        // so the batch API is handled through a proxy server call to itself.
         var response = new List<ApiResponse>();
 
-        var options = new ParallelOptions
+        foreach (var apiRequest in apiRequests)
         {
-            MaxDegreeOfParallelism = 5
-        };
+            var queryUrl = $"{apiRequest.Module}/{apiRequest.Action}";
 
-        await Parallel.ForEachAsync(modules, options, async (module, token) =>
-        {
-            var serverUrl = _configuration["Kestrel:Https:Url"];
-            var queryUrl = $"{module.Module}/{module.Action}";
-
-            _logger.LogDebug("Executing");
+            _logger.LogDebug($"Serving batch API request for {queryUrl}");
             var request = new ClientRequest
             {
-                Module = module.Module,
-                Action = module.Action,
-                TimeStamp = module.TimeStamp,
+                Module = apiRequest.Module,
+                Action = apiRequest.Action,
+                TimeStamp = apiRequest.TimeStamp,
                 Mgd = GameMode.Muse,
                 CommandNum = ""
             };
+            // TODO: XMC calculation, header copy
 
             using var requestBody =
                 new StringContent(JsonSerializer.Serialize(request), Encoding.Default, "application/json");
-            var rs = await _httpClient.PostAsync($"{serverUrl}/main.php/{queryUrl}", requestBody, token);
-            var responseBodyStream = await rs.Content.ReadAsStreamAsync(token);
 
-            var parsedResponse =
-                await JsonSerializer.DeserializeAsync<ServerResponse<object>>(responseBodyStream,
-                    cancellationToken: token);
-            response.Add(new ApiResponse(parsedResponse.ResponseData));
-        });
+            var serverResponse = await Client.PostAsync($"http://localhost:5000/main.php/{queryUrl}", requestBody);
+            var responseBody = await serverResponse.Content.ReadAsStringAsync();
+
+            try
+            {
+                var responseJson = JsonNode.Parse(responseBody);
+
+                var val = responseJson["response_data"];
+                response.Add(new ApiResponse(val));
+            }
+            catch (Exception ex)
+            {
+                response.Add(new ApiResponse(new ErrorResponse(1234), 600));
+            }
+        }
 
         return SendResponse(response);
     }

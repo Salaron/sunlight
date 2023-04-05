@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace SunLight.Dtos;
 
@@ -10,30 +10,59 @@ internal class FormDataBinder : IModelBinder
     {
         ArgumentNullException.ThrowIfNull(bindingContext);
 
-        var valueResult = bindingContext.ValueProvider.GetValue("request_data");
-        if (valueResult == ValueProviderResult.None)
+        var jsonOptions = new JsonSerializerOptions
         {
-            var message =
-                bindingContext.ModelMetadata.ModelBindingMessageProvider.MissingBindRequiredValueAccessor(bindingContext
-                    .FieldName);
-            bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, message);
-            return;
-        }
+            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
+        };
 
-        using var ms = new MemoryStream(Encoding.UTF8.GetBytes(valueResult.FirstValue!));
-
-        try
+        if (bindingContext.HttpContext.Request.ContentType?.Contains("multipart/form-data") == true)
         {
-            var options = new JsonSerializerOptions
+            var valueResult = bindingContext.ValueProvider.GetValue("request_data");
+            if (valueResult == ValueProviderResult.None)
             {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-            };
-            var model = await JsonSerializer.DeserializeAsync(ms, bindingContext.ModelType, options);
-            bindingContext.Result = ModelBindingResult.Success(model);
+                var message =
+                    bindingContext.ModelMetadata.ModelBindingMessageProvider.MissingBindRequiredValueAccessor(
+                        bindingContext
+                            .FieldName);
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, message);
+                return;
+            }
+
+            using var ms = new MemoryStream(Encoding.UTF8.GetBytes(valueResult.FirstValue!));
+
+            try
+            {
+                var model = await JsonSerializer.DeserializeAsync(ms, bindingContext.ModelType, jsonOptions);
+                bindingContext.Result = ModelBindingResult.Success(model);
+            }
+            catch (Exception ex)
+            {
+                bindingContext.ModelState.AddModelError(bindingContext.ModelName, ex.Message);
+            }
         }
-        catch (Exception ex)
+        else
         {
-            bindingContext.ModelState.AddModelError(bindingContext.ModelName, ex.Message);
+            using var streamReader = new StreamReader(bindingContext.HttpContext.Request.Body);
+            var content = await streamReader.ReadToEndAsync();
+            if (content == string.Empty)
+            {
+                var message =
+                    bindingContext.ModelMetadata.ModelBindingMessageProvider.MissingBindRequiredValueAccessor(
+                        bindingContext
+                            .FieldName);
+                bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, message);
+                return;
+            }
+
+            try
+            {
+                var model = JsonSerializer.Deserialize(content, bindingContext.ModelType);
+                bindingContext.Result = ModelBindingResult.Success(model);
+            }
+            catch (Exception ex)
+            {
+                bindingContext.ModelState.AddModelError(bindingContext.ModelName, ex.Message);
+            }
         }
     }
 }
