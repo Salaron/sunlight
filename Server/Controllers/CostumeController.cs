@@ -10,7 +10,7 @@ namespace SunLight.Controllers;
 [Route("main.php/costume")]
 public class CostumeController : LlsifController
 {
-    [HttpPost("costume")]
+    [HttpPost("costumeList")]
     [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
     public IActionResult Event([FromBody] ClientRequest requestData)
     {
