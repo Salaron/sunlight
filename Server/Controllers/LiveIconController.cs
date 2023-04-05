@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class LiveIconController : LlsifController
 {
     [HttpPost("liveiconInfo")]
-    [BatchApiCall("liveicon", "liveiconInfo")]
-    public IActionResult LiveIconInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult LiveIconInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

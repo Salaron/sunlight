@@ -11,37 +11,46 @@ namespace SunLight.Controllers;
 public class UnitController : LlsifController
 {
     [HttpPost("unitAll")]
-    [BatchApiCall("unit", "unitAll")]
-    public IActionResult UnitAll([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult UnitAll([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }
 
     [HttpPost("deckInfo")]
-    [BatchApiCall("unit", "deckInfo")]
-    public IActionResult DeckInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult DeckInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }
 
     [HttpPost("supporterAll")]
-    [BatchApiCall("unit", "supporterAll")]
-    public IActionResult SupporterAll([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult SupporterAll([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }
 
     [HttpPost("removableSkillInfo")]
-    [BatchApiCall("unit", "removableSkillInfo")]
-    public IActionResult RemovableSkillInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult RemovableSkillInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
+
+        return SendResponse(response);
+    }
+
+    [HttpPost("accessoryAll")]
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult AccessoryAll([FromBody] ClientRequest requestData)
+    {
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

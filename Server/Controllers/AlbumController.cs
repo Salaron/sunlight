@@ -11,11 +11,9 @@ namespace SunLight.Controllers;
 public class AlbumController : LlsifController
 {
     [HttpPost("albumAll")]
-    [BatchApiCall("album", "albumAll")]
-    public IActionResult AlbumAll([FromBody] BaseRequest requestData)
+    public IActionResult AlbumAll([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
-
+        var response = Enumerable.Empty<EmptyResponse>();
         return SendResponse(response);
     }
 }

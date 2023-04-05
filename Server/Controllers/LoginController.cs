@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Database.Server;
+using SunLight.Dtos.Request;
 using SunLight.Dtos.Request.Login;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Login;
@@ -92,9 +93,8 @@ public class LoginController : LlsifController
     }
 
     [HttpPost("topInfo")]
-    [BatchApiCall("login", "topInfo")]
     [Produces(typeof(ServerResponse<TopInfoResponse>))]
-    public IActionResult TopInfo()
+    public IActionResult TopInfo([FromBody] ClientRequest requestData)
     {
         var response = new TopInfoResponse
         {
@@ -108,8 +108,13 @@ public class LoginController : LlsifController
             PresentCnt = 0,
             SecretBoxBadgeFlag = false,
             ServerDatetime = "",
-            LicenseInfo = new LicenseInfoDto(),
-            UsingBuffInfo = new List<object>(),
+            LicenseInfo = new LicenseInfoDto
+            {
+                ExpiredInfo = Enumerable.Empty<object>(),
+                LicensedInfo = Enumerable.Empty<object>(),
+                LicenseList = Enumerable.Empty<object>()
+            },
+            UsingBuffInfo = Enumerable.Empty<object>(),
             IsKlabIdTaskFlag = false,
             KlabIdTaskCanSync = false,
             HasUnreadAnnounce = false,
@@ -127,9 +132,8 @@ public class LoginController : LlsifController
     }
 
     [HttpPost("topInfoOnce")]
-    [BatchApiCall("login", "topInfoOnce")]
     [Produces(typeof(ServerResponse<TopInfoOnceResponse>))]
-    public IActionResult TopInfoOnceAsync()
+    public IActionResult TopInfoOnceAsync([FromBody] ClientRequest requestData)
     {
         var response = new TopInfoOnceResponse
         {

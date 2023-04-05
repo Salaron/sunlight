@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response.User;
 
 [Serializable]
-public class UserInfoResponse : BaseResponse
+public class UserInfoResponse
 {
     public UserInfoDto User { get; set; }
     public UserBirthDto Birth { get; set; }

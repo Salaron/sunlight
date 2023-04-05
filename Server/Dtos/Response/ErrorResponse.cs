@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response;
 
 [Serializable]
-public class ErrorResponse : BaseResponse
+public class ErrorResponse
 {
     public int ErrorCode { get; }
 

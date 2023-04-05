@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response.User;
 
 [Serializable]
-public class ChangeNameResponse : BaseResponse
+public class ChangeNameResponse
 {
     public string BeforeName { get; set; }
     public string AfterName { get; set; }

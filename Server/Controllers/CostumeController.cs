@@ -7,15 +7,14 @@ namespace SunLight.Controllers;
 
 [ApiController]
 [XMessageCodeCheck]
-[Route("main.php/exchange")]
-public class ExchangeController : LlsifController
+[Route("main.php/costume")]
+public class CostumeController : LlsifController
 {
-    [HttpPost("owningPoint")]
+    [HttpPost("costume")]
     [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
-    public IActionResult OwningPoint([FromBody] ClientRequest requestData)
+    public IActionResult Event([FromBody] ClientRequest requestData)
     {
         var response = Enumerable.Empty<EmptyResponse>();
-
         return SendResponse(response);
     }
 }

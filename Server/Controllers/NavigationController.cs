@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class NavigationController : LlsifController
 {
     [HttpPost("specialCutin")]
-    [BatchApiCall("navigation", "specialCutin")]
-    public IActionResult SpecialCutin([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult SpecialCutin([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

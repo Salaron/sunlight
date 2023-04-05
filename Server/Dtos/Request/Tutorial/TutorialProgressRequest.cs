@@ -1,6 +1,6 @@
 ﻿namespace SunLight.Dtos.Request.Tutorial;
 
-public class TutorialProgressRequest : BaseRequest
+public class TutorialProgressRequest : ClientRequest
 {
     public int TutorialState { get; init; }
 }

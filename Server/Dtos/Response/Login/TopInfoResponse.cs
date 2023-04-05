@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response.Login;
 
 [Serializable]
-public class TopInfoResponse : BaseResponse
+public class TopInfoResponse
 {
     public uint FriendActionCnt { get; set; }
     public uint FriendGreetCnt { get; set; }
@@ -14,11 +14,11 @@ public class TopInfoResponse : BaseResponse
     public bool SecretBoxBadgeFlag { get; set; }
     public string ServerDatetime { get; set; }
     public LicenseInfoDto LicenseInfo { get; set; }
-    public List<object> UsingBuffInfo { get; set; }
+    public IEnumerable<object> UsingBuffInfo { get; set; }
     public bool IsKlabIdTaskFlag { get; set; }
     public bool KlabIdTaskCanSync { get; set; }
     public bool HasUnreadAnnounce { get; set; }
-    public List<int> ExchangeBadgeCnt { get; set; }
+    public IEnumerable<int> ExchangeBadgeCnt { get; set; }
     public bool AdFlag { get; set; }
     public bool HasAdReward { get; set; }
 }

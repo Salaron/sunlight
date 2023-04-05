@@ -1,12 +1,12 @@
 ﻿namespace SunLight.Dtos.Response.Live;
 
 [Serializable]
-public class LiveStatusResponse : BaseResponse
+public class LiveStatusResponse
 {
-    public List<object> NormalLiveStatusList { get; set; }
-    public List<object> SpecialLiveStatusList { get; set; }
-    public List<object> MarathonLiveStatusList { get; set; }
-    public List<object> TrainingLiveStatusList { get; set; }
-    public List<object> FreeLiveStatusList { get; set; }
+    public IEnumerable<object> NormalLiveStatusList { get; set; }
+    public IEnumerable<object> SpecialLiveStatusList { get; set; }
+    public IEnumerable<object> MarathonLiveStatusList { get; set; }
+    public IEnumerable<object> TrainingLiveStatusList { get; set; }
+    public IEnumerable<object> FreeLiveStatusList { get; set; }
     public bool CanResumeLive { get; set; }
 }

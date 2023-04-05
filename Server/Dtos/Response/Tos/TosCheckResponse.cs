@@ -1,7 +1,7 @@
 ﻿namespace SunLight.Dtos.Response.Tos;
 
 [Serializable]
-public class TosCheckResponse : BaseResponse
+public class TosCheckResponse
 {
     public uint TosId { get; set; }
     public uint TosType { get; set; }

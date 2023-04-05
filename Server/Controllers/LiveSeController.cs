@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class LiveSeController : LlsifController
 {
     [HttpPost("liveseInfo")]
-    [BatchApiCall("livese", "liveseInfo")]
-    public IActionResult LiveSeInfo([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult LiveSeInfo([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

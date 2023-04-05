@@ -7,12 +7,12 @@ namespace SunLight.Controllers;
 
 [ApiController]
 [XMessageCodeCheck]
-[Route("main.php/exchange")]
-public class ExchangeController : LlsifController
+[Route("main.php/multiunit")]
+public class MuseumController : LlsifController
 {
-    [HttpPost("owningPoint")]
+    [HttpPost("info")]
     [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
-    public IActionResult OwningPoint([FromBody] ClientRequest requestData)
+    public IActionResult MuseumInfo([FromBody] ClientRequest requestData)
     {
         var response = Enumerable.Empty<EmptyResponse>();
 

@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class NoticeController : LlsifController
 {
     [HttpPost("noticeMarquee")]
-    [BatchApiCall("notice", "noticeMarquee")]
-    public IActionResult NoticeMarquee([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult NoticeMarquee([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

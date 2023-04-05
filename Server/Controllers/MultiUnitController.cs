@@ -11,10 +11,10 @@ namespace SunLight.Controllers;
 public class MultiUnitController : LlsifController
 {
     [HttpPost("multiunitscenarioStatus")]
-    [BatchApiCall("multiunit", "multiunitscenarioStatus")]
-    public IActionResult MultiUnitScenarioStatus([FromBody] BaseRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public IActionResult MultiUnitScenarioStatus([FromBody] ClientRequest requestData)
     {
-        var response = new EmptyResponse();
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }

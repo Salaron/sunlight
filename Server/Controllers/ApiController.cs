@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
@@ -11,57 +12,54 @@ namespace SunLight.Controllers;
 [Produces("application/json")]
 public class ApiController : LlsifController
 {
-    private readonly Dictionary<string, MethodInfo> _apiMethods = new();
-    private readonly IServiceProvider _serviceProvider;
-    private readonly ILogger _logger;
+    private readonly ILogger<ApiController> _logger;
+    private readonly IConfiguration _configuration;
 
-    public ApiController(IServiceProvider serviceProvider, ILogger logger)
+    private static readonly HttpClient _httpClient = new();
+
+    public ApiController(ILogger<ApiController> logger, IConfiguration configuration)
     {
-        _serviceProvider = serviceProvider;
         _logger = logger;
-
-        var methods = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.GetTypes())
-            .Where(x => x.IsClass)
-            .SelectMany(x => x.GetMethods())
-            .Where(x => x.GetCustomAttributes(typeof(BatchApiCallAttribute), false).FirstOrDefault() != null);
-
-        foreach (var method in methods)
-        {
-            var attribute = (BatchApiCallAttribute)Attribute.GetCustomAttribute(method, typeof(BatchApiCallAttribute))!;
-            _apiMethods.Add($"{attribute.Module}/{attribute.Action}", method);
-        }
+        _configuration = configuration;
     }
 
     [HttpPost]
     [XMessageCodeCheck]
-    public async Task<IActionResult> CallApiAsync([FromBody] IEnumerable<ApiRequest> modules)
+    [Produces(typeof(ServerResponse<List<ApiResponse>>))]
+    public async Task<IActionResult> CallApiAsync([FromBody] IEnumerable<ClientApiRequest> modules)
     {
         var response = new List<ApiResponse>();
-        foreach (var module in modules)
+
+        var options = new ParallelOptions
         {
-            var moduleAction = $"{module.Module}/{module.Action}";
-            var actionMethodExists = _apiMethods.TryGetValue(moduleAction, out var actionMethod);
+            MaxDegreeOfParallelism = 5
+        };
 
-            if (!actionMethodExists)
+        await Parallel.ForEachAsync(modules, options, async (module, token) =>
+        {
+            var serverUrl = _configuration["Kestrel:Https:Url"];
+            var queryUrl = $"{module.Module}/{module.Action}";
+
+            _logger.LogDebug("Executing");
+            var request = new ClientRequest
             {
-                _logger.LogWarning($"Method for {moduleAction} not exist");
-                response.Add(new ApiResponse(new ErrorResponse(1234), 600));
-                continue;
-            }
+                Module = module.Module,
+                Action = module.Action,
+                TimeStamp = module.TimeStamp,
+                Mgd = GameMode.Muse,
+                CommandNum = ""
+            };
 
-            var controllerInstance = ActivatorUtilities.CreateInstance(_serviceProvider, actionMethod.DeclaringType);
-            var result = actionMethod.Invoke(controllerInstance, null);
+            using var requestBody =
+                new StringContent(JsonSerializer.Serialize(request), Encoding.Default, "application/json");
+            var rs = await _httpClient.PostAsync($"{serverUrl}/main.php/{queryUrl}", requestBody, token);
+            var responseBodyStream = await rs.Content.ReadAsStreamAsync(token);
 
-            if (result is Task task)
-                await task;
-
-            if (result is OkObjectResult { Value: BaseResponse resp })
-            {
-                var apiResponse = new ApiResponse(resp);
-                response.Add(apiResponse);
-            }
-        }
+            var parsedResponse =
+                await JsonSerializer.DeserializeAsync<ServerResponse<object>>(responseBodyStream,
+                    cancellationToken: token);
+            response.Add(new ApiResponse(parsedResponse.ResponseData));
+        });
 
         return SendResponse(response);
     }

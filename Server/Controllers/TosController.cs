@@ -13,7 +13,7 @@ public class TosController : LlsifController
 {
     [HttpPost("tosCheck")]
     [Produces(typeof(ServerResponse<TosCheckResponse>))]
-    public IActionResult TosCheck([FromForm] BaseRequest request)
+    public IActionResult TosCheck([FromForm] ClientRequest request)
     {
         var response = new TosCheckResponse
         {
@@ -27,7 +27,7 @@ public class TosController : LlsifController
 
     [HttpPost("tosAgree")]
     [Produces(typeof(ServerResponse<TosCheckResponse>))]
-    public IActionResult TosAgree([FromForm] BaseRequest request)
+    public IActionResult TosAgree([FromForm] ClientRequest request)
     {
         var response = new TosCheckResponse
         {

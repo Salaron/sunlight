@@ -1,9 +1,9 @@
 ﻿namespace SunLight.Dtos.Request;
 
 [Serializable]
-public class ApiRequest
+public class ClientApiRequest
 {
     public string Module { get; init; }
     public string Action { get; init; }
-    public uint TimeStamp { get; init; }
+    public long TimeStamp { get; init; }
 }
