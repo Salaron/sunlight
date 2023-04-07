@@ -1,6 +1,6 @@
 ﻿namespace SunLight.Middlewares;
 
-internal static class MiddlewaresExtensions
+internal static class MiddlewareExtensions
 {
     public static IApplicationBuilder UsePerformanceMeter(this IApplicationBuilder builder)
     {
