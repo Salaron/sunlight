@@ -2,7 +2,7 @@
 
 namespace SunLight.Dtos;
 
-internal class FormDataBinderProvider : IModelBinderProvider
+internal class RequestDataBinderProvider : IModelBinderProvider
 {
     public IModelBinder GetBinder(ModelBinderProviderContext context)
     {
@@ -11,6 +11,6 @@ internal class FormDataBinderProvider : IModelBinderProvider
         if (!context.Metadata.IsComplexType)
             return null;
 
-        return new FormDataBinder();
+        return new RequestDataBinder();
     }
 }
