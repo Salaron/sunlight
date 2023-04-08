@@ -17,11 +17,11 @@ public class LiveController : LlsifController
     {
         var response = new LiveStatusResponse
         {
-            NormalLiveStatusList = new List<object>(),
-            SpecialLiveStatusList = new List<object>(),
-            MarathonLiveStatusList = new List<object>(),
-            TrainingLiveStatusList = new List<object>(),
-            FreeLiveStatusList = new List<object>(),
+            NormalLiveStatusList = Enumerable.Empty<object>(),
+            SpecialLiveStatusList = Enumerable.Empty<object>(),
+            MarathonLiveStatusList = Enumerable.Empty<object>(),
+            TrainingLiveStatusList = Enumerable.Empty<object>(),
+            FreeLiveStatusList = Enumerable.Empty<object>(),
             CanResumeLive = true
         };
 
@@ -34,12 +34,13 @@ public class LiveController : LlsifController
     {
         var response = new LiveScheduleResponse
         {
-            EventList = new List<object>(),
-            LiveList = new List<object>(),
-            LimitedBonusList = new List<object>(),
-            RandomLiveList = new List<object>(),
-            FreeLiveList = new List<object>(),
-            TrainingLiveList = new List<object>(),
+            EventList = Enumerable.Empty<object>(),
+            LiveList = Enumerable.Empty<object>(),
+            LimitedBonusList = Enumerable.Empty<object>(),
+            LimitedBonusCommonList = Enumerable.Empty<object>(),
+            RandomLiveList = Enumerable.Empty<object>(),
+            FreeLiveList = Enumerable.Empty<object>(),
+            TrainingLiveList = Enumerable.Empty<object>(),
         };
 
         return SendResponse(response);

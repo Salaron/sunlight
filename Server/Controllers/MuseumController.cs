@@ -2,19 +2,24 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.Museum;
 
 namespace SunLight.Controllers;
 
 [ApiController]
 [XMessageCodeCheck]
-[Route("main.php/multiunit")]
+[Route("main.php/museum")]
 public class MuseumController : LlsifController
 {
     [HttpPost("info")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    [Produces(typeof(ServerResponse<MuseumInfoResponse>))]
     public IActionResult MuseumInfo([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new MuseumInfoResponse
+        {
+            MuseumInfo = new MuseumInfoStats(),
+            ContentsIdList = Enumerable.Empty<int>()
+        };
 
         return SendResponse(response);
     }

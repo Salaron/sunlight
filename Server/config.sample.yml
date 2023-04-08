@@ -9,6 +9,11 @@
     - id: 2
       key: 12345
 
+Client:
+  MinimalBundleVersion: 9.11
+  ApplicationKey: 
+  
+
 Kestrel:
   Endpoints:
     Http:
@@ -30,4 +35,4 @@ Unit:
   AqoursCenterUnitIds: [ 788, 789, 790, 791, 792, 793, 794, 795, 796 ]
 
 ConnectionStrings:
-  PostgreSQL: 12345
+  PostgreSQL: Server=localhost;Port=5432;Database=db_name;User ID=user;Password=;
