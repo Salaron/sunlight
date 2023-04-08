@@ -72,14 +72,14 @@ public class LoginController : LlsifController
 
         try
         {
-            var authenticatedUser =
+            var registeredUser =
                 await _loginService.RegisterAsync(requestData.LoginKey, requestData.LoginPasswd,
                     parsedAuthorizeHeader.Token);
 
             var response = new LoginResponse
             {
-                AuthorizeToken = authenticatedUser.AuthorizeToken.ToString(),
-                UserId = authenticatedUser.UserId,
+                AuthorizeToken = registeredUser.AuthorizeToken.ToString(),
+                UserId = registeredUser.UserId,
                 IdfaEnabled = false,
                 SkipLoginNews = true
             };

@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace SunLight.Database.Server;
 
+[PrimaryKey(nameof(UserId))]
 public class User
 {
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -20,20 +22,18 @@ public class User
     public uint WaitingUnitMax { get; set; }
     public uint EnergyMax { get; set; }
     public string EnergyFullTime { get; set; }
-    public uint LicenseLiveEnergyRecoverlyTime { get; set; }
+    public uint LicenseLiveEnergyRecoveryTime { get; set; }
     public uint EnergyFullNeedTime { get; set; }
     public uint OverMaxEnergy { get; set; }
     public uint TrainingEnergy { get; set; }
     public uint TrainingEnergyMax { get; set; }
     public uint FriendMax { get; set; }
     public string InviteCode => UserId.ToString();
-
     public int TutorialState { get; set; }
-
-    //public object LpRecoveryItem { get; set; }
-    public string LoginKey { get; set; }
-    public string LoginPasswd { get; set; }
-    public Guid AuthorizeToken { get; set; }
+    public ICollection<object> LpRecoveryItem => new List<object>();
     public DateTime LastLogin { get; set; }
     public DateTime CreationTime { get; set; }
+    public Guid AuthorizeToken { get; set; }
+    public string LoginKey { get; set; }
+    public string LoginPasswd { get; set; }
 }

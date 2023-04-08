@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using SunLight.Dtos.Response;
 
 namespace SunLight.Controllers;
 
 public abstract class LlsifController : ControllerBase
 {
+    protected uint UserId => uint.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
     protected IActionResult SendResponse<T>(T response, int jsonStatusCode = 200)
     {
         Response.Headers.Add("status_code", jsonStatusCode.ToString());

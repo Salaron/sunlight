@@ -36,4 +36,20 @@ internal class UserService : IUserService
         _dbContext.Update(userInfo);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task<User> CreateUserAsync(string loginKey, string password)
+    {
+        var newUser = new User
+        {
+            Name = "New Comer",
+            Level = 1,
+            LoginKey = loginKey,
+            LoginPasswd = password
+        };
+
+        await _dbContext.Users.AddAsync(newUser);
+        await _dbContext.SaveChangesAsync();
+
+        return newUser;
+    }
 }

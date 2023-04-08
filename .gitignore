@@ -34,3 +34,5 @@ Desktop.ini
 .DS_Store
 
 Server/config.yml
+Server/Assets/**
+!Server/Assets/.gitkeep

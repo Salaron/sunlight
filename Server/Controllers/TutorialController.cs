@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Request.Tutorial;
@@ -37,6 +38,7 @@ STATE = {
 }
 */
 
+[Authorize]
 [ApiController]
 [XMessageCodeCheck]
 [Route("main.php/tutorial")]
@@ -53,7 +55,7 @@ public class TutorialController : LlsifController
     [Produces(typeof(ServerResponse<EmptyResponse>))]
     public IActionResult Progress([FromForm] TutorialProgressRequest request)
     {
-        _userService.UpdateTutorialStateAsync(1, request.TutorialState);
+        _userService.UpdateTutorialStateAsync(UserId, request.TutorialState);
 
         return SendResponse(new EmptyResponse());
     }
@@ -62,7 +64,7 @@ public class TutorialController : LlsifController
     [Produces(typeof(ServerResponse<EmptyResponse>))]
     public IActionResult TosAgree([FromForm] ClientRequest request)
     {
-        _userService.UpdateTutorialStateAsync(1, -1);
+        _userService.UpdateTutorialStateAsync(UserId, -1);
 
         return SendResponse(new EmptyResponse());
     }
