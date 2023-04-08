@@ -16,7 +16,7 @@ internal static class ServicesRegistrar
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         builder.Services
-            .AddControllers(opts => opts.ModelBinderProviders.Insert(0, new FormDataBinderProvider()))
+            .AddControllers(opts => opts.ModelBinderProviders.Insert(0, new RequestDataBinderProvider()))
             .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower);
 
         builder.Services.AddRouting();
