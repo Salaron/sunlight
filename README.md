@@ -4,4 +4,4 @@ Another server emulator for Love Live! School Idol Festival, written in C#. Desi
 
 That game was discontinued on March 31, 2023, so this project will also be a preservation of that game.
 
-Current status: draft / not usable
+Current status: account registration partly works / not usable
