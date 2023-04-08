@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using SunLight.Authentication;
 using SunLight.Database.Game;
 using SunLight.Database.Server;
 using SunLight.Dtos;
@@ -11,6 +12,11 @@ internal static class ServicesRegistrar
 {
     public static WebApplicationBuilder RegisterServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddAuthentication()
+            .AddScheme<HeaderAuthenticationOptions, HeaderAuthenticationHandler>(
+                "AuthorizeHeaderAuthentication",
+                opts => { });
+
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

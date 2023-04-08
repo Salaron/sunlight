@@ -4,14 +4,15 @@ namespace SunLight.Database.Server;
 
 internal class ServerDbContext : DbContext
 {
-    public ServerDbContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+    public ServerDbContext(DbContextOptions<ServerDbContext> dbContextOptions) : base(dbContextOptions)
     {
         Database.EnsureCreated();
     }
 
-    public DbSet<AuthKey> AuthKeys { get; set; }
+    public DbSet<AuthKey> AuthKeys { get; init; }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; init; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
