@@ -9,11 +9,13 @@ internal class LoginService : ILoginService
 {
     private const int KeySize = 32;
     private readonly ICryptoService _cryptoService;
+    private readonly IUserService _userService;
     private readonly ServerDbContext _dbContext;
 
-    public LoginService(ICryptoService cryptoService, ServerDbContext dbContext)
+    public LoginService(ICryptoService cryptoService, IUserService userService, ServerDbContext dbContext)
     {
         _cryptoService = cryptoService;
+        _userService = userService;
         _dbContext = dbContext;
     }
 
@@ -44,11 +46,12 @@ internal class LoginService : ILoginService
     public async Task<User> LoginAsync(string encryptedLogin, string encryptedPassword, Guid authorizeToken)
     {
         var (login, password) = await DecryptCredentialsAsync(authorizeToken, encryptedLogin, encryptedPassword);
-        var selectedUser = await _dbContext.Users.FirstAsync(user =>
+        var selectedUser = await _dbContext.Users.FirstOrDefaultAsync(user =>
             user.LoginKey == login && user.LoginPasswd == password);
 
-        var newAuthorizeToken = Guid.NewGuid();
+        await _dbContext.AuthKeys.Where(key => key.AuthorizeToken == authorizeToken).ExecuteDeleteAsync();
 
+        var newAuthorizeToken = Guid.NewGuid();
         selectedUser.AuthorizeToken = newAuthorizeToken;
         selectedUser.LastLogin = DateTime.UtcNow;
         _dbContext.Update(selectedUser);
@@ -60,18 +63,20 @@ internal class LoginService : ILoginService
     public async Task<User> RegisterAsync(string encryptedLogin, string encryptedPassword, Guid authorizeToken)
     {
         var (login, password) = await DecryptCredentialsAsync(authorizeToken, encryptedLogin, encryptedPassword);
+        await _dbContext.AuthKeys.Where(key => key.AuthorizeToken == authorizeToken).ExecuteDeleteAsync();
 
-        var newUser = new User
-        {
-            LoginKey = login,
-            LoginPasswd = password,
-            AuthorizeToken = Guid.NewGuid()
-        };
-
-        await _dbContext.Users.AddAsync(newUser);
+        var newUser = await _userService.CreateUserAsync(login, password);
+        newUser.AuthorizeToken = Guid.NewGuid();
+        newUser.LastLogin = DateTime.UtcNow;
+        _dbContext.Update(newUser);
         await _dbContext.SaveChangesAsync();
 
         return newUser;
+    }
+
+    public async Task<User> GetUserByTokenAsync(Guid authorizeToken)
+    {
+        return await _dbContext.Users.FirstOrDefaultAsync(u => u.AuthorizeToken == authorizeToken);
     }
 
     private async Task<(string login, string password)> DecryptCredentialsAsync(Guid authorizeToken,

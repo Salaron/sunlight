@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SunLight.Services;
 
-internal class CryptoService : ICryptoService, IDisposable
+internal class CryptoService : ICryptoService
 {
     private const int RsaKeySize = 1024;
     private readonly RSACryptoServiceProvider _rsaCryptoServiceProvider = new(RsaKeySize);
