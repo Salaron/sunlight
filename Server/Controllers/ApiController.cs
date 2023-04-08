@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Services;
 
 namespace SunLight.Controllers;
 
@@ -13,11 +14,13 @@ namespace SunLight.Controllers;
 public class ApiController : LlsifController
 {
     private readonly ILogger<ApiController> _logger;
+    private readonly IServerListenAddressProvider _listenAddressProvider;
     private static readonly HttpClient Client = new();
 
-    public ApiController(ILogger<ApiController> logger)
+    public ApiController(ILogger<ApiController> logger, IServerListenAddressProvider listenAddressProvider)
     {
         _logger = logger;
+        _listenAddressProvider = listenAddressProvider;
     }
 
     [HttpPost]
@@ -30,36 +33,41 @@ public class ApiController : LlsifController
         // so the batch API is handled through a proxy server call to itself.
         var response = new List<ApiResponse>();
 
+        var serverAddress = _listenAddressProvider.GetAddress()
+            .First()
+            .Replace("0.0.0.0", "localhost");
+
         foreach (var apiRequest in apiRequests)
         {
-            var queryUrl = $"{apiRequest.Module}/{apiRequest.Action}";
-
-            _logger.LogDebug($"Serving batch API request for {queryUrl}");
-            var request = new ClientRequest
-            {
-                Module = apiRequest.Module,
-                Action = apiRequest.Action,
-                TimeStamp = apiRequest.TimeStamp,
-                Mgd = GameMode.Muse,
-                CommandNum = ""
-            };
-            // TODO: XMC calculation, header copy
-
-            using var requestBody =
-                new StringContent(JsonSerializer.Serialize(request), Encoding.Default, "application/json");
-
-            var serverResponse = await Client.PostAsync($"http://localhost:5000/main.php/{queryUrl}", requestBody);
-            var responseBody = await serverResponse.Content.ReadAsStringAsync();
-
             try
             {
-                var responseJson = JsonNode.Parse(responseBody);
+                var queryUrl = $"{apiRequest.Module}/{apiRequest.Action}";
+
+                _logger.LogDebug($"Serving batch API request for {queryUrl}");
+                var request = new ClientRequest
+                {
+                    Module = apiRequest.Module,
+                    Action = apiRequest.Action,
+                    TimeStamp = apiRequest.TimeStamp,
+                    Mgd = GameMode.Muse,
+                    CommandNum = ""
+                };
+                // TODO: XMC calculation, header copy
+
+                using var requestBody =
+                    new StringContent(JsonSerializer.Serialize(request), Encoding.Default, "application/json");
+
+                var serverResponse = await Client.PostAsync($"{serverAddress}/main.php/{queryUrl}", requestBody);
+                var responseBody = await serverResponse.Content.ReadAsStringAsync();
+
+                var responseJson = JsonNode.Parse(responseBody)!;
 
                 var val = responseJson["response_data"];
                 response.Add(new ApiResponse(val));
             }
             catch (Exception ex)
             {
+                _logger.LogError("Batch API request error", ex);
                 response.Add(new ApiResponse(new ErrorResponse(1234), 600));
             }
         }

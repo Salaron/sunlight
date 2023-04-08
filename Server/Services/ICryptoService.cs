@@ -1,6 +1,6 @@
 ﻿namespace SunLight.Services;
 
-public interface ICryptoService
+public interface ICryptoService : IDisposable
 {
     byte[] DecryptRsa(string base64String);
 

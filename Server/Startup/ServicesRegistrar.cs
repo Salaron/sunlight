@@ -28,6 +28,8 @@ internal static class ServicesRegistrar
         builder.Services.AddRouting();
 
         builder.Services.AddSingleton<ICryptoService, CryptoService>();
+        builder.Services.AddSingleton<IServerListenAddressProvider, ServerListenAddressProvider>();
+
         builder.Services.AddScoped<ILoginService, LoginService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IItemService, ItemService>();
