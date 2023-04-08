@@ -7,8 +7,8 @@ public class AuthorizeHeader
     public string ConsumerKey = "lovelive_test";
     public string Version = "1.1";
     public uint Nonce = 1;
-    public uint RequestTimestamp = 1234;
-    public uint TimeStamp = 12345;
+    public uint RequestTimestamp;
+    public uint TimeStamp;
     public Guid Token;
 
     public static AuthorizeHeader FromString(string authorizeHeader)

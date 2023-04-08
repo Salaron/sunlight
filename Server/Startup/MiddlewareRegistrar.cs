@@ -21,6 +21,9 @@ internal static class MiddlewareRegistrar
 
         app.UseRouting();
 
+        app.UseAuthentication();
+        app.UseAuthorization();
+
         app.UseCustomResponseHeaders();
 
         app.MapControllers();
