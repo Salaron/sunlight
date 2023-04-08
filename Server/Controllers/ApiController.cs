@@ -57,7 +57,16 @@ public class ApiController : LlsifController
                 using var requestBody =
                     new StringContent(JsonSerializer.Serialize(request), Encoding.Default, "application/json");
 
-                var serverResponse = await Client.PostAsync($"{serverAddress}/main.php/{queryUrl}", requestBody);
+                var httpRequestMessage = new HttpRequestMessage
+                {
+                    RequestUri = new Uri($"{serverAddress}/main.php/{queryUrl}"),
+                    Content = requestBody,
+                    Method = HttpMethod.Post
+                };
+                httpRequestMessage.Headers.Add("Authorize", Request.Headers["Authorize"].First());
+
+                var serverResponse = await Client.SendAsync(httpRequestMessage);
+                serverResponse.EnsureSuccessStatusCode();
                 var responseBody = await serverResponse.Content.ReadAsStringAsync();
 
                 var responseJson = JsonNode.Parse(responseBody)!;
@@ -67,7 +76,7 @@ public class ApiController : LlsifController
             }
             catch (Exception ex)
             {
-                _logger.LogError("Batch API request error", ex);
+                _logger.LogError(ex, "Batch API request error");
                 response.Add(new ApiResponse(new ErrorResponse(1234), 600));
             }
         }

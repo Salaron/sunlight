@@ -2,6 +2,7 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.EventScenario;
 
 namespace SunLight.Controllers;
 
@@ -11,10 +12,13 @@ namespace SunLight.Controllers;
 public class EventScenarioController : LlsifController
 {
     [HttpPost("status")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    [Produces(typeof(ServerResponse<EventScenarioStatusResponse>))]
     public IActionResult EventScenarioStatus([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new EventScenarioStatusResponse
+        {
+            EventScenarioList = Enumerable.Empty<object>()
+        };
 
         return SendResponse(response);
     }

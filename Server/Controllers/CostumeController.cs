@@ -2,6 +2,7 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.Costume;
 
 namespace SunLight.Controllers;
 
@@ -11,10 +12,14 @@ namespace SunLight.Controllers;
 public class CostumeController : LlsifController
 {
     [HttpPost("costumeList")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    [Produces(typeof(ServerResponse<CostumeListResponse>))]
     public IActionResult Event([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new CostumeListResponse
+        {
+            CostumeList = Enumerable.Empty<CostumeDto>()
+        };
+
         return SendResponse(response);
     }
 }

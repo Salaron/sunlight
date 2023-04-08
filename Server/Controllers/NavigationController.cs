@@ -2,6 +2,7 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.Navigation;
 
 namespace SunLight.Controllers;
 
@@ -11,10 +12,13 @@ namespace SunLight.Controllers;
 public class NavigationController : LlsifController
 {
     [HttpPost("specialCutin")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    [Produces(typeof(ServerResponse<SpecialCutinResponse>))]
     public IActionResult SpecialCutin([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new SpecialCutinResponse
+        {
+            SpecialCutinList = Enumerable.Empty<object>()
+        };
 
         return SendResponse(response);
     }

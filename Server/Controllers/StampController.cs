@@ -2,6 +2,7 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.Stamp;
 
 namespace SunLight.Controllers;
 
@@ -14,7 +15,11 @@ public class StampController : LlsifController
     [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
     public IActionResult StampInfo([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new StampInfoResponse
+        {
+            OwningStampIds = Enumerable.Empty<int>(),
+            StampSetting = Enumerable.Empty<object>()
+        };
 
         return SendResponse(response);
     }

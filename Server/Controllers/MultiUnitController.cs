@@ -2,6 +2,7 @@
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
+using SunLight.Dtos.Response.MultiUnit;
 
 namespace SunLight.Controllers;
 
@@ -14,7 +15,10 @@ public class MultiUnitController : LlsifController
     [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
     public IActionResult MultiUnitScenarioStatus([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var response = new MultiUnitScenarioStatusResponse
+        {
+            MultiUnitScenarioStatusList = Enumerable.Empty<MultiUnitScenarioItem>()
+        };
 
         return SendResponse(response);
     }

@@ -21,7 +21,7 @@ internal class PerformanceMeterMiddleware
             stopwatch.Start();
             await _next(httpContext);
             stopwatch.Stop();
-            _logger.LogDebug($"Response generating took {stopwatch.ElapsedMilliseconds} ms");
+            _logger.LogDebug($"Response generating for {httpContext.Request.Path} took {stopwatch.ElapsedMilliseconds} ms");
         }
         catch (Exception ex)
         {

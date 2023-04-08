@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
@@ -8,16 +7,17 @@ using SunLight.Services;
 
 namespace SunLight.Controllers;
 
-[Authorize]
 [ApiController]
 [XMessageCodeCheck]
 [Route("main.php/award")]
 public class AwardController : LlsifController
 {
     private readonly IItemService _itemService;
+    private readonly IConfiguration _configuration;
 
-    public AwardController(IItemService itemService)
+    public AwardController(IItemService itemService, IConfiguration configuration)
     {
+        _configuration = configuration;
         _itemService = itemService;
     }
 
@@ -27,6 +27,12 @@ public class AwardController : LlsifController
     {
         var awards = await _itemService.GetAwardAsync();
 
+        var defaultUnlockIds = _configuration.GetSection("Award:DefaultList").Get<int[]>();
+        var unlockAll = _configuration.GetSection("Award:UnlockAll").Get<bool>();
+
+        if (!unlockAll)
+            awards = awards.Where(award => defaultUnlockIds.Contains(award.AwardId));
+                
         var ownedAwards = new List<AwardInfo>();
         foreach (var award in awards)
         {
