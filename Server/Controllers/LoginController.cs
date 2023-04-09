@@ -17,13 +17,11 @@ public class LoginController : LlsifController
 {
     private readonly ILoginService _loginService;
     private readonly IMapper _mapper;
-    private readonly IConfiguration _configuration;
 
-    public LoginController(ILoginService loginService, IMapper mapper, IConfiguration configuration)
+    public LoginController(ILoginService loginService, IMapper mapper)
     {
         _loginService = loginService;
         _mapper = mapper;
-        _configuration = configuration;
     }
 
     [HttpPost("authKey")]
@@ -159,72 +157,28 @@ public class LoginController : LlsifController
     [Produces(typeof(ServerResponse<LoginUnitListResponse>))]
     public IActionResult UnitList([FromBody] ClientRequest requestData)
     {
-        var museInitialSet = new List<LoginUnitListInitialSet>();
-        var aqoursInitialSet = new List<LoginUnitListInitialSet>();
-
-        var museCenterUnits = _configuration.GetSection("Unit:MuseCenterUnitIds").Get<int[]>();
-        var aqoursCenterUnits = _configuration.GetSection("Unit:AqoursCenterUnitIds").Get<int[]>();
-
-        for (var i = 0; i < museCenterUnits.Length; i++)
-        {
-            var museSet = new LoginUnitListInitialSet
-            {
-                UnitInitialSetId = museCenterUnits[i],
-                CenterUnitId = museCenterUnits[i],
-                UnitList = GenerateUnitList(museCenterUnits[i])
-            };
-
-            var aqoursSet = new LoginUnitListInitialSet
-            {
-                UnitInitialSetId = aqoursCenterUnits[i],
-                CenterUnitId = aqoursCenterUnits[i],
-                UnitList = GenerateUnitList(aqoursCenterUnits[i])
-            };
-
-            museInitialSet.Add(museSet);
-            aqoursInitialSet.Add(aqoursSet);
-        }
-
-
         var response = new LoginUnitListResponse
         {
             MemberCategoryList = new List<LoginUnitListMemberCategory>
             {
-                new()
-                {
-                    MemberCategory = 1,
-                    UnitInitialSet = museInitialSet
-                },
-                new()
-                {
-                    MemberCategory = 2,
-                    UnitInitialSet = aqoursInitialSet
-                }
+                _loginService.GetInitialUnitList(memberCategory: 1),
+                _loginService.GetInitialUnitList(memberCategory: 2)
             }
         };
 
         return SendResponse(response);
     }
 
-    private IEnumerable<LoginUnitListUnitInfo> GenerateUnitList(int centerUnitId)
+    [HttpPost("unitSelect")]
+    [Produces(typeof(ServerResponse<LoginUnitSelectResponse>))]
+    public async Task<IActionResult> UnitSelect([FromBody] LoginUnitSelectRequest requestData)
     {
-        var baseData = new List<int>
+        var ids = await _loginService.CreateDefaultDeckAsync(UserId, requestData.UnitInitialSetId);
+        var response = new LoginUnitSelectResponse
         {
-            1391,
-            1529,
-            1527,
-            1487,
-            centerUnitId,
-            1486,
-            1488,
-            1528,
-            1390
+            UnitId = ids
         };
 
-        return baseData.Select(b => new LoginUnitListUnitInfo
-        {
-            UnitId = b,
-            IsRankMax = false
-        });
+        return SendResponse(response);
     }
 }

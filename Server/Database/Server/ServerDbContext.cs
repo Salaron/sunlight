@@ -13,6 +13,7 @@ internal class ServerDbContext : DbContext
 
     public DbSet<User> Users { get; init; }
 
+    public DbSet<UnitOwning> UnitOwning { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +68,11 @@ internal class ServerDbContext : DbContext
 
         modelBuilder.Entity<User>()
             .Property(p => p.LastLogin)
+            .HasDefaultValue(DateTime.UtcNow);
+        
+        
+        modelBuilder.Entity<UnitOwning>()
+            .Property(p => p.InsertDate)
             .HasDefaultValue(DateTime.UtcNow);
     }
 }
