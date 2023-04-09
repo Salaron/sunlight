@@ -2,6 +2,8 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SunLight.Database.Server;
+using SunLight.Dtos.Response.Login;
+using SunLight.Services.Unit;
 
 namespace SunLight.Services;
 
@@ -10,13 +12,19 @@ internal class LoginService : ILoginService
     private const int KeySize = 32;
     private readonly ICryptoService _cryptoService;
     private readonly IUserService _userService;
+    private readonly IUnitService _unitService;
     private readonly ServerDbContext _dbContext;
+    private readonly IConfiguration _configuration;
 
-    public LoginService(ICryptoService cryptoService, IUserService userService, ServerDbContext dbContext)
+    public LoginService(ICryptoService cryptoService, IUserService userService, IUnitService unitService,
+        ServerDbContext dbContext,
+        IConfiguration configuration)
     {
         _cryptoService = cryptoService;
         _userService = userService;
+        _unitService = unitService;
         _dbContext = dbContext;
+        _configuration = configuration;
     }
 
     public async Task<AuthKey> StartSessionAsync(string dummyToken)
@@ -77,6 +85,77 @@ internal class LoginService : ILoginService
     public async Task<User> GetUserByTokenAsync(Guid authorizeToken)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(u => u.AuthorizeToken == authorizeToken);
+    }
+
+    public LoginUnitListMemberCategory GetInitialUnitList(int memberCategory)
+    {
+        var initialSet = new List<LoginUnitListInitialSet>();
+
+        int[] centerUnits;
+        if (memberCategory == 1)
+            centerUnits = _configuration.GetSection("Unit:MuseCenterUnitIds").Get<int[]>();
+        else
+            centerUnits = _configuration.GetSection("Unit:AqoursCenterUnitIds").Get<int[]>();
+
+        foreach (var centerUnitId in centerUnits)
+        {
+            var deckUnitIds = GetDefaultDeckWithCenterUnit(centerUnitId);
+
+            var unitList = deckUnitIds.Select(b => new LoginUnitListUnitInfo
+            {
+                UnitId = b,
+                IsRankMax = false
+            });
+
+            var set = new LoginUnitListInitialSet
+            {
+                UnitInitialSetId = centerUnitId,
+                CenterUnitId = centerUnitId,
+                UnitList = unitList
+            };
+
+            initialSet.Add(set);
+        }
+
+        var result = new LoginUnitListMemberCategory
+        {
+            MemberCategory = memberCategory,
+            UnitInitialSet = initialSet
+        };
+
+        return result;
+    }
+
+    public async Task<IEnumerable<int>> CreateDefaultDeckAsync(uint userId, int centerUnitId)
+    {
+        var deckUnitIds = GetDefaultDeckWithCenterUnit(centerUnitId);
+
+        var ids = new List<int>();
+        foreach (var unitId in deckUnitIds)
+        {
+            var unitOwningUserId = await _unitService.AddUnitToUserAsync(userId, unitId);
+            ids.Add(unitOwningUserId);
+        }
+
+        return ids;
+    }
+
+    private IEnumerable<int> GetDefaultDeckWithCenterUnit(int centerUnitId)
+    {
+        var deckUnitIds = new List<int>
+        {
+            1391,
+            1529,
+            1527,
+            1487,
+            centerUnitId,
+            1486,
+            1488,
+            1528,
+            1390
+        };
+
+        return deckUnitIds;
     }
 
     private async Task<(string login, string password)> DecryptCredentialsAsync(Guid authorizeToken,

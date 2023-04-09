@@ -1,24 +1,42 @@
 ﻿using System.Collections.Immutable;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
+using SunLight.Database.Server;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Unit;
+using SunLight.Services.Unit;
 
 namespace SunLight.Controllers;
 
+[Authorize]
 [ApiController]
 [XMessageCodeCheck]
 [Route("main.php/unit")]
 public class UnitController : LlsifController
 {
+    private readonly IUnitService _unitService;
+    private readonly IMapper _mapper;
+
+    public UnitController(IUnitService unitService, IMapper mapper)
+    {
+        _unitService = unitService;
+        _mapper = mapper;
+    }
+
     [HttpPost("unitAll")]
     [Produces(typeof(ServerResponse<UnitAllResponse>))]
-    public IActionResult UnitAll([FromBody] ClientRequest requestData)
+    public async Task<IActionResult> UnitAll([FromBody] ClientRequest requestData)
     {
+        var units = await _unitService.GetUnitsOwnedByUser(UserId);
+
+        var trimmed = _mapper.Map<IEnumerable<UnitOwning>, IEnumerable<UnitInfo>>(units);
+
         var response = new UnitAllResponse
         {
-            Active = Enumerable.Empty<object>(),
+            Active = trimmed,
             Waiting = Enumerable.Empty<object>()
         };
 
