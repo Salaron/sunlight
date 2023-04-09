@@ -8,7 +8,6 @@ internal static class MiddlewareRegistrar
     {
         if (app.Environment.IsDevelopment())
         {
-            app.UsePerformanceMeter();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
@@ -18,6 +17,7 @@ internal static class MiddlewareRegistrar
             context.Request.EnableBuffering();
             return next(context);
         });
+        app.UseNotFoundLogger();
 
         app.UseRouting();
 
