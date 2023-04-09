@@ -44,7 +44,9 @@ internal class UserService : IUserService
             Name = "New Comer",
             Level = 1,
             LoginKey = loginKey,
-            LoginPasswd = password
+            LoginPasswd = password,
+            SettingAwardId = 1,
+            SettingBackgroundId = 1
         };
 
         await _dbContext.Users.AddAsync(newUser);

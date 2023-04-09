@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SunLight.Authorization;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
@@ -7,18 +8,21 @@ using SunLight.Services;
 
 namespace SunLight.Controllers;
 
+[Authorize]
 [ApiController]
 [XMessageCodeCheck]
 [Route("main.php/award")]
 public class AwardController : LlsifController
 {
     private readonly IItemService _itemService;
+    private readonly IUserService _userService;
     private readonly IConfiguration _configuration;
 
-    public AwardController(IItemService itemService, IConfiguration configuration)
+    public AwardController(IItemService itemService, IUserService userService, IConfiguration configuration)
     {
-        _configuration = configuration;
         _itemService = itemService;
+        _userService = userService;
+        _configuration = configuration;
     }
 
     [HttpPost("awardInfo")]
@@ -26,6 +30,7 @@ public class AwardController : LlsifController
     public async Task<IActionResult> AwardInfo([FromBody] ClientRequest requestData)
     {
         var awards = await _itemService.GetAwardAsync();
+        var userInfo = await _userService.GetUserInfoAsync(UserId);
 
         var defaultUnlockIds = _configuration.GetSection("Award:DefaultList").Get<int[]>();
         var unlockAll = _configuration.GetSection("Award:UnlockAll").Get<bool>();
@@ -39,7 +44,7 @@ public class AwardController : LlsifController
             ownedAwards.Add(new AwardInfo
             {
                 AwardId = award.AwardId,
-                IsSet = 0,
+                IsSet = userInfo.SettingAwardId == award.AwardId ? 1 : 0,
                 InsertDate = ""
             });
         }
