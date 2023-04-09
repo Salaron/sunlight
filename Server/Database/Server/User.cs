@@ -30,6 +30,8 @@ public class User
     public uint FriendMax { get; set; }
     public string InviteCode => UserId.ToString();
     public int TutorialState { get; set; }
+    public int SettingAwardId { get; set; }
+    public int SettingBackgroundId { get; set; }
     public ICollection<object> LpRecoveryItem => new List<object>();
     public DateTime LastLogin { get; set; }
     public DateTime CreationTime { get; set; }
