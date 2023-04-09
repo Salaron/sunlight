@@ -1,4 +1,5 @@
 ﻿using SunLight.Database.Server;
+using SunLight.Dtos.Response.Login;
 
 namespace SunLight.Services;
 
@@ -11,4 +12,8 @@ public interface ILoginService
     Task<User> LoginAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
 
     Task<User> RegisterAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
+
+    LoginUnitListMemberCategory GetInitialUnitList(int memberCategory);
+
+    Task<IEnumerable<int>> CreateDefaultDeckAsync(uint userId, int centerUnitId);
 }
