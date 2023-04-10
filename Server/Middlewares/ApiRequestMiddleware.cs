@@ -25,7 +25,7 @@ internal class ApiRequestMiddleware
 
             var response = new List<ApiResponse>();
             var originalResponseBody = httpContext.Response.Body;
-            
+
             foreach (var request in body.AsArray())
             {
                 request["commandNum"] = "";
@@ -54,11 +54,13 @@ internal class ApiRequestMiddleware
                     _logger.LogError(ex, "Batch API error");
                     response.Add(new ApiResponse(new ErrorResponse(500, ex.Message), 600));
                 }
-                
+
             }
 
+            var responseData = new ServerResponse<IEnumerable<ApiResponse>>(response, 200);
+            var serializedResponseData = JsonSerializer.Serialize(responseData, JsonSerializerDefaultOptions.GetOptions());
             httpContext.Response.Body = originalResponseBody;
-            await httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(response, JsonSerializerDefaultOptions.GetOptions())));
+            await httpContext.Response.Body.WriteAsync(Encoding.UTF8.GetBytes(serializedResponseData));
         }
         else
         {
