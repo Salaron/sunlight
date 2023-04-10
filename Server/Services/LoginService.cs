@@ -13,16 +13,18 @@ internal class LoginService : ILoginService
     private readonly ICryptoService _cryptoService;
     private readonly IUserService _userService;
     private readonly IUnitService _unitService;
+    private readonly IUnitDeckService _unitDeckService;
+
     private readonly ServerDbContext _dbContext;
     private readonly IConfiguration _configuration;
 
     public LoginService(ICryptoService cryptoService, IUserService userService, IUnitService unitService,
-        ServerDbContext dbContext,
-        IConfiguration configuration)
+        IUnitDeckService unitDeckService, ServerDbContext dbContext, IConfiguration configuration)
     {
         _cryptoService = cryptoService;
         _userService = userService;
         _unitService = unitService;
+        _unitDeckService = unitDeckService;
         _dbContext = dbContext;
         _configuration = configuration;
     }
@@ -126,7 +128,7 @@ internal class LoginService : ILoginService
         return result;
     }
 
-    public async Task<IEnumerable<int>> CreateDefaultDeckAsync(uint userId, int centerUnitId)
+    public async Task<List<int>> CreateDefaultDeckAsync(int userId, int centerUnitId)
     {
         var deckUnitIds = GetDefaultDeckWithCenterUnit(centerUnitId);
 
@@ -137,6 +139,7 @@ internal class LoginService : ILoginService
             ids.Add(unitOwningUserId);
         }
 
+        await _unitDeckService.CreateDeckAsync(userId, "Team A", ids);
         return ids;
     }
 

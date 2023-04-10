@@ -1,15 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace SunLight.Database.Server;
 
 [PrimaryKey(nameof(UnitOwningUserId))]
 public class UnitOwning
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int UnitOwningUserId { get; set; }
 
-    public uint UserId { get; set; }
+    public int UserId { get; set; }
     public int UnitId { get; set; }
     public int Exp { get; set; }
     public int NextExp { get; set; }
@@ -40,7 +38,7 @@ public class UnitOwning
     public int IsLevelMax => Level >= MaxLevel ? 1 : 0;
     public int IsSkillLevelMax => UnitSkillLevel >= MaxUnitSkillLevel ? 1 : 0;
     public int IsRemovableSkillCapacityMax => UnitRemovableSkillCapacity >= MaxUnitRemovableSkillCapacity ? 1 : 0;
-    
+
     public DateTime InsertDate { get; set; }
 
     public virtual User User { get; set; }

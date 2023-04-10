@@ -15,5 +15,5 @@ public interface ILoginService
 
     LoginUnitListMemberCategory GetInitialUnitList(int memberCategory);
 
-    Task<IEnumerable<int>> CreateDefaultDeckAsync(uint userId, int centerUnitId);
+    Task<List<int>> CreateDefaultDeckAsync(int userId, int centerUnitId);
 }

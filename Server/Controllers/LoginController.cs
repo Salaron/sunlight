@@ -16,11 +16,13 @@ namespace SunLight.Controllers;
 public class LoginController : LlsifController
 {
     private readonly ILoginService _loginService;
+    private readonly IUserService _userService;
     private readonly IMapper _mapper;
 
-    public LoginController(ILoginService loginService, IMapper mapper)
+    public LoginController(ILoginService loginService, IUserService userService, IMapper mapper)
     {
         _loginService = loginService;
+        _userService = userService;
         _mapper = mapper;
     }
 
@@ -178,6 +180,8 @@ public class LoginController : LlsifController
         {
             UnitId = ids
         };
+
+        await _userService.SetPartnerUnitAsync(UserId, ids[4]);
 
         return SendResponse(response);
     }

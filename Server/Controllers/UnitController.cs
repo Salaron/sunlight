@@ -18,11 +18,13 @@ namespace SunLight.Controllers;
 public class UnitController : LlsifController
 {
     private readonly IUnitService _unitService;
+    private readonly IUnitDeckService _unitDeckService;
     private readonly IMapper _mapper;
 
-    public UnitController(IUnitService unitService, IMapper mapper)
+    public UnitController(IUnitService unitService, IUnitDeckService unitDeckService, IMapper mapper)
     {
         _unitService = unitService;
+        _unitDeckService = unitDeckService;
         _mapper = mapper;
     }
 
@@ -37,18 +39,19 @@ public class UnitController : LlsifController
         var response = new UnitAllResponse
         {
             Active = trimmed,
-            Waiting = Enumerable.Empty<object>()
+            Waiting = Enumerable.Empty<UnitInfo>()
         };
 
         return SendResponse(response);
     }
 
     [HttpPost("deckInfo")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
-    public IActionResult DeckInfo([FromBody] ClientRequest requestData)
+    [Produces(typeof(ServerResponse<IEnumerable<UnitDeckInfoResponse>>))]
+    public async Task<IActionResult> DeckInfo([FromBody] ClientRequest requestData)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var decks = await _unitDeckService.GetUserDeckAsync(UserId);
 
+        var response = _mapper.Map<IEnumerable<UserUnitDeck>, IEnumerable<UnitDeckInfoResponse>>(decks);
         return SendResponse(response);
     }
 
@@ -70,8 +73,8 @@ public class UnitController : LlsifController
     {
         var response = new UnitRemovableSkillInfoResponse
         {
-            OwningInfo = Enumerable.Empty<RemovableSkillOwningInfoDto>(),
-            EquipmentInfo = ImmutableDictionary<string, RemovableSkillEquipInfoDto>.Empty
+            OwningInfo = Enumerable.Empty<UnitRemovableSkillInfoResponse.SkillOwningInfo>(),
+            EquipmentInfo = ImmutableDictionary<string, UnitRemovableSkillInfoResponse.SkillEquipInfo>.Empty
         };
 
         return SendResponse(response);

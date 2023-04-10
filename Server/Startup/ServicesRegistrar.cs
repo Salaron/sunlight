@@ -37,6 +37,7 @@ internal static class ServicesRegistrar
 
         builder.Services.AddScoped<ILoginService, LoginService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IUnitDeckService, UnitDeckService>();
         builder.Services.AddScoped<IUnitService, UnitService>();
         builder.Services.AddScoped<IItemService, ItemService>();
 

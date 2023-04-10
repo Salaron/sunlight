@@ -3,7 +3,7 @@
 [Serializable]
 public class UserInfoDto
 {
-    public uint UserId { get; set; }
+    public int UserId { get; set; }
     public string Name { get; set; }
     public uint Level { get; set; }
     public uint PreviousExp { get; set; }
