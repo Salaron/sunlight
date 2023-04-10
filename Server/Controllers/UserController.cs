@@ -56,10 +56,18 @@ public class UserController : LlsifController
     }
 
     [HttpPost("getNavi")]
-    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
-    public IActionResult GetNavi([FromForm] ClientRequest request)
+    [Produces(typeof(ServerResponse<UserGetNaviRequest>))]
+    public async Task<IActionResult> GetNavi([FromForm] ClientRequest request)
     {
-        var response = Enumerable.Empty<EmptyResponse>();
+        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var response = new UserGetNaviRequest
+        {
+            User = new UserGetNaviRequest.UserNavi
+            {
+                UserId = userInfo.UserId,
+                UnitOwningUserId = userInfo.PartnerUnitId ?? 0
+            }
+        };
 
         return SendResponse(response);
     }

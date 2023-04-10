@@ -6,8 +6,7 @@ namespace SunLight.Database.Server;
 [PrimaryKey(nameof(UserId))]
 public class User
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public uint UserId { get; init; }
+    public int UserId { get; init; }
 
     public string Name { get; set; }
     public uint Level { get; set; }
@@ -32,10 +31,18 @@ public class User
     public int TutorialState { get; set; }
     public int SettingAwardId { get; set; }
     public int SettingBackgroundId { get; set; }
+    public int? MainUnitDeckId { get; set; }
+    public int? PartnerUnitId { get; set; }
     public ICollection<object> LpRecoveryItem => new List<object>();
     public DateTime LastLogin { get; set; }
     public DateTime CreationTime { get; set; }
     public Guid AuthorizeToken { get; set; }
     public string LoginKey { get; set; }
     public string LoginPasswd { get; set; }
+
+    [ForeignKey(nameof(MainUnitDeckId))]
+    public virtual UserUnitDeck? MainUnitDeck { get; set; }
+
+    [ForeignKey(nameof(PartnerUnitId))]
+    public virtual UnitOwning? PartnerUnit { get; set; }
 }

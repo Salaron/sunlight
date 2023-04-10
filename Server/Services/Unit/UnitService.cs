@@ -16,7 +16,7 @@ internal class UnitService : IUnitService
     }
 
     /// <returns>Unit Owning User Id of added unit</returns>
-    public async Task<int> AddUnitToUserAsync(uint userId, int unitId, int level = 1, int rank = 1)
+    public async Task<int> AddUnitToUserAsync(int userId, int unitId, int level = 1, int rank = 1)
     {
         var unitInfo = await _unitDbContext.UnitM
             .Where(u => u.UnitId == unitId)
@@ -84,7 +84,7 @@ internal class UnitService : IUnitService
         return unit.UnitOwningUserId;
     }
 
-    public async Task<IEnumerable<UnitOwning>> GetUnitsOwnedByUser(uint userId)
+    public async Task<IEnumerable<UnitOwning>> GetUnitsOwnedByUser(int userId)
     {
         var units = await _serverDbContext.UnitOwning.Where(u => u.UserId == userId).ToListAsync();
 

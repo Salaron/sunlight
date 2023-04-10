@@ -12,14 +12,14 @@ internal class UserService : IUserService
         _dbContext = dbContext;
     }
 
-    public async Task<User> GetUserInfoAsync(uint userId)
+    public async Task<User> GetUserInfoAsync(int userId)
     {
         var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
 
         return userInfo;
     }
 
-    public async Task ChangeNameAsync(uint userId, string newName)
+    public async Task ChangeNameAsync(int userId, string newName)
     {
         var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
 
@@ -28,7 +28,7 @@ internal class UserService : IUserService
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateTutorialStateAsync(uint userId, int state)
+    public async Task UpdateTutorialStateAsync(int userId, int state)
     {
         var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
 
@@ -53,5 +53,13 @@ internal class UserService : IUserService
         await _dbContext.SaveChangesAsync();
 
         return newUser;
+    }
+
+    public async Task SetPartnerUnitAsync(int userId, int unitOwningUserId)
+    {
+        var user = await _dbContext.Users.FirstAsync(u => u.UserId == userId);
+        user.PartnerUnitId = unitOwningUserId;
+        _dbContext.Update(user);
+        await _dbContext.SaveChangesAsync();
     }
 }

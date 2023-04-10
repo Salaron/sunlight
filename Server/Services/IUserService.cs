@@ -6,9 +6,11 @@ public interface IUserService
 {
     Task<User> CreateUserAsync(string login, string password);
 
-    Task<User> GetUserInfoAsync(uint userId);
+    Task<User> GetUserInfoAsync(int userId);
 
-    Task ChangeNameAsync(uint userId, string newName);
+    Task ChangeNameAsync(int userId, string newName);
 
-    Task UpdateTutorialStateAsync(uint userId, int state);
+    Task UpdateTutorialStateAsync(int userId, int state);
+
+    Task SetPartnerUnitAsync(int userId, int unitOwningUserId);
 }

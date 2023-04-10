@@ -3,6 +3,6 @@
 [Serializable]
 public class UnitAllResponse
 {
-    public IEnumerable<object> Active { get; set; }
-    public IEnumerable<object> Waiting { get; set; }
+    public IEnumerable<UnitInfo> Active { get; set; }
+    public IEnumerable<UnitInfo> Waiting { get; set; }
 }
