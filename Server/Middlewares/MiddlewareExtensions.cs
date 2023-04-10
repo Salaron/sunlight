@@ -6,9 +6,14 @@ internal static class MiddlewareExtensions
     {
         return builder.UseMiddleware<CustomResponseHeadersMiddleware>();
     }
-    
+
     public static IApplicationBuilder UseNotFoundLogger(this IApplicationBuilder builder)
     {
         return builder.UseMiddleware<NotFoundLoggerMiddleware>();
+    }
+
+    public static IApplicationBuilder UseApiHandler(this IApplicationBuilder builder)
+    {
+        return builder.UseMiddleware<ApiRequestMiddleware>();
     }
 }

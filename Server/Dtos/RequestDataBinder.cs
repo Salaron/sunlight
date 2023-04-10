@@ -39,14 +39,9 @@ internal class RequestDataBinder : IModelBinder
 
         using var ms = new MemoryStream(Encoding.UTF8.GetBytes(valueResult.FirstValue!));
 
-        var jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
-        };
-
         try
         {
-            var model = await JsonSerializer.DeserializeAsync(ms, bindingContext.ModelType, jsonOptions);
+            var model = await JsonSerializer.DeserializeAsync(ms, bindingContext.ModelType, JsonSerializerDefaultOptions.GetOptions());
             bindingContext.Result = ModelBindingResult.Success(model);
         }
         catch (Exception ex)
@@ -68,10 +63,10 @@ internal class RequestDataBinder : IModelBinder
             bindingContext.ModelState.TryAddModelError(bindingContext.ModelName, message);
             return;
         }
-
+        
         try
         {
-            var model = JsonSerializer.Deserialize(content, bindingContext.ModelType);
+            var model = JsonSerializer.Deserialize(content, bindingContext.ModelType, JsonSerializerDefaultOptions.GetOptions());
             bindingContext.Result = ModelBindingResult.Success(model);
         }
         catch (Exception ex)
