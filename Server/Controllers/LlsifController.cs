@@ -10,7 +10,7 @@ public abstract class LlsifController : ControllerBase
 
     protected IActionResult SendResponse<T>(T response, int jsonStatusCode = 200)
     {
-        Response.Headers.Add("status_code", jsonStatusCode.ToString());
+        Response.Headers["status_code"] = jsonStatusCode.ToString();
 
         var serverResponse = new ServerResponse<T>(response, jsonStatusCode);
         return Ok(serverResponse);

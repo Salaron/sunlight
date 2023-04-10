@@ -18,14 +18,13 @@ internal static class MiddlewareRegistrar
             return next(context);
         });
         app.UseNotFoundLogger();
-
-        app.UseRouting();
-
         app.UseAuthentication();
-        app.UseAuthorization();
 
         app.UseCustomResponseHeaders();
+        app.UseApiHandler();
 
+        app.UseRouting();
+        app.UseAuthorization();
         app.MapControllers();
 
         return app;
