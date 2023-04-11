@@ -3,7 +3,7 @@
 namespace SunLight.Database.Game.Item;
 
 [PrimaryKey(nameof(LiveNotesIconId))]
-public class GameLiveNotesIconItem
+public class LiveNotesIconM
 {
     public int LiveNotesIconId { get; set; }
 }

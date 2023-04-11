@@ -2,7 +2,7 @@
 
 namespace SunLight.Database.Game.Unit;
 
-public class GameUnitSkillInfo
+public class UnitSkillM
 {
     [Key]
     public int UnitSkillId { get; set; }

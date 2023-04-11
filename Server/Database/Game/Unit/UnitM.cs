@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SunLight.Database.Game.Unit;
 
-public class GameUnitInfo
+public class UnitM
 {
     [Key]
     public int UnitId { get; set; }
@@ -29,7 +29,7 @@ public class GameUnitInfo
     public int? DefaultUnitSkillId { get; set; }
 
     [ForeignKey(nameof(DefaultUnitSkillId))]
-    public virtual GameUnitSkillInfo? UnitSkill { get; set; }
+    public virtual UnitSkillM? UnitSkill { get; set; }
 
     public int? SkillAssetVoiceId { get; set; }
     public int? DefaultLeaderSkillId { get; set; }

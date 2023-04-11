@@ -5,12 +5,9 @@ namespace SunLight.Database.Game;
 
 public class UnitDbContext : DbContext
 {
-    public DbSet<GameUnitInfo> UnitM { get; init; }
-    public DbSet<GameUnitSkillInfo> UnitSkillM { get; init; }
-    public DbSet<GameUnitLevelUpPattern> UnitLevelUpPatternM { get; init; }
-
-    public static readonly ILoggerFactory MyLoggerFactory
-        = LoggerFactory.Create(builder => { builder.AddConsole(); });
+    public DbSet<UnitM> UnitM { get; init; }
+    public DbSet<UnitSkillM> UnitSkillM { get; init; }
+    public DbSet<UnitLevelUpPatternM> UnitLevelUpPatternM { get; init; }
 
     public UnitDbContext(DbContextOptions<UnitDbContext> options) : base(options)
     {
@@ -19,7 +16,6 @@ public class UnitDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseLoggerFactory(MyLoggerFactory).UseSqlite("Data Source=Assets/unit.db_")
-            .UseSnakeCaseNamingConvention();
+        optionsBuilder.UseSqlite("Data Source=Assets/unit.db_").UseSnakeCaseNamingConvention();
     }
 }

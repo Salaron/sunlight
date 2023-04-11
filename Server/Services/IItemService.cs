@@ -4,7 +4,7 @@ namespace SunLight.Services;
 
 public interface IItemService
 {
-    Task<IEnumerable<GameAwardInfo>> GetAwardAsync();
+    Task<IEnumerable<AwardM>> GetAwardAsync();
 
-    Task<IEnumerable<GameBackgroundItem>> GetBackgroundAsync();
+    Task<IEnumerable<BackgroundM>> GetBackgroundAsync();
 }

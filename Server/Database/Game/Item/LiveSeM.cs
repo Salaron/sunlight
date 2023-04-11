@@ -3,7 +3,7 @@
 namespace SunLight.Database.Game.Item;
 
 [PrimaryKey(nameof(LiveSeId))]
-public class GameLiveSeItem
+public class LiveSeM
 {
     public int LiveSeId { get; set; }
 }
