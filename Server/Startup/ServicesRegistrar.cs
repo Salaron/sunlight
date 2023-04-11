@@ -5,6 +5,7 @@ using SunLight.Database.Game;
 using SunLight.Database.Server;
 using SunLight.Dtos;
 using SunLight.Services;
+using SunLight.Services.Live;
 using SunLight.Services.Unit;
 
 namespace SunLight.Startup;
@@ -40,6 +41,8 @@ internal static class ServicesRegistrar
         builder.Services.AddScoped<IUnitDeckService, UnitDeckService>();
         builder.Services.AddScoped<IUnitService, UnitService>();
         builder.Services.AddScoped<IItemService, ItemService>();
+        
+        builder.Services.AddScoped<ILiveStatusService, LiveStatusService>();
 
         return builder;
     }
@@ -55,6 +58,7 @@ internal static class ServicesRegistrar
 
         builder.Services.AddDbContext<ItemDbContext>();
         builder.Services.AddDbContext<UnitDbContext>();
+        builder.Services.AddDbContext<LiveDbContext>();
 
         return builder;
     }
