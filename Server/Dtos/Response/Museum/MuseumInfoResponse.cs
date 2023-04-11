@@ -3,6 +3,10 @@
 [Serializable]
 public class MuseumInfoResponse
 {
-    public MuseumInfoStats MuseumInfo { get; set; }
-    public IEnumerable<int> ContentsIdList { get; set; }
+    public record MuseumInfoParams
+    {
+        public MuseumInfoStats Parameter { get; set; }
+        public IEnumerable<int> ContentsIdList { get; set; }
+    }
+    public MuseumInfoParams MuseumInfo { get; set; }
 }

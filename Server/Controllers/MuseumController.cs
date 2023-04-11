@@ -17,8 +17,11 @@ public class MuseumController : LlsifController
     {
         var response = new MuseumInfoResponse
         {
-            MuseumInfo = new MuseumInfoStats(),
-            ContentsIdList = Enumerable.Empty<int>()
+            MuseumInfo = new MuseumInfoResponse.MuseumInfoParams()
+            {
+                Parameter = new MuseumInfoStats(),
+                ContentsIdList = Enumerable.Empty<int>()
+            }
         };
 
         return SendResponse(response);
