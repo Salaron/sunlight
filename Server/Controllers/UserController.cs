@@ -33,7 +33,7 @@ public class UserController : LlsifController
         var response = new UserInfoResponse
         {
             User = _mapper.Map<UserInfoDto>(userInfo),
-            Birth = null,
+            Birth = new UserBirthDto(),
             AdStatus = false
         };
 
@@ -68,6 +68,15 @@ public class UserController : LlsifController
                 UnitOwningUserId = userInfo.PartnerUnitId ?? 0
             }
         };
+
+        return SendResponse(response);
+    }
+    
+    [HttpPost("setNotificationToken")]
+    [Produces(typeof(ServerResponse<IEnumerable<EmptyResponse>>))]
+    public async Task<IActionResult> SetNotificationToken([FromForm] ClientRequest request)
+    {
+        var response = Enumerable.Empty<EmptyResponse>();
 
         return SendResponse(response);
     }
