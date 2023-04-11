@@ -14,6 +14,8 @@ internal class ServerDbContext : DbContext
     public DbSet<UnitOwning> UnitOwning { get; init; }
     public DbSet<UserUnitDeck> UserUnitDeck { get; init; }
     public DbSet<UserUnitDeckSlot> UserUnitDeckSlot { get; init; }
+    public DbSet<LiveStatus> LiveStatus { get; init; }
+    public DbSet<LiveStatusGoal> LiveStatusGoal { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
