@@ -106,8 +106,11 @@ public class LbonusController : LlsifController
             LimitedEffortBox = Enumerable.Empty<object>(),
             MuseumInfo = new MuseumInfoResponse
             {
-                MuseumInfo = new MuseumInfoStats(),
-                ContentsIdList = Enumerable.Empty<int>()
+                MuseumInfo = new MuseumInfoResponse.MuseumInfoParams()
+                {
+                    Parameter = new MuseumInfoStats(),
+                    ContentsIdList = Enumerable.Empty<int>()
+                }
             }
         };
 
