@@ -13,12 +13,12 @@ internal class ItemService : IItemService
         _itemDbContext = itemDbContext;
     }
 
-    public async Task<IEnumerable<GameAwardInfo>> GetAwardAsync()
+    public async Task<IEnumerable<AwardM>> GetAwardAsync()
     {
         return await _itemDbContext.AwardM.ToListAsync();
     }
 
-    public async Task<IEnumerable<GameBackgroundItem>> GetBackgroundAsync()
+    public async Task<IEnumerable<BackgroundM>> GetBackgroundAsync()
     {
         return await _itemDbContext.BackgroundM.ToListAsync();
     }

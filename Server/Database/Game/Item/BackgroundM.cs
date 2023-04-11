@@ -3,7 +3,7 @@
 namespace SunLight.Database.Game.Item;
 
 [PrimaryKey(nameof(BackgroundId))]
-public class GameBackgroundItem
+public class BackgroundM
 {
     public int BackgroundId { get; set; }
     public string Name { get; set; }

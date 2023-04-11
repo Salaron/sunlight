@@ -3,7 +3,7 @@
 namespace SunLight.Database.Game.Unit;
 
 [PrimaryKey(nameof(UnitLevelUpPatternId), nameof(UnitLevel))]
-public class GameUnitLevelUpPattern
+public class UnitLevelUpPatternM
 {
     public int UnitLevelUpPatternId { get; set; }
     public int UnitLevel { get; set; }

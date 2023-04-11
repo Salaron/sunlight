@@ -3,7 +3,7 @@
 namespace SunLight.Database.Game.Item;
 
 [PrimaryKey(nameof(AwardId))]
-public class GameAwardInfo
+public class AwardM
 {
     public int AwardId { get; set; }
     public string Name { get; set; }
