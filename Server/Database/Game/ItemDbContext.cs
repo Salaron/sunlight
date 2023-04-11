@@ -7,6 +7,8 @@ public class ItemDbContext : DbContext
 {
     public DbSet<GameAwardInfo> AwardM { get; init; }
     public DbSet<GameBackgroundItem> BackgroundM { get; init; }
+    public DbSet<GameLiveSeItem> LiveSeM { get; init; }
+    public DbSet<GameLiveNotesIconItem> LiveNotesIconM { get; init; }
 
     public ItemDbContext(DbContextOptions<ItemDbContext> dbContextOptions) : base(dbContextOptions)
     {
