@@ -18,7 +18,7 @@ public class LbonusCalendarInfo
         public string SpecialImageAsset { get; set; }
         public bool Received { get; set; }
         public bool AdReceived { get; set; }
-        public object Item { get; set; }
+        public IEnumerable<Item> Item { get; set; }
     }
 
     public string CurrentDate { get; set; } // YYYY.MM.dd
