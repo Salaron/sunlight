@@ -24,8 +24,8 @@ internal class UnitService : IUnitService
             .FirstAsync();
 
         var levelUpInfo = await _unitDbContext.UnitLevelUpPatternM.Where(levelUpPattern =>
-            levelUpPattern.UnitLevelUpPatternId == unitInfo.UnitLevelUpPatternId && 
-            (levelUpPattern.UnitLevel == level || 
+            levelUpPattern.UnitLevelUpPatternId == unitInfo.UnitLevelUpPatternId &&
+            (levelUpPattern.UnitLevel == level ||
              levelUpPattern.UnitLevel == level - 1)).ToListAsync();
 
         var exp = 0;
@@ -80,6 +80,8 @@ internal class UnitService : IUnitService
 
         await _serverDbContext.UnitOwning.AddAsync(unit);
         await _serverDbContext.SaveChangesAsync();
+        
+        await UpdateAlbumAsync(userId, unit);
 
         return unit.UnitOwningUserId;
     }
@@ -89,5 +91,29 @@ internal class UnitService : IUnitService
         var units = await _serverDbContext.UnitOwning.Where(u => u.UserId == userId).ToListAsync();
 
         return units;
+    }
+
+    private async Task UpdateAlbumAsync(int userId, UnitOwning unitOwning)
+    {
+        var existingInfo = await _serverDbContext.UnitAlbum
+            .Where(a => a.UserId == userId && a.UnitId == unitOwning.UnitId)
+            .FirstOrDefaultAsync();
+
+        if (existingInfo == null)
+        {
+            existingInfo = new UnitAlbum
+            {
+                UserId = userId,
+                UnitId = unitOwning.UnitId
+            };
+            await _serverDbContext.UnitAlbum.AddAsync(existingInfo);
+            await _serverDbContext.SaveChangesAsync();
+        }
+
+        existingInfo.RankMaxFlag = existingInfo.RankMaxFlag || unitOwning.IsRankMax;
+        existingInfo.LoveMaxFlag = existingInfo.LoveMaxFlag || unitOwning.IsLoveMax;
+        existingInfo.AllMaxFlag = existingInfo.AllMaxFlag || (unitOwning.IsRankMax && unitOwning.IsLoveMax);
+        _serverDbContext.UnitAlbum.Update(existingInfo);
+        await _serverDbContext.SaveChangesAsync();
     }
 }

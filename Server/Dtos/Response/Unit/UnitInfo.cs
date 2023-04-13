@@ -20,11 +20,11 @@ public class UnitInfo
     public int UnitRemovableSkillCapacity { get; set; }
     public int FavoriteFlag { get; set; }
     public int DisplayRank { get; set; }
-    public int IsRankMax { get; set; }
-    public int IsLoveMax { get; set; }
-    public int IsLevelMax { get; set; }
-    public int IsSigned { get; set; }
-    public int IsSkillLevelMax { get; set; }
-    public int IsRemovableSkillCapacityMax { get; set; }
+    public bool IsRankMax { get; set; }
+    public bool IsLoveMax { get; set; }
+    public bool IsLevelMax { get; set; }
+    public bool IsSigned { get; set; }
+    public bool IsSkillLevelMax { get; set; }
+    public bool IsRemovableSkillCapacityMax { get; set; }
     public DateTime InsertDate { get; set; }
 }

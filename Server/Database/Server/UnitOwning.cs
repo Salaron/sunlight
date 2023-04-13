@@ -33,11 +33,11 @@ public class UnitOwning
     public int StatPure { get; set; }
     public int StatCool { get; set; }
 
-    public int IsRankMax => Rank >= MaxRank ? 1 : 0;
-    public int IsLoveMax => Love >= MaxLove ? 1 : 0;
-    public int IsLevelMax => Level >= MaxLevel ? 1 : 0;
-    public int IsSkillLevelMax => UnitSkillLevel >= MaxUnitSkillLevel ? 1 : 0;
-    public int IsRemovableSkillCapacityMax => UnitRemovableSkillCapacity >= MaxUnitRemovableSkillCapacity ? 1 : 0;
+    public bool IsRankMax => Rank >= MaxRank;
+    public bool IsLoveMax => Love >= MaxLove;
+    public bool IsLevelMax => Level >= MaxLevel;
+    public bool IsSkillLevelMax => UnitSkillLevel >= MaxUnitSkillLevel;
+    public bool IsRemovableSkillCapacityMax => UnitRemovableSkillCapacity >= MaxUnitRemovableSkillCapacity;
 
     public DateTime InsertDate { get; set; }
 

@@ -11,6 +11,7 @@ internal class ServerDbContext : DbContext
 
     public DbSet<AuthKey> AuthKeys { get; init; }
     public DbSet<User> Users { get; init; }
+    public DbSet<UnitAlbum> UnitAlbum { get; init; }
     public DbSet<UnitOwning> UnitOwning { get; init; }
     public DbSet<UserUnitDeck> UserUnitDeck { get; init; }
     public DbSet<UserUnitDeckSlot> UserUnitDeckSlot { get; init; }
