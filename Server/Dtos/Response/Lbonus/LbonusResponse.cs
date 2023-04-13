@@ -15,5 +15,5 @@ public class LbonusResponse
     public IEnumerable<object> StartDashSheets { get; set; }
     public IEnumerable<object> EffortPoint { get; set; }
     public IEnumerable<object> LimitedEffortBox { get; set; }
-    public MuseumInfoResponse MuseumInfo { get; set; }
+    public MuseumInfoResponse.MuseumInfoParams MuseumInfo { get; set; }
 }

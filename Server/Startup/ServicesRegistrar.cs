@@ -59,6 +59,7 @@ internal static class ServicesRegistrar
         builder.Services.AddDbContext<ItemDbContext>();
         builder.Services.AddDbContext<UnitDbContext>();
         builder.Services.AddDbContext<LiveDbContext>();
+        builder.Services.AddDbContext<MuseumDbContext>();
 
         return builder;
     }

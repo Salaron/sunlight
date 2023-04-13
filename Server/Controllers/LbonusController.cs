@@ -104,13 +104,10 @@ public class LbonusController : LlsifController
             StartDashSheets = Enumerable.Empty<object>(),
             EffortPoint = Enumerable.Empty<object>(),
             LimitedEffortBox = Enumerable.Empty<object>(),
-            MuseumInfo = new MuseumInfoResponse
+            MuseumInfo = new MuseumInfoResponse.MuseumInfoParams()
             {
-                MuseumInfo = new MuseumInfoResponse.MuseumInfoParams()
-                {
-                    Parameter = new MuseumInfoStats(),
-                    ContentsIdList = Enumerable.Empty<int>()
-                }
+                Parameter = new MuseumInfoStats(),
+                ContentsIdList = Enumerable.Empty<int>()
             }
         };
 

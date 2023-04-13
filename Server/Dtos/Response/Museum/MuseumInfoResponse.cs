@@ -8,5 +8,6 @@ public class MuseumInfoResponse
         public MuseumInfoStats Parameter { get; set; }
         public IEnumerable<int> ContentsIdList { get; set; }
     }
+
     public MuseumInfoParams MuseumInfo { get; set; }
 }
