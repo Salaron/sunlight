@@ -9,5 +9,6 @@ internal class AutoMapperUserProfile : Profile
     public AutoMapperUserProfile()
     {
         CreateMap<User, UserInfoDto>();
+        CreateMap<User, UserInfoStripped>();
     }
 }

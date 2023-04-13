@@ -14,7 +14,9 @@ internal class UserService : IUserService
 
     public async Task<User> GetUserInfoAsync(int userId)
     {
-        var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
+        var userInfo = await _dbContext.Users
+            .Include(user => user.PartnerUnit)
+            .FirstAsync(user => user.UserId == userId);
 
         return userInfo;
     }
@@ -31,7 +33,6 @@ internal class UserService : IUserService
     public async Task UpdateTutorialStateAsync(int userId, int state)
     {
         var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
-
         userInfo.TutorialState = state;
         _dbContext.Update(userInfo);
         await _dbContext.SaveChangesAsync();
@@ -59,7 +60,7 @@ internal class UserService : IUserService
     {
         var user = await _dbContext.Users.FirstAsync(u => u.UserId == userId);
         user.PartnerUnitId = unitOwningUserId;
-        _dbContext.Update(user);
+        _dbContext.Users.Update(user);
         await _dbContext.SaveChangesAsync();
     }
 }
