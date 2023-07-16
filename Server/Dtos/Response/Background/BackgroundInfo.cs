@@ -4,6 +4,6 @@
 public class BackgroundInfo
 {
     public int BackgroundId { get; set; }
-    public int IsSet { get; set; }
-    public string InsertDate { get; set; }
+    public bool IsSet { get; set; }
+    public DateTime InsertDate { get; set; }
 }
