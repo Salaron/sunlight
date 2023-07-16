@@ -12,7 +12,7 @@ public class TopInfoResponse
     public bool IsTodayBirthday { get; set; }
     public uint PresentCnt { get; set; }
     public bool SecretBoxBadgeFlag { get; set; }
-    public string ServerDatetime { get; set; }
+    public DateTime ServerDatetime { get; set; }
     public LicenseInfoDto LicenseInfo { get; set; }
     public IEnumerable<object> UsingBuffInfo { get; set; }
     public bool IsKlabIdTaskFlag { get; set; }

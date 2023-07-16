@@ -11,6 +11,6 @@ public class UserUnitDeckSlot
     public int Position { get; set; }
     public int UnitOwningUserId { get; set; }
 
-    public virtual UnitOwning Unit { get; set; }
+    public virtual UnitOwning UnitOwningUser { get; set; }
     public virtual UserUnitDeck UserUnitDeck { get; set; }
 }

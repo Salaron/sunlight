@@ -109,7 +109,7 @@ public class LoginController : LlsifController
             IsTodayBirthday = false,
             PresentCnt = 0,
             SecretBoxBadgeFlag = false,
-            ServerDatetime = "",
+            ServerDatetime = DateTimeUtils.GetServerTime(),
             LicenseInfo = new LicenseInfoDto
             {
                 ExpiredInfo = Enumerable.Empty<object>(),
