@@ -98,6 +98,10 @@ public class LoginController : LlsifController
     [Produces(typeof(ServerResponse<TopInfoResponse>))]
     public IActionResult TopInfo([FromBody] ClientRequest requestData)
     {
+        var licenseUserStatus = new LicenseInfoDto.LicenseUserStatus
+        {
+            EndDate = DateTime.MaxValue
+        };
         var response = new TopInfoResponse
         {
             FriendActionCnt = 0,
@@ -112,9 +116,21 @@ public class LoginController : LlsifController
             ServerDatetime = DateTimeUtils.GetServerTime(),
             LicenseInfo = new LicenseInfoDto
             {
+                LicenseList = new List<LicenseInfoDto.LicenseInfo>
+                {
+                    new() { LicenseId = 1, LicenseType = LicenseType.Lbonus },
+                    new() { LicenseId = 2, LicenseType = LicenseType.Buff },
+                    new() { LicenseId = 3, LicenseType = LicenseType.Premium },
+                    new() { LicenseId = 4, LicenseType = LicenseType.Live },
+                },
+                LicensedInfo = new List<LicenseInfoDto.ActivatedLicenseInfo>
+                {
+                    new() { LicenseId = 1, LicenseType = LicenseType.Lbonus, UserStatus = licenseUserStatus },
+                    new() { LicenseId = 2, LicenseType = LicenseType.Buff, UserStatus = licenseUserStatus },
+                    new() { LicenseId = 3, LicenseType = LicenseType.Premium, UserStatus = licenseUserStatus },
+                    new() { LicenseId = 4, LicenseType = LicenseType.Live, UserStatus = licenseUserStatus },
+                },
                 ExpiredInfo = Enumerable.Empty<object>(),
-                LicensedInfo = Enumerable.Empty<object>(),
-                LicenseList = Enumerable.Empty<object>()
             },
             UsingBuffInfo = Enumerable.Empty<object>(),
             IsKlabIdTaskFlag = false,
