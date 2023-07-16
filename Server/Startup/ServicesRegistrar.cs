@@ -4,6 +4,7 @@ using SunLight.Authentication;
 using SunLight.Database.Game;
 using SunLight.Database.Server;
 using SunLight.Dtos;
+using SunLight.LiveShow;
 using SunLight.Services;
 using SunLight.Services.Live;
 using SunLight.Services.Unit;
@@ -34,14 +35,19 @@ internal static class ServicesRegistrar
         builder.Services.AddRouting();
 
         builder.Services.AddSingleton<ICryptoService, CryptoService>();
-        builder.Services.AddSingleton<IServerListenAddressProvider, ServerListenAddressProvider>();
 
         builder.Services.AddScoped<ILoginService, LoginService>();
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IUnitDeckService, UnitDeckService>();
         builder.Services.AddScoped<IUnitService, UnitService>();
         builder.Services.AddScoped<IItemService, ItemService>();
-        
+
+        builder.Services.AddScoped<ILiveNotesService, LiveNotesService>();
+        builder.Services.AddScoped<ILiveInfoProvider, LiveInfoProvider>();
+
+        builder.Services.AddScoped<ILiveShowStarter, LiveShowStarter>();
+
+
         builder.Services.AddScoped<ILiveStatusService, LiveStatusService>();
 
         return builder;
@@ -60,6 +66,7 @@ internal static class ServicesRegistrar
         builder.Services.AddDbContext<UnitDbContext>();
         builder.Services.AddDbContext<LiveDbContext>();
         builder.Services.AddDbContext<MuseumDbContext>();
+        builder.Services.AddDbContext<LiveNotesDbContext>();
 
         return builder;
     }

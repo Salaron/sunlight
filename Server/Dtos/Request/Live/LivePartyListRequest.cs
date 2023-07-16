@@ -3,7 +3,7 @@
 namespace SunLight.Dtos.Request.Live;
 
 [Serializable]
-public class PartyListRequest : ClientRequest
+public class LivePartyListRequest : ClientRequest
 {
     public bool IsTraining { get; init; }
 
