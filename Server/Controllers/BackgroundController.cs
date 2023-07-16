@@ -42,7 +42,7 @@ public class BackgroundController : LlsifController
         {
             BackgroundId = background.BackgroundId,
             IsSet = userInfo.SettingAwardId == background.BackgroundId,
-            InsertDate = DateTimeUtils.GetServerTime()
+            InsertDate = DateTime.MinValue
         });
 
         var response = new BackgroundInfoResponse
