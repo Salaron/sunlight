@@ -59,12 +59,20 @@ public class LiveController : LlsifController
 
     [HttpPost("schedule")]
     [Produces(typeof(ServerResponse<LiveScheduleResponse>))]
-    public IActionResult Schedule([FromBody] ClientRequest requestData)
+    public async Task<IActionResult> Schedule([FromBody] ClientRequest requestData)
     {
+        var specialLiveStatus = await _liveStatusService.GetSpecialLiveStatusAsync(UserId);
+
         var response = new LiveScheduleResponse
         {
             EventList = Enumerable.Empty<object>(),
-            LiveList = Enumerable.Empty<object>(),
+            LiveList = specialLiveStatus.Select(l => new LiveScheduleResponse.LiveScheduleInfo
+            {
+                LiveDifficultyId = l.LiveDifficultyId,
+                StartDate = DateTime.MinValue,
+                EndDate = DateTime.MaxValue,
+                IsRandom = false
+            }),
             LimitedBonusList = Enumerable.Empty<object>(),
             LimitedBonusCommonList = Enumerable.Empty<object>(),
             RandomLiveList = Enumerable.Empty<object>(),

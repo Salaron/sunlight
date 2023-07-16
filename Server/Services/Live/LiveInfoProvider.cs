@@ -15,42 +15,67 @@ public class LiveInfoProvider : ILiveInfoProvider
 
     public async Task<LiveDifficultyInfo> GetLiveDifficultyInfoAsync(int liveDifficultyId)
     {
-        // normal, special
-        var result = await _liveDbContext.NormalLiveM.Include(l => l.LiveSetting)
-            .FirstOrDefaultAsync(live => live.LiveDifficultyId == liveDifficultyId);
-
-        if (result != null)
-        {
-            return new LiveDifficultyInfo
+        // normal + special lives
+        var liveInfoQuery = from setting in _liveDbContext.LiveSettingM
+            join difficulty in (
+                    from specialLive in _liveDbContext.SpecialLiveM
+                    select new
+                    {
+                        specialLive.LiveSettingId,
+                        specialLive.LiveDifficultyId,
+                        specialLive.CapitalType,
+                        specialLive.CapitalValue,
+                        specialLive.CRankComplete,
+                        specialLive.BRankComplete,
+                        specialLive.ARankComplete,
+                        specialLive.SRankComplete
+                    }
+                ).Concat(
+                    from normalLive in _liveDbContext.NormalLiveM
+                    select new
+                    {
+                        normalLive.LiveSettingId,
+                        normalLive.LiveDifficultyId,
+                        normalLive.CapitalType,
+                        normalLive.CapitalValue,
+                        normalLive.CRankComplete,
+                        normalLive.BRankComplete,
+                        normalLive.ARankComplete,
+                        normalLive.SRankComplete
+                    }
+                )
+                on setting.LiveSettingId equals difficulty.LiveSettingId
+            where difficulty.LiveDifficultyId == liveDifficultyId
+            select new LiveDifficultyInfo
             {
-                LiveDifficultyId = result.LiveDifficultyId,
-                LiveSettingId = result.LiveSettingId,
-                Difficulty = result.LiveSetting.Difficulty,
-                StageLevel = result.LiveSetting.StageLevel,
-                AttributeIconId = result.LiveSetting.AttributeIconId,
-                NotesSettingAsset = result.LiveSetting.NotesSettingAsset,
-                AcFlag = result.LiveSetting.AcFlag,
-                SwingFlag = result.LiveSetting.SwingFlag,
-                LaneCount = result.LiveSetting.LaneCount,
-                ScoreRank = ConstructRankInfo(result.LiveSetting.CRankScore, result.LiveSetting.BRankScore, 
-                    result.LiveSetting.ARankScore, result.LiveSetting.SRankScore),
-                ComboRank = ConstructRankInfo(result.LiveSetting.CRankCombo, result.LiveSetting.BRankCombo, 
-                    result.LiveSetting.ARankCombo, result.LiveSetting.SRankCombo),
-                ClearRank = ConstructRankInfo(result.CRankComplete, result.BRankComplete, 
-                    result.ARankComplete, result.SRankComplete),
+                LiveDifficultyId = difficulty.LiveDifficultyId,
+                LiveSettingId = setting.LiveSettingId,
+                Difficulty = setting.Difficulty,
+                StageLevel = setting.StageLevel,
+                AttributeIconId = setting.AttributeIconId,
+                NotesSettingAsset = setting.NotesSettingAsset,
+                AcFlag = setting.AcFlag,
+                SwingFlag = setting.SwingFlag,
+                LaneCount = setting.LaneCount,
+                ScoreRank = ConstructRankInfo(setting.CRankScore, setting.BRankScore, setting.ARankScore,
+                    setting.SRankScore),
+                ComboRank = ConstructRankInfo(setting.CRankCombo, setting.BRankCombo, setting.ARankCombo,
+                    setting.SRankCombo),
+                ClearRank = ConstructRankInfo(difficulty.CRankComplete, difficulty.BRankComplete,
+                    difficulty.ARankComplete, difficulty.SRankComplete)
             };
-        }
 
-        throw new NotImplementedException();
+        var liveInfo = await liveInfoQuery.FirstOrDefaultAsync();
+        if (liveInfo != null)
+            return liveInfo;
 
         // festival
-
         // token
-
         // more?
+        throw new NotImplementedException();
     }
 
-    private IEnumerable<LiveRankInfo> ConstructRankInfo(int cRank, int bRank, int aRank, int sRank)
+    private static IEnumerable<LiveRankInfo> ConstructRankInfo(int cRank, int bRank, int aRank, int sRank)
     {
         return new List<LiveRankInfo>
         {
