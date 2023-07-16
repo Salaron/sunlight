@@ -42,7 +42,7 @@ public class AwardController : LlsifController
         {
             AwardId = award.AwardId,
             IsSet = userInfo.SettingAwardId == award.AwardId,
-            InsertDate = DateTimeUtils.GetServerTime()
+            InsertDate = DateTime.MinValue
         });
 
         var response = new AwardInfoResponse
