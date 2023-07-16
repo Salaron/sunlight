@@ -15,7 +15,7 @@ internal class XMessageCodeCheckAttribute : Attribute, IAsyncActionFilter
         _isSpecialApi = specialApi;
     }
 
-    public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+    public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         if (_performCheck)
         {
@@ -25,6 +25,6 @@ internal class XMessageCodeCheckAttribute : Attribute, IAsyncActionFilter
                 context.HttpContext.Request.Headers.TryGetValue("X-Message-Code", out var xMessageCodeHeader);
         }
 
-        await next();
+        return next();
     }
 }

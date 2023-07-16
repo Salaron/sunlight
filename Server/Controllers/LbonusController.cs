@@ -18,7 +18,7 @@ public class LbonusController : LlsifController
     [Produces(typeof(ServerResponse<LbonusResponse>))]
     public async Task<IActionResult> Execute([FromBody] ClientRequest requestData)
     {
-        var dateNow = DateTime.Now;
+        var dateNow = DateTimeUtils.GetServerTime();
         var dateTomorrow = DateTime.Now + TimeSpan.FromDays(1);
 
         var currentMonth = new LbonusCalendarInfo.MonthInfo

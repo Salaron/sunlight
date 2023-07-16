@@ -12,29 +12,9 @@ namespace SunLight.Controllers;
 STATE = {
   START = 0,
   CHOOSE_CENTER_UNIT = 1,
-  END = -1,
-  SKIPPING = 50,
-  MERGE_FINISHED = 100,
-  MUSE = {
-    SCENARIO_1 = 2,
-    LIVE = 3,
-    SCENARIO_2 = 4,
-    MERGE = 5,
-    RANK_UP = 6,
-    SCENARIO_3 = 7,
-    TOP = 8
-  },
-  AQOURS = {
-    SCENARIO_1 = 12,
-    LIVE = 13,
-    SCENARIO_2 = 14,
-    MERGE = 15,
-    SCENARIO_3 = 16,
-    RANK_UP = 17,
-    SCENARIO_4 = 18,
-    SCENARIO_5 = 19,
-    TOP = 20
-  }
+  LIVE = 2,
+  TOP = 3,
+  END = -1
 }
 */
 
