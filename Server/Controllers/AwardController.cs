@@ -37,17 +37,13 @@ public class AwardController : LlsifController
 
         if (!unlockAll)
             awards = awards.Where(award => defaultUnlockIds.Contains(award.AwardId));
-                
-        var ownedAwards = new List<AwardInfo>();
-        foreach (var award in awards)
+
+        var ownedAwards = awards.Select(award => new AwardInfo
         {
-            ownedAwards.Add(new AwardInfo
-            {
-                AwardId = award.AwardId,
-                IsSet = userInfo.SettingAwardId == award.AwardId ? 1 : 0,
-                InsertDate = ""
-            });
-        }
+            AwardId = award.AwardId,
+            IsSet = userInfo.SettingAwardId == award.AwardId,
+            InsertDate = DateTimeUtils.GetServerTime()
+        });
 
         var response = new AwardInfoResponse
         {

@@ -38,16 +38,12 @@ public class BackgroundController : LlsifController
         if (!unlockAll)
             backgrounds = backgrounds.Where(background => defaultUnlockIds.Contains(background.BackgroundId));
 
-        var ownedBackgrounds = new List<BackgroundInfo>();
-        foreach (var background in backgrounds)
+        var ownedBackgrounds = backgrounds.Select(background => new BackgroundInfo
         {
-            ownedBackgrounds.Add(new BackgroundInfo
-            {
-                BackgroundId = background.BackgroundId,
-                IsSet = userInfo.SettingBackgroundId == background.BackgroundId ? 1 : 0,
-                InsertDate = ""
-            });
-        }
+            BackgroundId = background.BackgroundId,
+            IsSet = userInfo.SettingAwardId == background.BackgroundId,
+            InsertDate = DateTimeUtils.GetServerTime()
+        });
 
         var response = new BackgroundInfoResponse
         {
