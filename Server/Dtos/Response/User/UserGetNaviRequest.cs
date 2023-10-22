@@ -1,4 +1,4 @@
-﻿namespace SunLight.Dtos.Response.User;
+﻿namespace SunLight.Dtos.Response;
 
 [Serializable]
 public class UserGetNaviRequest

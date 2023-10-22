@@ -1,4 +1,4 @@
-using SunLight.LiveShow.Models;
+using SunLight.Modules.Live.LiveShow.Models;
 
 namespace SunLight.Dtos.Response.Live;
 

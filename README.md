@@ -1,7 +1,18 @@
 ﻿# SunLight
 
-Another server emulator for Love Live! School Idol Festival, written in C#. Designed to teach and practice programming skills.
+Another server emulator for Love Live! School Idol Festival, written in C#. Designed to teach and practice programming skills in first place.
 
-That game was discontinued on March 31, 2023, so this project will also be a preservation of that game.
+Current status: lack of most of features
 
-Current status: account registration partly works / not usable
+## Setup
+
+### Building from source
+
+Currently you need to build it from sources by yourself.
+
+This project target .NET 8 that currently in preview state.
+
+- Download and install .NET 8 preview
+- Clone this repository via `git clone https://github.com/Salaron/sunlight`
+- Place `item.db_`, `live.db_`, `museum.db_`, `unit.db_` and `sv_live_notes.db_` to `Databases` folder
+- Start server via `dotnet run`
