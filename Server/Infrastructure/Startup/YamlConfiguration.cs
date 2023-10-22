@@ -1,4 +1,6 @@
-﻿namespace SunLight.Infrastructure.Startup;
+﻿using SunLight.Infrastructure.Configuration;
+
+namespace SunLight.Infrastructure.Startup;
 
 internal static class YamlConfiguration
 {
@@ -6,6 +8,10 @@ internal static class YamlConfiguration
     {
         // TODO: config validation
         builder.Configuration.AddYamlFile("config.yml", optional: false, reloadOnChange: true);
+
+        builder.Services.AddOptions<ServerConfig>()
+            .Bind(builder.Configuration)
+            .ValidateOnStart();
 
         return builder;
     }
