@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
-using SunLight.Dtos.Request;
+﻿using Microsoft.AspNetCore.Mvc;
 using SunLight.Dtos.Request.Download;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Download;
@@ -11,7 +9,7 @@ namespace SunLight.Modules.Download;
 [ApiController]
 [XMessageCodeCheck]
 [Route("main.php/download")]
-public class  DownloadController : LlsifController
+public class DownloadController(IDownloadService downloadService) : LlsifController
 {
     [HttpPost("event")]
     [Produces(typeof(ServerResponse<IEnumerable<DownloadPackageInfo>>))]
@@ -24,41 +22,45 @@ public class  DownloadController : LlsifController
 
     [HttpPost("additional")]
     [Produces(typeof(ServerResponse<IEnumerable<DownloadPackageInfo>>))]
-    public async Task<IActionResult> Additional([FromBody] ClientRequest requestData)
+    public async Task<IActionResult> Additional([FromBody] DownloadAdditionalRequest requestData)
     {
-        var httpClient = new HttpClient();
+        var platformId = GetPlatformId(requestData.TargetOs);
+        var batchUrls = await downloadService.GetPackageUrlsAsync(platformId,
+            requestData.PackageType, requestData.PackageId);
 
-        var resp = await httpClient.GetAsync("http://192.168.0.5:8089/additional.json");
-
-        var responseBody = await resp.Content.ReadAsStringAsync();
-        var additional = JsonSerializer.Deserialize<IEnumerable<DownloadPackageInfo>>(responseBody, JsonSerializerDefaultOptions.GetOptions());
-
-        return SendResponse(additional);
+        return SendResponse(batchUrls);
     }
 
     [HttpPost("batch")]
     [Produces(typeof(ServerResponse<IEnumerable<DownloadPackageInfo>>))]
-    public async Task<IActionResult> Batch([FromBody] ClientRequest requestData)
+    public async Task<IActionResult> Batch([FromBody] DownloadBatchRequest requestData)
     {
-        var httpClient = new HttpClient();
+        var platformId = GetPlatformId(requestData.Os);
+        var batchUrls = await downloadService.GetBatchUrlsAsync(platformId, requestData.PackageType,
+            requestData.ExcludedPackageIds);
 
-        var resp = await httpClient.GetAsync("http://192.168.0.5:8089/batch.json");
-
-        var responseBody = await resp.Content.ReadAsStringAsync();
-        var additional = JsonSerializer.Deserialize<IEnumerable<DownloadPackageInfo>>(responseBody, JsonSerializerDefaultOptions.GetOptions());
-
-        return SendResponse(additional);
+        return SendResponse(batchUrls);
     }
 
     [HttpPost("getUrl")]
     [Produces(typeof(ServerResponse<DownloadGetUrlResponse>))]
-    public IActionResult Event([FromBody] DownloadGetUrlRequest requestData)
+    public async Task<IActionResult> Microdl([FromBody] DownloadGetUrlRequest requestData)
     {
+        var platformId = GetPlatformId(requestData.Os);
+
+        var urlList = await downloadService.GetMicrodownloadUrlsAsync(platformId, requestData.PathList);
         var response = new DownloadGetUrlResponse
         {
-            UrlList = requestData.PathList.Select(path => "http://192.168.0.5:8088/mdl/" + path)
+            UrlList = urlList
         };
 
         return SendResponse(response);
     }
+
+    private Platform GetPlatformId(string os) => os switch
+    {
+        "Android" => Platform.Android,
+        "iOS" => Platform.iOS,
+        _ => throw new ArgumentOutOfRangeException(nameof(os), os, null)
+    };
 }

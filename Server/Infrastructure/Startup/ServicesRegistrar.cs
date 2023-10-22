@@ -6,6 +6,7 @@ using SunLight.Infrastructure.Database.Game;
 using SunLight.Infrastructure.Database.Server;
 using SunLight.Infrastructure.Json;
 using SunLight.Infrastructure.Security;
+using SunLight.Modules.Download;
 using SunLight.Modules.Item;
 using SunLight.Modules.Live.LiveShow;
 using SunLight.Modules.Login;
@@ -51,8 +52,10 @@ internal static class ServicesRegistrar
 
         builder.Services.AddScoped<ILiveShowStarter, LiveShowStarter>();
 
-
         builder.Services.AddScoped<ILiveStatusService, LiveStatusService>();
+        
+        builder.Services.AddScoped<IDownloadService, NppsDownloadBackend>();
+
 
         return builder;
     }

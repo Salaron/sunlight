@@ -12,7 +12,10 @@
 Client:
   MinimalBundleVersion: 9.11
   ApplicationKey: 
-  
+
+Download:
+  Npps4DlApiUrl: http://some_ip:some_port
+  Npp4DlApiSharedKey: 
 
 Kestrel:
   Endpoints:
