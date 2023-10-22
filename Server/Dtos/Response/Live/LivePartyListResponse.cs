@@ -1,5 +1,4 @@
 ﻿using SunLight.Dtos.Response.Unit;
-using SunLight.Dtos.Response.User;
 
 namespace SunLight.Dtos.Response.Live;
 

@@ -33,6 +33,7 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 
+artifacts
 Server/config.yml
-Server/Assets/**
-!Server/Assets/.gitkeep
+Server/Databases/**
+!Server/Databases/.gitkeep

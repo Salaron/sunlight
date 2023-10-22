@@ -1,4 +1,4 @@
-using SunLight.Startup;
+using SunLight.Infrastructure.Startup;
 
 WebApplication.CreateBuilder(args)
     .AddYamlConfig()
