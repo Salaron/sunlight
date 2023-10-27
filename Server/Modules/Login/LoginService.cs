@@ -136,16 +136,34 @@ internal class LoginService : ILoginService
     {
         var deckUnitIds = GetDefaultDeckWithCenterUnit(centerUnitId);
 
-        var ids = new List<int>();
-        foreach (var unitId in deckUnitIds)
+        var deckSlots = new List<UserUnitDeckSlot>();
+        foreach (var (unitId, i) in deckUnitIds.Select((u, i) => (u, i)))
         {
             var unitOwningUserId = await _unitService.AddUnitToUserAsync(userId, unitId);
-            ids.Add(unitOwningUserId);
+            deckSlots.Add(new UserUnitDeckSlot
+            {
+                Position = i + 1,
+                UnitOwningUserId = unitOwningUserId
+            });
         }
 
-        await _unitDeckService.CreateDeckAsync(userId, "Team A", ids);
-        await _userService.SetMainDeckAsync(userId, unitDeckId: 1);
-        return ids;
+        var initialDeckList = new List<UserUnitDeck>
+        {
+            new()
+            {
+                DeckName = "Team A",
+                UnitDeckId = 1,
+                UserId = userId,
+                UnitOwningUserIds = deckSlots
+            }
+        };
+
+        await _unitDeckService.SetDeckAsync(userId, initialDeckList);
+        var user = await _userService.GetUserAsync(userId);
+        user.MainUnitDeck = initialDeckList.First();
+        await _userService.UpdateUserAsync(user);
+
+        return deckSlots.Select(s => s.UnitOwningUserId).ToList();
     }
 
     private IEnumerable<int> GetDefaultDeckWithCenterUnit(int centerUnitId)

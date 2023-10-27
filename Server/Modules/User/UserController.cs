@@ -27,7 +27,7 @@ public class UserController : LlsifController
     [Produces(typeof(ServerResponse<UserInfoResponse>))]
     public async Task<IActionResult> UserInfoAsync([FromForm] ClientRequest request)
     {
-        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var userInfo = await _userService.GetUserAsync(UserId);
         var response = new UserInfoResponse
         {
             User = _mapper.Map<UserInfoDto>(userInfo),
@@ -42,7 +42,9 @@ public class UserController : LlsifController
     [Produces(typeof(ServerResponse<ChangeNameResponse>))]
     public async Task<IActionResult> ChangeNameAsync([FromForm] ChangeNameRequest request)
     {
-        await _userService.ChangeNameAsync(UserId, request.Name);
+        var user = await _userService.GetUserAsync(UserId);
+        user.Name = request.Name;
+        await _userService.UpdateUserAsync(user);
 
         var response = new ChangeNameResponse
         {
@@ -57,7 +59,7 @@ public class UserController : LlsifController
     [Produces(typeof(ServerResponse<UserGetNaviRequest>))]
     public async Task<IActionResult> GetNavi([FromForm] ClientRequest request)
     {
-        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var userInfo = await _userService.GetUserAsync(UserId);
         var response = new UserGetNaviRequest
         {
             User = new UserGetNaviRequest.UserNavi

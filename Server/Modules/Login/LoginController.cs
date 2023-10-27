@@ -189,13 +189,15 @@ public class LoginController : LlsifController
     [Produces(typeof(ServerResponse<LoginUnitSelectResponse>))]
     public async Task<IActionResult> UnitSelect([FromBody] LoginUnitSelectRequest requestData)
     {
-        var ids = await _loginService.CreateDefaultDeckAsync(UserId, requestData.UnitInitialSetId);
+        var unitOwningUserIds = await _loginService.CreateDefaultDeckAsync(UserId, requestData.UnitInitialSetId);
         var response = new LoginUnitSelectResponse
         {
-            UnitId = ids
+            UnitId = unitOwningUserIds
         };
 
-        await _userService.SetPartnerUnitAsync(UserId, ids[4]);
+        var user = await _userService.GetUserAsync(UserId);
+        user.PartnerUnitId = unitOwningUserIds[4];
+        await _userService.UpdateUserAsync(user);
 
         return SendResponse(response);
     }

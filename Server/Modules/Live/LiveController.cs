@@ -86,13 +86,13 @@ public class LiveController : LlsifController
     [Produces(typeof(ServerResponse<LivePartyListResponse>))]
     public async Task<IActionResult> PartyList([FromBody] LivePartyListRequest requestData)
     {
-        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var userInfo = await _userService.GetUserAsync(UserId);
 
-        var partyList = new List<LivePartyListResponse.PartyListItem>
+        var partyList = new List<BasicUserInfo>
         {
             new()
             {
-                UserInfo = _mapper.Map<Infrastructure.Database.Server.User, UserInfoStripped>(userInfo),
+                UserInfo = _mapper.Map<User, UserInfoStripped>(userInfo),
                 CenterUnitInfo = _mapper.Map<UnitOwning, UnitInfoStripped>(userInfo.PartnerUnit),
                 SettingAwardId = userInfo.SettingAwardId,
                 AvailableSocialPoint = 0,

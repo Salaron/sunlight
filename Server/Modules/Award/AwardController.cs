@@ -33,7 +33,7 @@ public class AwardController : LlsifController
     public async Task<IActionResult> AwardInfo([FromBody] ClientRequest requestData)
     {
         var awards = await _itemService.GetAwardAsync();
-        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var userInfo = await _userService.GetUserAsync(UserId);
 
         if (!_awardConfig.UnlockAll)
             awards = awards.Where(award => _awardConfig.DefaultList.Contains(award.AwardId));

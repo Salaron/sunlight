@@ -35,16 +35,20 @@ public class TutorialController : LlsifController
     [Produces(typeof(ServerResponse<EmptyResponse>))]
     public async Task<IActionResult> Progress([FromForm] TutorialProgressRequest request)
     {
-        await _userService.UpdateTutorialStateAsync(UserId, request.TutorialState);
+        var user = await _userService.GetUserAsync(UserId);
+        user.TutorialState = request.TutorialState;
+        await _userService.UpdateUserAsync(user);
 
         return SendResponse(new EmptyResponse());
     }
 
     [HttpPost("skip")]
     [Produces(typeof(ServerResponse<EmptyResponse>))]
-    public async Task<IActionResult> TosAgree([FromForm] ClientRequest request)
+    public async Task<IActionResult> Skip([FromForm] ClientRequest request)
     {
-        await _userService.UpdateTutorialStateAsync(UserId, -1);
+        var user = await _userService.GetUserAsync(UserId);
+        user.TutorialState = -1;
+        await _userService.UpdateUserAsync(user);
 
         return SendResponse(new EmptyResponse());
     }

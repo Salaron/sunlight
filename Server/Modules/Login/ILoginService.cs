@@ -7,11 +7,11 @@ public interface ILoginService
 {
     Task<AuthKey> StartSessionAsync(string dummyToken);
 
-    Task<Infrastructure.Database.Server.User> FindUserByTokenAsync(Guid authorizeToken);
+    Task<User> FindUserByTokenAsync(Guid authorizeToken);
 
-    Task<Infrastructure.Database.Server.User> LoginAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
+    Task<User> LoginAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
 
-    Task<Infrastructure.Database.Server.User> RegisterAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
+    Task<User> RegisterAsync(string encryptedLoginKey, string encryptedPassword, Guid authorizeToken);
 
     LoginUnitListMemberCategory GetInitialUnitList(int memberCategory);
 

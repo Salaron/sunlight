@@ -12,35 +12,9 @@ internal class UserService : IUserService
         _dbContext = dbContext;
     }
 
-    public async Task<Infrastructure.Database.Server.User> GetUserInfoAsync(int userId)
+    public async Task<User> CreateUserAsync(string loginKey, string password)
     {
-        var userInfo = await _dbContext.Users
-            .Include(user => user.PartnerUnit)
-            .FirstAsync(user => user.UserId == userId);
-
-        return userInfo;
-    }
-
-    public async Task ChangeNameAsync(int userId, string newName)
-    {
-        var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
-
-        userInfo.Name = newName;
-        _dbContext.Update(userInfo);
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task UpdateTutorialStateAsync(int userId, int state)
-    {
-        var userInfo = await _dbContext.Users.FirstAsync(user => user.UserId == userId);
-        userInfo.TutorialState = state;
-        _dbContext.Update(userInfo);
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task<Infrastructure.Database.Server.User> CreateUserAsync(string loginKey, string password)
-    {
-        var newUser = new Infrastructure.Database.Server.User
+        var newUser = new User
         {
             Name = "New Comer",
             Level = 1,
@@ -56,19 +30,18 @@ internal class UserService : IUserService
         return newUser;
     }
 
-    public async Task SetPartnerUnitAsync(int userId, int unitOwningUserId)
+    public async Task<User> GetUserAsync(int userId)
     {
-        var user = await _dbContext.Users.FirstAsync(u => u.UserId == userId);
-        user.PartnerUnitId = unitOwningUserId;
-        _dbContext.Users.Update(user);
-        await _dbContext.SaveChangesAsync();
+        var userInfo = await _dbContext.Users
+            .Include(user => user.PartnerUnit)
+            .FirstAsync(user => user.UserId == userId);
+
+        return userInfo;
     }
 
-    public async Task SetMainDeckAsync(int userId, int unitDeckId)
+    public async Task UpdateUserAsync(User user)
     {
-        var user = await _dbContext.Users.FirstAsync(u => u.UserId == userId);
-        user.MainUnitDeckId = unitDeckId;
-        _dbContext.Users.Update(user);
+        _dbContext.Update(user);
         await _dbContext.SaveChangesAsync();
     }
 }

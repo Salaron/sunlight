@@ -64,21 +64,12 @@ internal class UnitDeckService : IUnitDeckService
         return deckInfo;
     }
 
-    public async Task CreateDeckAsync(int userId, string deckName, IEnumerable<int> unitOwningIds)
+    public async Task SetDeckAsync(int userId, IEnumerable<UserUnitDeck> unitDecks)
     {
-        var newDeck = new UserUnitDeck
-        {
-            DeckName = deckName,
-            UnitDeckId = 1,
-            UserId = userId,
-            UnitOwningUserIds = unitOwningIds.Select((u, i) => new UserUnitDeckSlot
-            {
-                Position = i + 1,
-                UnitOwningUserId = u
-            }).ToList()
-        };
-
-        await _serverDbContext.UserUnitDeck.AddAsync(newDeck);
+        var userDecks = _serverDbContext.UserUnitDeck.Where(u => u.UserId == userId);
+        _serverDbContext.UserUnitDeck.RemoveRange(userDecks);
+        
+        await _serverDbContext.UserUnitDeck.AddRangeAsync(unitDecks);
         await _serverDbContext.SaveChangesAsync();
     }
 }

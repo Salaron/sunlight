@@ -33,7 +33,7 @@ public class BackgroundController : LlsifController
     public async Task<IActionResult> BackgroundInfo([FromBody] ClientRequest requestData)
     {
         var backgrounds = await _itemService.GetBackgroundAsync();
-        var userInfo = await _userService.GetUserInfoAsync(UserId);
+        var userInfo = await _userService.GetUserAsync(UserId);
 
         if (!_backgroundConfig.UnlockAll)
             backgrounds = backgrounds.Where(background => _backgroundConfig.DefaultList.Contains(background.BackgroundId));

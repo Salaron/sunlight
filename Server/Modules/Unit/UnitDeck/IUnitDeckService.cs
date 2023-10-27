@@ -8,5 +8,5 @@ public interface IUnitDeckService
 
     Task<LiveShowDeckInfo> GetUserDeckForLiveShowAsync(int userId, int unitDeckId);
 
-    Task CreateDeckAsync(int userId, string deckName, IEnumerable<int> unitOwningIds);
+    Task SetDeckAsync(int userId, IEnumerable<UserUnitDeck> unitDecks);
 }
