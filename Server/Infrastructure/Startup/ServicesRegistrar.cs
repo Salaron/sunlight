@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using SunLight.Dtos;
 using SunLight.Infrastructure.Authentication;
 using SunLight.Infrastructure.Database.Game;
@@ -36,6 +37,9 @@ internal static class ServicesRegistrar
                 opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
                 opts.JsonSerializerOptions.Converters.Add(new DateTimeJsonConverter());
             });
+
+        builder.Services.AddSerilog((_, loggerConfiguration) =>
+            loggerConfiguration.ReadFrom.Configuration(builder.Configuration));
 
         builder.Services.AddRouting();
 
