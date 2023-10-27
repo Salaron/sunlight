@@ -1,7 +1,9 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SunLight.Dtos.Response.Login;
+using SunLight.Infrastructure.Configuration;
 using SunLight.Infrastructure.Database.Server;
 using SunLight.Infrastructure.Security;
 using SunLight.Modules.UserModule;
@@ -18,17 +20,17 @@ internal class LoginService : ILoginService
     private readonly IUnitDeckService _unitDeckService;
 
     private readonly ServerDbContext _dbContext;
-    private readonly IConfiguration _configuration;
+    private readonly UnitConfig _unitConfig;
 
     public LoginService(ICryptoService cryptoService, IUserService userService, IUnitService unitService,
-        IUnitDeckService unitDeckService, ServerDbContext dbContext, IConfiguration configuration)
+        IUnitDeckService unitDeckService, ServerDbContext dbContext, IOptions<SunLightConfig> config)
     {
         _cryptoService = cryptoService;
         _userService = userService;
         _unitService = unitService;
         _unitDeckService = unitDeckService;
         _dbContext = dbContext;
-        _configuration = configuration;
+        _unitConfig = config.Value.Unit;
     }
 
     public async Task<AuthKey> StartSessionAsync(string dummyToken)
@@ -97,9 +99,9 @@ internal class LoginService : ILoginService
 
         int[] centerUnits;
         if (memberCategory == 1)
-            centerUnits = _configuration.GetSection("Unit:MuseCenterUnitIds").Get<int[]>();
+            centerUnits = _unitConfig.MuseCenterUnitIds;
         else
-            centerUnits = _configuration.GetSection("Unit:AqoursCenterUnitIds").Get<int[]>();
+            centerUnits = _unitConfig.AqoursCenterUnitIds;
 
         foreach (var centerUnitId in centerUnits)
         {

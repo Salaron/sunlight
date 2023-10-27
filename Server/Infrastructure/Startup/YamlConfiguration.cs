@@ -6,10 +6,9 @@ internal static class YamlConfiguration
 {
     public static WebApplicationBuilder AddYamlConfig(this WebApplicationBuilder builder)
     {
-        // TODO: config validation
         builder.Configuration.AddYamlFile("config.yml", optional: false, reloadOnChange: true);
 
-        builder.Services.AddOptions<ServerConfig>()
+        builder.Services.AddOptions<SunLightConfig>()
             .Bind(builder.Configuration)
             .ValidateOnStart();
 

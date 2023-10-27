@@ -5,11 +5,11 @@ using SunLight.Infrastructure.Configuration;
 
 namespace SunLight.Modules.Download;
 
-public class NppsDownloadBackend(IOptions<ServerConfig> serverConfig) : IDownloadService
+public class NppsDownloadBackend(IOptions<SunLightConfig> serverConfig) : IDownloadService
 {
     private static readonly HttpClient HttpClient = new();
 
-    private readonly ServerConfig _serverConfig = serverConfig.Value;
+    private readonly SunLightConfig _serverConfig = serverConfig.Value;
 
     public async Task<IEnumerable<string>> GetMicrodownloadUrlsAsync(Platform platformId, IEnumerable<string> assetPath)
     {

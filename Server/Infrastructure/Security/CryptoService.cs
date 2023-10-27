@@ -1,5 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Extensions.Options;
+using SunLight.Infrastructure.Configuration;
 
 namespace SunLight.Infrastructure.Security;
 
@@ -8,11 +10,9 @@ internal class CryptoService : ICryptoService
     private const int RsaKeySize = 1024;
     private readonly RSACryptoServiceProvider _rsaCryptoServiceProvider = new(RsaKeySize);
 
-    public CryptoService(IConfiguration configuration)
+    public CryptoService(IOptions<SunLightConfig> serverConfig)
     {
-        var privateKey = configuration["Server:RsaPrivateKey"] ??
-                         throw new KeyNotFoundException("RSA public key not provided");
-        _rsaCryptoServiceProvider.ImportFromPem(privateKey);
+        _rsaCryptoServiceProvider.ImportFromPem(serverConfig.Value.Server.RsaPrivateKey);
     }
 
     public byte[] DecryptRsa(string base64String)

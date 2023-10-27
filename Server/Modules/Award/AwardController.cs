@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Award;
 using SunLight.Infrastructure.Authorization;
+using SunLight.Infrastructure.Configuration;
 using SunLight.Modules.Item;
 using SunLight.Modules.UserModule;
 
@@ -17,13 +19,13 @@ public class AwardController : LlsifController
 {
     private readonly IItemService _itemService;
     private readonly IUserService _userService;
-    private readonly IConfiguration _configuration;
+    private readonly AwardConfig _awardConfig;
 
-    public AwardController(IItemService itemService, IUserService userService, IConfiguration configuration)
+    public AwardController(IItemService itemService, IUserService userService, IOptions<SunLightConfig> config)
     {
         _itemService = itemService;
         _userService = userService;
-        _configuration = configuration;
+        _awardConfig = config.Value.Award;
     }
 
     [HttpPost("awardInfo")]
@@ -33,11 +35,8 @@ public class AwardController : LlsifController
         var awards = await _itemService.GetAwardAsync();
         var userInfo = await _userService.GetUserInfoAsync(UserId);
 
-        var defaultUnlockIds = _configuration.GetSection("Award:DefaultList").Get<int[]>();
-        var unlockAll = _configuration.GetSection("Award:UnlockAll").Get<bool>();
-
-        if (!unlockAll)
-            awards = awards.Where(award => defaultUnlockIds.Contains(award.AwardId));
+        if (!_awardConfig.UnlockAll)
+            awards = awards.Where(award => _awardConfig.DefaultList.Contains(award.AwardId));
 
         var ownedAwards = awards.Select(award => new AwardInfo
         {

@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using SunLight.Dtos.Request;
 using SunLight.Dtos.Response;
 using SunLight.Dtos.Response.Background;
 using SunLight.Infrastructure.Authorization;
+using SunLight.Infrastructure.Configuration;
 using SunLight.Modules.Item;
 using SunLight.Modules.UserModule;
 
@@ -17,13 +19,13 @@ public class BackgroundController : LlsifController
 {
     private readonly IItemService _itemService;
     private readonly IUserService _userService;
-    private readonly IConfiguration _configuration;
+    private readonly BackgroundConfig _backgroundConfig;
 
-    public BackgroundController(IItemService itemService, IUserService userService, IConfiguration configuration)
+    public BackgroundController(IItemService itemService, IUserService userService, IOptions<SunLightConfig> config)
     {
         _itemService = itemService;
         _userService = userService;
-        _configuration = configuration;
+        _backgroundConfig = config.Value.Background;
     }
 
     [HttpPost("backgroundInfo")]
@@ -33,11 +35,8 @@ public class BackgroundController : LlsifController
         var backgrounds = await _itemService.GetBackgroundAsync();
         var userInfo = await _userService.GetUserInfoAsync(UserId);
 
-        var defaultUnlockIds = _configuration.GetSection("Background:DefaultList").Get<int[]>();
-        var unlockAll = _configuration.GetSection("Background:UnlockAll").Get<bool>();
-
-        if (!unlockAll)
-            backgrounds = backgrounds.Where(background => defaultUnlockIds.Contains(background.BackgroundId));
+        if (!_backgroundConfig.UnlockAll)
+            backgrounds = backgrounds.Where(background => _backgroundConfig.DefaultList.Contains(background.BackgroundId));
 
         var ownedBackgrounds = backgrounds.Select(background => new BackgroundInfo
         {
