@@ -1,0 +1,45 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Http.Json;
+using Server.Common;
+using Server.Common.Config;
+using Server.Common.Json;
+using Server.Endpoints;
+
+namespace Server.Startup;
+
+public static class WebApplicationBuilderExtensions
+{
+    public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+        builder.Services.AddRouting();
+        builder.Services.Configure<JsonOptions>(opts =>
+        {
+            opts.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+            opts.SerializerOptions.Converters.Add(new DateTimeJsonConverter());
+        });
+
+        builder.Services.AddCommonModule();
+        builder.Services.AddEndpointsModule();
+        builder.Services.AddEndpoints();
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder SetupDbContext(this WebApplicationBuilder builder)
+    {
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddConfig(this WebApplicationBuilder builder)
+    {
+        builder.Configuration.AddYamlFile("config.yml", optional: false, reloadOnChange: true);
+
+        builder.Services.AddOptions<ServerConfig>()
+            .Bind(builder.Configuration)
+            .ValidateOnStart();
+
+        return builder;
+    }
+}

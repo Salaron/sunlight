@@ -1,41 +1,6 @@
-﻿Server:
-  ServerVersion: "59.4"
-  XMessageCodeVerificationEnabled: true
-  Database: "PostgreSQL" # should have same name as in connection strings
-  RsaPrivateKey: # your private key
-  ReleaseInfoKeys:
-    - id: 1
-      key: asdsadasda
-    - id: 2
-      key: 12345
-
-Client:
-  MinimalBundleVersion: 9.11
-  ApplicationKey: 
-
-Download:
-  Npps4DlApiUrl: http://some_ip:some_port
-  Npp4DlApiSharedKey: 
-
-Kestrel:
-  Endpoints:
-    Http:
-      Url: http://0.0.0.0:5000
-    Https:
-      Url: http://0.0.0.0:5001
-
-Award:
-  UnlockAll: true
-
-Background:
-  UnlockAll: true
-
-Live:
-  UnlockAll: true
-
-Unit:
-  MuseCenterUnitIds: [ 49, 50, 51, 52, 53, 54, 55, 56, 57 ]
-  AqoursCenterUnitIds: [ 788, 789, 790, 791, 792, 793, 794, 795, 796 ]
-
-ConnectionStrings:
-  PostgreSQL: Server=localhost;Port=5432;Database=db_name;User ID=user;Password=;
+ServerVersion: "59.4"
+CheckXMessageCode: true
+ApplicationKey: 
+Xorpad: 
+RsaPrivateKey: 
+ReleaseInfo:

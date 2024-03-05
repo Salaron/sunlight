@@ -2,36 +2,20 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>true</ImplicitUsings>
-        <RootNamespace>SunLight</RootNamespace>
-        <AssemblyName>SunLightServer</AssemblyName>
-        <PublishSingleFile>true</PublishSingleFile>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <InvariantGlobalization>true</InvariantGlobalization>
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="$(SolutionDir)config.yml" CopyToOutputDirectory="PreserveNewest" />
-        <None Update="$(SolutionDir)Database\*" CopyToOutputDirectory="PreserveNewest" />
+      <ProjectReference Include="..\Server.Common\Server.Common.csproj" />
+      <ProjectReference Include="..\Server.Database\Server.Database.csproj" />
+      <ProjectReference Include="..\Server.Endpoints\Server.Endpoints.csproj" />
     </ItemGroup>
-
+    
     <ItemGroup>
-        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-        <PackageReference Include="EFCore.NamingConventions" Version="7.0.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.12" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="NetEscapades.Configuration.Yaml" Version="3.1.0" />
-        <PackageReference Include="System.Net.Http" Version="4.3.4" />
-        <PackageReference Include="Serilog.AspNetCore" Version="7.0.0"/>
-        <PackageReference Include="Serilog.Expressions" Version="3.4.1"/>
     </ItemGroup>
+
 </Project>

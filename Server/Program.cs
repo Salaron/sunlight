@@ -1,9 +1,11 @@
-using SunLight.Infrastructure.Startup;
+using Server.Endpoints;
+using Server.Startup;
 
-WebApplication.CreateBuilder(args)
-    .AddYamlConfig()
-    .RegisterServices()
+WebApplication.CreateSlimBuilder(args)
+    .AddConfig()
+    .AddServices()
     .SetupDbContext()
     .Build()
-    .SetupMiddleware()
+    .UseMiddleware()
+    .MapEndpoints()
     .Run();
