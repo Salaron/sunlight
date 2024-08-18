@@ -16,139 +16,139 @@ public partial class UnitContext : DbContext
     {
     }
 
-    public virtual DbSet<AccessoryAssetM> AccessoryAssetMs { get; set; }
+    public virtual DbSet<AccessoryAssetM> AccessoryAssetM { get; set; }
 
-    public virtual DbSet<AccessoryBaseSettingM> AccessoryBaseSettingMs { get; set; }
+    public virtual DbSet<AccessoryBaseSettingM> AccessoryBaseSettingM { get; set; }
 
-    public virtual DbSet<AccessoryDescriptionM> AccessoryDescriptionMs { get; set; }
+    public virtual DbSet<AccessoryDescriptionM> AccessoryDescriptionM { get; set; }
 
-    public virtual DbSet<AccessoryEffectTargetM> AccessoryEffectTargetMs { get; set; }
+    public virtual DbSet<AccessoryEffectTargetM> AccessoryEffectTargetM { get; set; }
 
-    public virtual DbSet<AccessoryLevelLimitOverM> AccessoryLevelLimitOverMs { get; set; }
+    public virtual DbSet<AccessoryLevelLimitOverM> AccessoryLevelLimitOverM { get; set; }
 
-    public virtual DbSet<AccessoryLevelM> AccessoryLevelMs { get; set; }
+    public virtual DbSet<AccessoryLevelM> AccessoryLevelM { get; set; }
 
-    public virtual DbSet<AccessoryLotteryCostM> AccessoryLotteryCostMs { get; set; }
+    public virtual DbSet<AccessoryLotteryCostM> AccessoryLotteryCostM { get; set; }
 
-    public virtual DbSet<AccessoryLotteryGroupM> AccessoryLotteryGroupMs { get; set; }
+    public virtual DbSet<AccessoryLotteryGroupM> AccessoryLotteryGroupM { get; set; }
 
-    public virtual DbSet<AccessoryLotteryListM> AccessoryLotteryListMs { get; set; }
+    public virtual DbSet<AccessoryLotteryListM> AccessoryLotteryListM { get; set; }
 
-    public virtual DbSet<AccessoryM> AccessoryMs { get; set; }
+    public virtual DbSet<AccessoryM> AccessoryM { get; set; }
 
-    public virtual DbSet<AccessorySpecialM> AccessorySpecialMs { get; set; }
+    public virtual DbSet<AccessorySpecialM> AccessorySpecialM { get; set; }
 
-    public virtual DbSet<AlbumSeriesM> AlbumSeriesMs { get; set; }
+    public virtual DbSet<AlbumSeriesM> AlbumSeriesM { get; set; }
 
-    public virtual DbSet<AlbumSeriesThumbnailAssetM> AlbumSeriesThumbnailAssetMs { get; set; }
+    public virtual DbSet<AlbumSeriesThumbnailAssetM> AlbumSeriesThumbnailAssetM { get; set; }
 
-    public virtual DbSet<AlbumUnitSeriesM> AlbumUnitSeriesMs { get; set; }
+    public virtual DbSet<AlbumUnitSeriesM> AlbumUnitSeriesM { get; set; }
 
-    public virtual DbSet<HiddenUnitM> HiddenUnitMs { get; set; }
+    public virtual DbSet<HiddenUnitM> HiddenUnitM { get; set; }
 
-    public virtual DbSet<HiddenUnitSettingM> HiddenUnitSettingMs { get; set; }
+    public virtual DbSet<HiddenUnitSettingM> HiddenUnitSettingM { get; set; }
 
-    public virtual DbSet<HiddenUnitSkillM> HiddenUnitSkillMs { get; set; }
+    public virtual DbSet<HiddenUnitSkillM> HiddenUnitSkillM { get; set; }
 
-    public virtual DbSet<MemberTagM> MemberTagMs { get; set; }
+    public virtual DbSet<MemberTagM> MemberTagM { get; set; }
 
-    public virtual DbSet<MultiUnitAssetM> MultiUnitAssetMs { get; set; }
+    public virtual DbSet<MultiUnitAssetM> MultiUnitAssetM { get; set; }
 
-    public virtual DbSet<MultiUnitM> MultiUnitMs { get; set; }
+    public virtual DbSet<MultiUnitM> MultiUnitM { get; set; }
 
-    public virtual DbSet<MultiUnitSwitchSettingM> MultiUnitSwitchSettingMs { get; set; }
+    public virtual DbSet<MultiUnitSwitchSettingM> MultiUnitSwitchSettingM { get; set; }
 
-    public virtual DbSet<PresetDeckM> PresetDeckMs { get; set; }
+    public virtual DbSet<PresetDeckM> PresetDeckM { get; set; }
 
-    public virtual DbSet<PresetDeckUnitM> PresetDeckUnitMs { get; set; }
+    public virtual DbSet<PresetDeckUnitM> PresetDeckUnitM { get; set; }
 
-    public virtual DbSet<ReplaceUnitM> ReplaceUnitMs { get; set; }
+    public virtual DbSet<ReplaceUnitM> ReplaceUnitM { get; set; }
 
-    public virtual DbSet<SdCharM> SdCharMs { get; set; }
+    public virtual DbSet<SdCharM> SdCharM { get; set; }
 
-    public virtual DbSet<SkillEffectTypeM> SkillEffectTypeMs { get; set; }
+    public virtual DbSet<SkillEffectTypeM> SkillEffectTypeM { get; set; }
 
-    public virtual DbSet<SubUnitTypeM> SubUnitTypeMs { get; set; }
+    public virtual DbSet<SubUnitTypeM> SubUnitTypeM { get; set; }
 
-    public virtual DbSet<UnitAttributeM> UnitAttributeMs { get; set; }
+    public virtual DbSet<UnitAttributeM> UnitAttributeM { get; set; }
 
-    public virtual DbSet<UnitBaseFunctionVoiceM> UnitBaseFunctionVoiceMs { get; set; }
+    public virtual DbSet<UnitBaseFunctionVoiceM> UnitBaseFunctionVoiceM { get; set; }
 
-    public virtual DbSet<UnitBaseRandomVoiceM> UnitBaseRandomVoiceMs { get; set; }
+    public virtual DbSet<UnitBaseRandomVoiceM> UnitBaseRandomVoiceM { get; set; }
 
-    public virtual DbSet<UnitBaseTimeVoiceM> UnitBaseTimeVoiceMs { get; set; }
+    public virtual DbSet<UnitBaseTimeVoiceM> UnitBaseTimeVoiceM { get; set; }
 
-    public virtual DbSet<UnitBaseTouchVoiceM> UnitBaseTouchVoiceMs { get; set; }
+    public virtual DbSet<UnitBaseTouchVoiceM> UnitBaseTouchVoiceM { get; set; }
 
-    public virtual DbSet<UnitBirthdayVoiceM> UnitBirthdayVoiceMs { get; set; }
+    public virtual DbSet<UnitBirthdayVoiceM> UnitBirthdayVoiceM { get; set; }
 
-    public virtual DbSet<UnitFunctionVoiceM> UnitFunctionVoiceMs { get; set; }
+    public virtual DbSet<UnitFunctionVoiceM> UnitFunctionVoiceM { get; set; }
 
-    public virtual DbSet<UnitIllustratorM> UnitIllustratorMs { get; set; }
+    public virtual DbSet<UnitIllustratorM> UnitIllustratorM { get; set; }
 
-    public virtual DbSet<UnitLeaderSkillExtraM> UnitLeaderSkillExtraMs { get; set; }
+    public virtual DbSet<UnitLeaderSkillExtraM> UnitLeaderSkillExtraM { get; set; }
 
-    public virtual DbSet<UnitLeaderSkillM> UnitLeaderSkillMs { get; set; }
+    public virtual DbSet<UnitLeaderSkillM> UnitLeaderSkillM { get; set; }
 
-    public virtual DbSet<UnitLevelLimitM> UnitLevelLimitMs { get; set; }
+    public virtual DbSet<UnitLevelLimitM> UnitLevelLimitM { get; set; }
 
-    public virtual DbSet<UnitLevelLimitPatternM> UnitLevelLimitPatternMs { get; set; }
+    public virtual DbSet<UnitLevelLimitPatternM> UnitLevelLimitPatternM { get; set; }
 
-    public virtual DbSet<UnitLevelUpPatternM> UnitLevelUpPatternMs { get; set; }
+    public virtual DbSet<UnitLevelUpPatternM> UnitLevelUpPatternM { get; set; }
 
-    public virtual DbSet<UnitM> UnitMs { get; set; }
+    public virtual DbSet<UnitM> UnitM { get; set; }
 
-    public virtual DbSet<UnitMemberTagM> UnitMemberTagMs { get; set; }
+    public virtual DbSet<UnitMemberTagM> UnitMemberTagM { get; set; }
 
-    public virtual DbSet<UnitNaviAssetM> UnitNaviAssetMs { get; set; }
+    public virtual DbSet<UnitNaviAssetM> UnitNaviAssetM { get; set; }
 
-    public virtual DbSet<UnitNaviAssetPositionM> UnitNaviAssetPositionMs { get; set; }
+    public virtual DbSet<UnitNaviAssetPositionM> UnitNaviAssetPositionM { get; set; }
 
-    public virtual DbSet<UnitPairM> UnitPairMs { get; set; }
+    public virtual DbSet<UnitPairM> UnitPairM { get; set; }
 
-    public virtual DbSet<UnitPeriodVoiceM> UnitPeriodVoiceMs { get; set; }
+    public virtual DbSet<UnitPeriodVoiceM> UnitPeriodVoiceM { get; set; }
 
-    public virtual DbSet<UnitRandomVoiceM> UnitRandomVoiceMs { get; set; }
+    public virtual DbSet<UnitRandomVoiceM> UnitRandomVoiceM { get; set; }
 
-    public virtual DbSet<UnitRarityM> UnitRarityMs { get; set; }
+    public virtual DbSet<UnitRarityM> UnitRarityM { get; set; }
 
-    public virtual DbSet<UnitRemovableSkillExchangeM> UnitRemovableSkillExchangeMs { get; set; }
+    public virtual DbSet<UnitRemovableSkillExchangeM> UnitRemovableSkillExchangeM { get; set; }
 
-    public virtual DbSet<UnitRemovableSkillLiveEffectM> UnitRemovableSkillLiveEffectMs { get; set; }
+    public virtual DbSet<UnitRemovableSkillLiveEffectM> UnitRemovableSkillLiveEffectM { get; set; }
 
-    public virtual DbSet<UnitRemovableSkillM> UnitRemovableSkillMs { get; set; }
+    public virtual DbSet<UnitRemovableSkillM> UnitRemovableSkillM { get; set; }
 
-    public virtual DbSet<UnitSignAssetM> UnitSignAssetMs { get; set; }
+    public virtual DbSet<UnitSignAssetM> UnitSignAssetM { get; set; }
 
-    public virtual DbSet<UnitSkillComboPatternM> UnitSkillComboPatternMs { get; set; }
+    public virtual DbSet<UnitSkillComboPatternM> UnitSkillComboPatternM { get; set; }
 
-    public virtual DbSet<UnitSkillControlM> UnitSkillControlMs { get; set; }
+    public virtual DbSet<UnitSkillControlM> UnitSkillControlM { get; set; }
 
-    public virtual DbSet<UnitSkillEffectTargetM> UnitSkillEffectTargetMs { get; set; }
+    public virtual DbSet<UnitSkillEffectTargetM> UnitSkillEffectTargetM { get; set; }
 
-    public virtual DbSet<UnitSkillHealBonusM> UnitSkillHealBonusMs { get; set; }
+    public virtual DbSet<UnitSkillHealBonusM> UnitSkillHealBonusM { get; set; }
 
-    public virtual DbSet<UnitSkillLevelM> UnitSkillLevelMs { get; set; }
+    public virtual DbSet<UnitSkillLevelM> UnitSkillLevelM { get; set; }
 
-    public virtual DbSet<UnitSkillLevelUpPatternM> UnitSkillLevelUpPatternMs { get; set; }
+    public virtual DbSet<UnitSkillLevelUpPatternM> UnitSkillLevelUpPatternM { get; set; }
 
-    public virtual DbSet<UnitSkillM> UnitSkillMs { get; set; }
+    public virtual DbSet<UnitSkillM> UnitSkillM { get; set; }
 
-    public virtual DbSet<UnitSkillTriggerTargetM> UnitSkillTriggerTargetMs { get; set; }
+    public virtual DbSet<UnitSkillTriggerTargetM> UnitSkillTriggerTargetM { get; set; }
 
-    public virtual DbSet<UnitTalkVoiceGroupM> UnitTalkVoiceGroupMs { get; set; }
+    public virtual DbSet<UnitTalkVoiceGroupM> UnitTalkVoiceGroupM { get; set; }
 
-    public virtual DbSet<UnitTalkVoiceM> UnitTalkVoiceMs { get; set; }
+    public virtual DbSet<UnitTalkVoiceM> UnitTalkVoiceM { get; set; }
 
-    public virtual DbSet<UnitTimeVoiceM> UnitTimeVoiceMs { get; set; }
+    public virtual DbSet<UnitTimeVoiceM> UnitTimeVoiceM { get; set; }
 
-    public virtual DbSet<UnitTouchVoiceM> UnitTouchVoiceMs { get; set; }
+    public virtual DbSet<UnitTouchVoiceM> UnitTouchVoiceM { get; set; }
 
-    public virtual DbSet<UnitTypeM> UnitTypeMs { get; set; }
+    public virtual DbSet<UnitTypeM> UnitTypeM { get; set; }
 
-    public virtual DbSet<UnitTypeMemberTagM> UnitTypeMemberTagMs { get; set; }
+    public virtual DbSet<UnitTypeMemberTagM> UnitTypeMemberTagM { get; set; }
 
-    public virtual DbSet<UnitTypeSeriesM> UnitTypeSeriesMs { get; set; }
+    public virtual DbSet<UnitTypeSeriesM> UnitTypeSeriesM { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.

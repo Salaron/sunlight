@@ -16,49 +16,49 @@ public partial class ItemContext : DbContext
     {
     }
 
-    public virtual DbSet<AwardM> AwardMs { get; set; }
+    public virtual DbSet<AwardM> AwardM { get; set; }
 
-    public virtual DbSet<BackgroundFlashM> BackgroundFlashMs { get; set; }
+    public virtual DbSet<BackgroundFlashM> BackgroundFlashM { get; set; }
 
-    public virtual DbSet<BackgroundM> BackgroundMs { get; set; }
+    public virtual DbSet<BackgroundM> BackgroundM { get; set; }
 
-    public virtual DbSet<BackgroundShaderParamM> BackgroundShaderParamMs { get; set; }
+    public virtual DbSet<BackgroundShaderParamM> BackgroundShaderParamM { get; set; }
 
-    public virtual DbSet<BuffItemM> BuffItemMs { get; set; }
+    public virtual DbSet<BuffItemM> BuffItemM { get; set; }
 
-    public virtual DbSet<BuffItemUseLimitTimeM> BuffItemUseLimitTimeMs { get; set; }
+    public virtual DbSet<BuffItemUseLimitTimeM> BuffItemUseLimitTimeM { get; set; }
 
-    public virtual DbSet<ChangeDelegateItemAmountM> ChangeDelegateItemAmountMs { get; set; }
+    public virtual DbSet<ChangeDelegateItemAmountM> ChangeDelegateItemAmountM { get; set; }
 
-    public virtual DbSet<ChangeDelegateItemM> ChangeDelegateItemMs { get; set; }
+    public virtual DbSet<ChangeDelegateItemM> ChangeDelegateItemM { get; set; }
 
-    public virtual DbSet<ItemExchangeM> ItemExchangeMs { get; set; }
+    public virtual DbSet<ItemExchangeM> ItemExchangeM { get; set; }
 
-    public virtual DbSet<ItemExpireM> ItemExpireMs { get; set; }
+    public virtual DbSet<ItemExpireM> ItemExpireM { get; set; }
 
-    public virtual DbSet<KgItemM> KgItemMs { get; set; }
+    public virtual DbSet<KgItemM> KgItemM { get; set; }
 
-    public virtual DbSet<LiveNotesIconAssetM> LiveNotesIconAssetMs { get; set; }
+    public virtual DbSet<LiveNotesIconAssetM> LiveNotesIconAssetM { get; set; }
 
-    public virtual DbSet<LiveNotesIconM> LiveNotesIconMs { get; set; }
+    public virtual DbSet<LiveNotesIconM> LiveNotesIconM { get; set; }
 
-    public virtual DbSet<LiveSeGroupM> LiveSeGroupMs { get; set; }
+    public virtual DbSet<LiveSeGroupM> LiveSeGroupM { get; set; }
 
-    public virtual DbSet<LiveSeM> LiveSeMs { get; set; }
+    public virtual DbSet<LiveSeM> LiveSeM { get; set; }
 
-    public virtual DbSet<LotteryTicketItemM> LotteryTicketItemMs { get; set; }
+    public virtual DbSet<LotteryTicketItemM> LotteryTicketItemM { get; set; }
 
-    public virtual DbSet<MemoriesM> MemoriesMs { get; set; }
+    public virtual DbSet<MemoriesM> MemoriesM { get; set; }
 
-    public virtual DbSet<RecoveryItemM> RecoveryItemMs { get; set; }
+    public virtual DbSet<RecoveryItemM> RecoveryItemM { get; set; }
 
-    public virtual DbSet<UnitEnhanceItemM> UnitEnhanceItemMs { get; set; }
+    public virtual DbSet<UnitEnhanceItemM> UnitEnhanceItemM { get; set; }
 
-    public virtual DbSet<UnitReinforceItemM> UnitReinforceItemMs { get; set; }
+    public virtual DbSet<UnitReinforceItemM> UnitReinforceItemM { get; set; }
 
-    public virtual DbSet<UnitReinforceItemTargetUnitM> UnitReinforceItemTargetUnitMs { get; set; }
+    public virtual DbSet<UnitReinforceItemTargetUnitM> UnitReinforceItemTargetUnitM { get; set; }
 
-    public virtual DbSet<UserRankUpItemM> UserRankUpItemMs { get; set; }
+    public virtual DbSet<UserRankUpItemM> UserRankUpItemM { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.

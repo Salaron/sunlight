@@ -1,0 +1,37 @@
+namespace Server.Common.Items;
+
+public enum AddType
+{
+    None = 0,
+    Item = 1000,
+    Unit = 1001,
+    Accessory = 1002,
+    GameCoin = 3000,
+    Loveca = 3001,
+    SocialPoint = 3002,
+    PlayerExp = 3004,
+    UnitMax = 3005,
+    ExchangePoint = 3006,
+    FriendMax = 3007,
+    WaitingUnitMax = 3008,
+    TrainingMax = 3009,
+    Live = 5000,
+    Award = 5100,
+    Background = 5200,
+    Scenario = 5300,
+    EventScenario = 5330,
+    MultiUnitScenario = 5340,
+    LiveSe = 5400,
+    LiveIcon = 5410,
+    SchoolIdolSkill = 5500,
+    Stamp = 5600,
+    EventPoint = 6100,
+    EventToken = 6200,
+    QuestExchangePoint = 6300,
+    SelectableReward = 7000,
+    LotteryTicket = 7500,
+    RecoverLpItem = 8000,
+    TradeCapital = 10000,
+    Museum = 14000,
+    AdReward = 50000
+}

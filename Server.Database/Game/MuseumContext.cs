@@ -16,15 +16,15 @@ public partial class MuseumContext : DbContext
     {
     }
 
-    public virtual DbSet<MuseumContentsM> MuseumContentsMs { get; set; }
+    public virtual DbSet<MuseumContentsM> MuseumContentsM { get; set; }
 
-    public virtual DbSet<MuseumMenuM> MuseumMenuMs { get; set; }
+    public virtual DbSet<MuseumMenuM> MuseumMenuM { get; set; }
 
-    public virtual DbSet<MuseumSettingM> MuseumSettingMs { get; set; }
+    public virtual DbSet<MuseumSettingM> MuseumSettingM { get; set; }
 
-    public virtual DbSet<MuseumTabCategoryM> MuseumTabCategoryMs { get; set; }
+    public virtual DbSet<MuseumTabCategoryM> MuseumTabCategoryM { get; set; }
 
-    public virtual DbSet<MuseumTabM> MuseumTabMs { get; set; }
+    public virtual DbSet<MuseumTabM> MuseumTabM { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.

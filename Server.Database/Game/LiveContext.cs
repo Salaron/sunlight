@@ -16,35 +16,35 @@ public partial class LiveContext : DbContext
     {
     }
 
-    public virtual DbSet<FreeLiveM> FreeLiveMs { get; set; }
+    public virtual DbSet<FreeLiveM> FreeLiveM { get; set; }
 
-    public virtual DbSet<LiveComboM> LiveComboMs { get; set; }
+    public virtual DbSet<LiveComboM> LiveComboM { get; set; }
 
-    public virtual DbSet<LiveCutinBrightnessM> LiveCutinBrightnessMs { get; set; }
+    public virtual DbSet<LiveCutinBrightnessM> LiveCutinBrightnessM { get; set; }
 
-    public virtual DbSet<LiveGoalRewardCommonM> LiveGoalRewardCommonMs { get; set; }
+    public virtual DbSet<LiveGoalRewardCommonM> LiveGoalRewardCommonM { get; set; }
 
-    public virtual DbSet<LiveGoalRewardM> LiveGoalRewardMs { get; set; }
+    public virtual DbSet<LiveGoalRewardM> LiveGoalRewardM { get; set; }
 
-    public virtual DbSet<LiveNoteScoreFactorM> LiveNoteScoreFactorMs { get; set; }
+    public virtual DbSet<LiveNoteScoreFactorM> LiveNoteScoreFactorM { get; set; }
 
-    public virtual DbSet<LiveSettingM> LiveSettingMs { get; set; }
+    public virtual DbSet<LiveSettingM> LiveSettingM { get; set; }
 
-    public virtual DbSet<LiveSkillIconM> LiveSkillIconMs { get; set; }
+    public virtual DbSet<LiveSkillIconM> LiveSkillIconM { get; set; }
 
-    public virtual DbSet<LiveTimeM> LiveTimeMs { get; set; }
+    public virtual DbSet<LiveTimeM> LiveTimeM { get; set; }
 
-    public virtual DbSet<LiveTrackM> LiveTrackMs { get; set; }
+    public virtual DbSet<LiveTrackM> LiveTrackM { get; set; }
 
-    public virtual DbSet<LiveUnitRewardLotM> LiveUnitRewardLotMs { get; set; }
+    public virtual DbSet<LiveUnitRewardLotM> LiveUnitRewardLotM { get; set; }
 
-    public virtual DbSet<NormalLiveM> NormalLiveMs { get; set; }
+    public virtual DbSet<NormalLiveM> NormalLiveM { get; set; }
 
-    public virtual DbSet<SpecialLiveM> SpecialLiveMs { get; set; }
+    public virtual DbSet<SpecialLiveM> SpecialLiveM { get; set; }
 
-    public virtual DbSet<SpecialLiveRotationM> SpecialLiveRotationMs { get; set; }
+    public virtual DbSet<SpecialLiveRotationM> SpecialLiveRotationM { get; set; }
 
-    public virtual DbSet<TrainingModeM> TrainingModeMs { get; set; }
+    public virtual DbSet<TrainingModeM> TrainingModeM { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
