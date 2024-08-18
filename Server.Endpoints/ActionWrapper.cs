@@ -24,11 +24,16 @@ internal class ActionWrapper<TRequest, TResponse>(
         responseHeaders["X-Powered-By"] = "SunLight Project v4";
         responseHeaders["Server-Version"] = config.Value.ServerVersion;
 
+        var metadata = accessor.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
         try
         {
             var result = await action.ExecuteAsync(request);
             responseHeaders["status_code"] = HttpStatusCode.OK.ToString();
             responseHeaders["authorize"] = actionContext.AuthorizeHeader.ToString();
+
+            if (metadata.DirectResponse)
+                return TypedResults.Json(result);
+
             return TypedResults.Json(new ServerResponse<TResponse>(result, 200, config.Value.ReleaseInfo));
         }
         catch (ActionException ex)
