@@ -2,7 +2,7 @@ using Server.Common;
 
 namespace Server.Endpoints;
 
-public interface IActionContext
+internal interface IActionContext
 {
     string RawRequestBody { get; }
     AuthorizeHeader AuthorizeHeader { get; }

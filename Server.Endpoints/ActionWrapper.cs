@@ -1,4 +1,3 @@
-using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Server.Common;
@@ -24,7 +23,6 @@ internal class ActionWrapper<TRequest, TResponse>(
         responseHeaders["X-Powered-By"] = "SunLight Project v4";
         responseHeaders["Server-Version"] = config.Value.ServerVersion;
 
-        var metadata = accessor.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
         try
         {
             var result = await action.ExecuteAsync(request);

@@ -1,6 +1,6 @@
 namespace Server.Endpoints.Dtos;
 
-public record UserInfoDto
+internal record UserInfoDto
 {
     public int UserId { get; set; }
     public string Name { get; set; }
