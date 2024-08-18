@@ -1,7 +1,12 @@
 using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Server.Common;
+using Server.Common.Config;
 using Server.Common.Crypto;
+using Server.Common.Login;
 
 namespace Server.Endpoints.Main.Login;
 
@@ -10,7 +15,12 @@ internal record AuthKeyRequest(string DummyToken, string AuthData);
 internal record AuthKeyResponse(string AuthorizeToken, string DummyToken);
 
 [Endpoint("login/authKey", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true)]
-internal class AuthKey(ICryptoService cryptoService) : Action<AuthKeyRequest, AuthKeyResponse>
+internal class AuthKeyEndpoint(
+    ICryptoService cryptoService,
+    IAuthKeyRepository authKeyRepository,
+    IOptionsSnapshot<ServerConfig> serverConfig,
+    XCodeVerifier xCodeVerifier,
+    HttpContext httpContext) : Action<AuthKeyRequest, AuthKeyResponse>
 {
     private const int KeySize = 32;
 
@@ -18,14 +28,49 @@ internal class AuthKey(ICryptoService cryptoService) : Action<AuthKeyRequest, Au
     {
         var clientKey = cryptoService.DecryptRsa(request.DummyToken);
         var serverKey = RandomNumberGenerator.GetBytes(KeySize);
+        var sessionKey = Xor(clientKey, serverKey);
 
-        var sessionKey = new byte[KeySize];
+        var isCodeCorrect = ValidateXCode(clientKey);
+
+        var authKey = new AuthKey
+        {
+            AuthorizeToken = Guid.NewGuid().ToString(),
+            SessionKey = Convert.ToBase64String(sessionKey),
+            ServerKey = Convert.ToBase64String(serverKey),
+            Expires = DateTime.UtcNow.AddMinutes(5)
+        };
+
+        if (isCodeCorrect)
+            authKeyRepository.Add(authKey);
+
+        var response = new AuthKeyResponse(authKey.AuthorizeToken, authKey.ServerKey);
+        return Task.FromResult(response);
+    }
+
+    private bool ValidateXCode(byte[] clientKey)
+    {
+        var xorpadBytes = Encoding.Default.GetBytes(serverConfig.Value.Xorpad);
+        var appKeyBytes = Encoding.Default.GetBytes(serverConfig.Value.ApplicationKey);
+        var serverBase = Xor(xorpadBytes, appKeyBytes);
+        var signKey = Xor(clientKey, serverBase);
+
+        var clientCode = httpContext.Request.Headers["X-Message-Code"].FirstOrDefault();
+        if (clientCode is null)
+            return false;
+
+        var requestData = httpContext.Items["RawRequestBody"] as string ?? string.Empty;
+
+        return xCodeVerifier.Verify(clientCode, requestData, signKey);
+    }
+
+    private byte[] Xor(byte[] a, byte[] b)
+    {
+        var result = new byte[KeySize];
         for (var i = 0; i < KeySize; i++)
         {
-            sessionKey[i] = (byte)(clientKey[i] ^ serverKey[i]);
+            result[i] = (byte)(a[i] ^ b[i]);
         }
 
-        var response = new AuthKeyResponse(Guid.NewGuid().ToString(), Convert.ToBase64String(serverKey));
-        return Task.FromResult(response);
+        return result;
     }
 }

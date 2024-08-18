@@ -7,5 +7,5 @@ public class ServerConfig
     public string ApplicationKey { get; init; }
     public string Xorpad { get; init; }
     public string RsaPrivateKey { get; init; }
-    public ReleaseInfo[] ReleaseInfoKeys { get; init; }
+    public ReleaseInfo[] ReleaseInfo { get; init; }
 }
