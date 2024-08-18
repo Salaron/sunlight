@@ -13,6 +13,7 @@ internal class TutorialProgressEndpoint(ServerContext serverContext, IActionCont
         var user = await serverContext.Users.FindAsync(context.UserId);
         user.TutorialState = requestBody.TutorialState;
         serverContext.Users.Update(user);
+        await serverContext.SaveChangesAsync();
         
         return new EmptyObject();
     }

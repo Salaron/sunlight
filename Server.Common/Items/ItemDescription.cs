@@ -6,7 +6,7 @@ public class ItemDescription<TItemParams>
     public int ItemId { get; set; }
     public int ItemCategoryId { get; set; }
     public int Amount { get; set; }
-    public TItemParams Parameters { get; set; }
+    public TItemParams? Parameters { get; set; }
 
     public ItemDescription(AddType addType, int itemId)
     {

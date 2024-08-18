@@ -1,16 +1,20 @@
 using Server.Common;
+using Server.Database.Server;
 
 namespace Server.Endpoints.Main.Login;
 
 internal record UserNavi(int UserId, int UnitOwningUserId);
 
-internal record UserGetNaviRequest(UserNavi User);
+internal record UserGetNaviResponse(UserNavi User);
 
 [Endpoint("user/getNavi", usedInApi: true)]
-internal class GetNaviEndpoint : Action<EmptyObject, UserGetNaviRequest>
+internal class GetNaviEndpoint(IActionContext context, ServerContext serverContext)
+    : Action<EmptyObject, UserGetNaviResponse>
 {
-    public override Task<UserGetNaviRequest> ExecuteAsync(EmptyObject requestBody)
+    public override Task<UserGetNaviResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new UserGetNaviRequest(null));
+        var user = serverContext.Users.Find(context.UserId);
+
+        return Task.FromResult(new UserGetNaviResponse(new UserNavi(context.UserId, user.PartnerUnitId ?? 0)));
     }
 }

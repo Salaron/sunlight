@@ -1,4 +1,6 @@
 using Server.Common;
+using Server.Common.Unit;
+using Server.Database.Server;
 
 namespace Server.Endpoints.Main.Unit;
 
@@ -30,13 +32,46 @@ internal record UnitInfo
     public DateTime InsertDate { get; set; }
 }
 
-internal record UnitAllResponse(List<UnitInfo> Active, List<UnitInfo> Waiting);
+internal record UnitAllResponse(IEnumerable<UnitInfo> Active, IEnumerable<UnitInfo> Waiting);
 
 [Endpoint("unit/unitAll", usedInApi: true)]
-internal class UnitAllEndpoint : Action<EmptyObject, UnitAllResponse>
+internal class UnitAllEndpoint(IActionContext context, IUnitService unitService) : Action<EmptyObject, UnitAllResponse>
 {
-    public override Task<UnitAllResponse> ExecuteAsync(EmptyObject requestBody)
+    public override async Task<UnitAllResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new UnitAllResponse([], []));
+        var units = await unitService.GetUnitsAsync(context.UserId);
+        var unitInfo = units.Select(MapUnit);
+
+        return new UnitAllResponse(unitInfo, []);
+    }
+
+    private UnitInfo MapUnit(UnitOwning unit)
+    {
+        return new UnitInfo
+        {
+            UnitId = unit.UnitId,
+            Exp = unit.Exp,
+            NextExp = unit.NextExp,
+            Level = unit.Level,
+            MaxLevel = unit.MaxLevel,
+            LevelLimitId = unit.LevelLimitId,
+            Rank = unit.Rank,
+            MaxRank = unit.MaxRank,
+            Love = unit.Love,
+            MaxLove = unit.MaxLove,
+            UnitSkillExp = unit.UnitSkillExp,
+            UnitSkillLevel = unit.UnitSkillLevel,
+            MaxHp = unit.MaxHp,
+            UnitRemovableSkillCapacity = unit.UnitRemovableSkillCapacity,
+            FavoriteFlag = unit.FavoriteFlag,
+            DisplayRank = unit.DisplayRank,
+            IsRankMax = unit.IsRankMax,
+            IsLoveMax = unit.IsLoveMax,
+            IsLevelMax = unit.IsLevelMax,
+            IsSigned = unit.IsSigned == 1,
+            IsSkillLevelMax = unit.IsSkillLevelMax,
+            IsRemovableSkillCapacityMax = unit.IsRemovableSkillCapacityMax,
+            InsertDate = unit.InsertDate,
+        };
     }
 }

@@ -70,7 +70,7 @@ public partial class UnitM
     [Column("default_unit_skill_id")]
     public int? DefaultUnitSkillId { get; set; }
         
-    [ForeignKey("default_unit_skill_id")]
+    [ForeignKey(nameof(DefaultUnitSkillId))]
     public virtual UnitSkillM UnitSkill { get; set; }
 
     [Column("skill_asset_voice_id")]

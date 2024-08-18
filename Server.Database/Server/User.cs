@@ -34,7 +34,6 @@ public class User
     public int TutorialState { get; set; }
     public int SettingAwardId { get; set; }
     public int SettingBackgroundId { get; set; }
-    public int? MainUnitDeckId { get; set; }
     public int? PartnerUnitId { get; set; }
     public ICollection<object> LpRecoveryItem => new List<object>();
     public DateTime LastLogin { get; set; }
@@ -42,9 +41,6 @@ public class User
     public string AuthorizeToken { get; set; }
     public string LoginKey { get; set; }
     public string LoginPasswd { get; set; }
-
-    [ForeignKey(nameof(MainUnitDeckId))]
-    public virtual UserUnitDeck? MainUnitDeck { get; set; }
 
     [ForeignKey(nameof(PartnerUnitId))]
     public virtual UnitOwning? PartnerUnit { get; set; }

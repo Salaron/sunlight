@@ -8,7 +8,7 @@ public class UserUnitDeck
     public int UserUnitDeckId { get; set; }
 
     public string DeckName { get; set; }
-    public bool MainFlag => true;
+    public bool MainFlag { get; set; }
     public int UnitDeckId { get; set; }
     public int UserId { get; set; }
 

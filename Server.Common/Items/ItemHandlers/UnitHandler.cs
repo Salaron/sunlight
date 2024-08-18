@@ -8,20 +8,24 @@ public record UnitParams(int Level, int Rank, int IsSigned);
 
 internal class UnitHandler(UnitContext unitContext, ServerContext serverContext) : ItemHandler<UnitParams, UnitOwning>
 {
+    private readonly UnitParams _defaultParams = new(Level: 1, Rank: 1, IsSigned: 0);
+
     public override AddType AddType => AddType.Unit;
 
     public override async Task<UnitOwning> AddAsync(int userId, ItemDescription<UnitParams> description)
     {
+        var param = description.Parameters ?? _defaultParams;
+        
         var unitInfo = await unitContext.UnitM
             .Where(u => u.UnitId == description.ItemId)
             .Include(u => u.UnitSkill)
             .FirstAsync();
-        
+
         var levelUpInfo = await unitContext.UnitLevelUpPatternM.Where(levelUpPattern =>
             levelUpPattern.UnitLevelUpPatternId == unitInfo.UnitLevelUpPatternId &&
-            (levelUpPattern.UnitLevel == description.Parameters.Level ||
-             levelUpPattern.UnitLevel == description.Parameters.Level - 1)).ToListAsync();
-        
+            (levelUpPattern.UnitLevel == param.Level ||
+             levelUpPattern.UnitLevel == param.Level - 1)).ToListAsync();
+
         var exp = 0;
         var nextExp = 0;
         var statSmile = unitInfo.SmileMax;
@@ -30,7 +34,7 @@ internal class UnitHandler(UnitContext unitContext, ServerContext serverContext)
         var hp = unitInfo.HpMax;
         foreach (var levelUp in levelUpInfo)
         {
-            if (description.Parameters.Level == levelUp.UnitLevel)
+            if (param.Level == levelUp.UnitLevel)
             {
                 nextExp = levelUp.NextExp;
                 statSmile -= levelUp.SmileDiff;
@@ -43,17 +47,17 @@ internal class UnitHandler(UnitContext unitContext, ServerContext serverContext)
                 exp = levelUp.NextExp;
             }
         }
-        
+
         var unit = new UnitOwning
         {
             UserId = userId,
             UnitId = unitInfo.UnitId,
             Exp = exp,
             NextExp = nextExp,
-            Level = description.Parameters.Level,
-            MaxLevel = 2,
+            Level = param.Level,
+            MaxLevel = 2, // TODO!!!
             LevelLimitId = 0,
-            Rank = description.Parameters.Rank,
+            Rank = param.Rank,
             MaxRank = unitInfo.RankMax,
             Love = 0,
             MaxLove = 0,
@@ -68,39 +72,39 @@ internal class UnitHandler(UnitContext unitContext, ServerContext serverContext)
             UnitRemovableSkillCapacity = unitInfo.DefaultRemovableSkillCapacity,
             MaxUnitRemovableSkillCapacity = unitInfo.MaxRemovableSkillCapacity,
             FavoriteFlag = 0,
-            DisplayRank = description.Parameters.Rank,
-            IsSigned = description.Parameters.IsSigned,
+            DisplayRank = param.Rank,
+            IsSigned = param.IsSigned,
         };
-        
-        // await _serverDbContext.UnitOwning.AddAsync(unit);
-        // await _serverDbContext.SaveChangesAsync();
-        
+
+        await serverContext.UnitOwning.AddAsync(unit);
+        await serverContext.SaveChangesAsync();
+
         await UpdateAlbumAsync(userId, unit);
 
         return unit;
     }
-    
+
     private async Task UpdateAlbumAsync(int userId, UnitOwning unitOwning)
     {
-        // var existingInfo = await _serverDbContext.UnitAlbum
-        //     .Where(a => a.UserId == userId && a.UnitId == unitOwning.UnitId)
-        //     .FirstOrDefaultAsync();
-        //
-        // if (existingInfo == null)
-        // {
-        //     existingInfo = new UnitAlbum
-        //     {
-        //         UserId = userId,
-        //         UnitId = unitOwning.UnitId
-        //     };
-        //     await _serverDbContext.UnitAlbum.AddAsync(existingInfo);
-        //     await _serverDbContext.SaveChangesAsync();
-        // }
-        //
-        // existingInfo.RankMaxFlag = existingInfo.RankMaxFlag || unitOwning.IsRankMax;
-        // existingInfo.LoveMaxFlag = existingInfo.LoveMaxFlag || unitOwning.IsLoveMax;
-        // existingInfo.AllMaxFlag = existingInfo.AllMaxFlag || (unitOwning.IsRankMax && unitOwning.IsLoveMax);
-        // _serverDbContext.UnitAlbum.Update(existingInfo);
-        // await _serverDbContext.SaveChangesAsync();
+        var existingInfo = await serverContext.UnitAlbum
+            .Where(a => a.UserId == userId && a.UnitId == unitOwning.UnitId)
+            .FirstOrDefaultAsync();
+
+        if (existingInfo == null)
+        {
+            existingInfo = new UnitAlbum
+            {
+                UserId = userId,
+                UnitId = unitOwning.UnitId
+            };
+            await serverContext.UnitAlbum.AddAsync(existingInfo);
+            await serverContext.SaveChangesAsync();
+        }
+
+        existingInfo.RankMaxFlag = existingInfo.RankMaxFlag || unitOwning.IsRankMax;
+        existingInfo.LoveMaxFlag = existingInfo.LoveMaxFlag || unitOwning.IsLoveMax;
+        existingInfo.AllMaxFlag = existingInfo.AllMaxFlag || (unitOwning.IsRankMax && unitOwning.IsLoveMax);
+        serverContext.UnitAlbum.Update(existingInfo);
+        await serverContext.SaveChangesAsync();
     }
 }

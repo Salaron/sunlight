@@ -1,4 +1,5 @@
 using Server.Common;
+using Server.Common.Live;
 
 namespace Server.Endpoints.Main.Unit;
 
@@ -8,13 +9,21 @@ internal record UnitDeckInfoResponse(
     int UnitDeckId,
     bool MainFlag,
     string DeckName,
-    List<UnitDeckSlot> UnitOwningUserIds);
+    IEnumerable<UnitDeckSlot> UnitOwningUserIds);
 
 [Endpoint("unit/deckInfo", usedInApi: true)]
-internal class DeckInfoEndpoint : Action<EmptyObject, IEnumerable<UnitDeckInfoResponse>>
+internal class DeckInfoEndpoint(IActionContext context, IUnitDeckService deckService)
+    : Action<EmptyObject, IEnumerable<UnitDeckInfoResponse>>
 {
-    public override Task<IEnumerable<UnitDeckInfoResponse>> ExecuteAsync(EmptyObject requestBody)
+    public override async Task<IEnumerable<UnitDeckInfoResponse>> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(Enumerable.Empty<UnitDeckInfoResponse>());
+        var deckList = await deckService.GetDeckListAsync(context.UserId);
+
+        var response = deckList.Select(deck => new UnitDeckInfoResponse(deck.UnitDeckId,
+            deck.MainFlag,
+            deck.DeckName,
+            deck.UnitOwningUserIds.Select(u => new UnitDeckSlot(u.UnitOwningUserId, u.Position))));
+
+        return response;
     }
 }
