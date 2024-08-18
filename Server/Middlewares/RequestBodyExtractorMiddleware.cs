@@ -1,6 +1,6 @@
 namespace Server.Middlewares;
 
-internal class RequestBodyExtractorMiddleware(RequestDelegate next, ILogger<NotFoundMiddleware> logger)
+internal class RequestBodyExtractorMiddleware(RequestDelegate next, ILogger<RequestBodyExtractorMiddleware> logger)
 {
     public async Task InvokeAsync(HttpContext ctx)
     {

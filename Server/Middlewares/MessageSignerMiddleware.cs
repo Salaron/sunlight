@@ -10,14 +10,13 @@ internal class MessageSignerMiddleware(RequestDelegate next, ICryptoService cryp
         using var bufferedResponse = new MemoryStream();
         var hasXMessageCode = ctx.Request.Headers.TryGetValue("X-Message-Code", out var xMessageCode);
         if (hasXMessageCode)
-        {
             ctx.Response.Body = bufferedResponse;
-        }
-
-        await next(ctx);
 
         // time to flex
         ctx.Response.Headers.Append("X-Powered-By", "SunLight Project v4");
+
+        await next(ctx);
+
         if (hasXMessageCode)
         {
             ctx.Response.Body.Position = 0;
@@ -28,8 +27,7 @@ internal class MessageSignerMiddleware(RequestDelegate next, ICryptoService cryp
             var signature = cryptoService.SignRsaSha1(responseBody + xMessageCode);
             var xMessageSign = Convert.ToBase64String(signature);
             ctx.Response.Headers.Append("X-Message-Sign", xMessageSign);
+            await bufferedResponse.CopyToAsync(originalResponseBody);
         }
-
-        await bufferedResponse.CopyToAsync(originalResponseBody);
     }
 }
