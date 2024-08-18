@@ -12,4 +12,6 @@ public class ServerConfig
     // TODO
     public string ClientVersion { get; init; }
     public bool Maintenance { get; init; }
+    
+    public DownloadConfig Download { get; init; }
 }

@@ -15,7 +15,7 @@ public record UserInfoDto
     public uint UnitMax { get; set; }
     public uint WaitingUnitMax { get; set; }
     public uint EnergyMax { get; set; }
-    public string EnergyFullTime { get; set; }
+    public DateTime EnergyFullTime { get; set; }
     public uint LicenseLiveEnergyRecoverlyTime { get; set; }
     public uint EnergyFullNeedTime { get; set; }
     public uint OverMaxEnergy { get; set; }
