@@ -1,0 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+
+namespace Server.Database.Server;
+
+[PrimaryKey(nameof(UserItemId))]
+public class UserItems
+{
+    public int UserItemId { get; set; }
+    public int UserId { get; set; }
+    public int ItemType { get; set; }
+    public int ItemId { get; set; }
+    public int Amount { get; set; }
+    public DateTime InsertDate { get; set; }
+}
