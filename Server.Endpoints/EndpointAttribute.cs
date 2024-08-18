@@ -8,7 +8,6 @@ internal class EndpointAttribute : Attribute
         bool usedInApi = false,
         bool ignoreVersion = false,
         bool requireAuthorization = true,
-        bool directResponse = false,
         XCodeCheck xCodeCheck = XCodeCheck.Enabled)
     {
     }

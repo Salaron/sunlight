@@ -11,6 +11,6 @@ internal class GetNaviEndpoint : Action<EmptyObject, UserGetNaviRequest>
 {
     public override Task<UserGetNaviRequest> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new UserGetNaviRequest(new UserNavi(1, 1)));
+        return Task.FromResult(new UserGetNaviRequest(null));
     }
 }

@@ -28,11 +28,8 @@ internal class ActionWrapper<TRequest, TResponse>(
         try
         {
             var result = await action.ExecuteAsync(request);
-            responseHeaders["status_code"] = HttpStatusCode.OK.ToString();
+            responseHeaders["status_code"] = "200";
             responseHeaders["authorize"] = actionContext.AuthorizeHeader.ToString();
-
-            if (metadata.DirectResponse)
-                return TypedResults.Json(result);
 
             return TypedResults.Json(new ServerResponse<TResponse>(result, 200, config.Value.ReleaseInfo));
         }

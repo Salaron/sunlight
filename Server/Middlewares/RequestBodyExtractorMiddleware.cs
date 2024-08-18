@@ -13,7 +13,7 @@ internal class RequestBodyExtractorMiddleware(RequestDelegate next, ILogger<Requ
             ctx.Request.EnableBuffering();
             ctx.Request.Body.Position = 0;
             using var streamReader = new StreamReader(ctx.Request.Body, leaveOpen: true);
-            ctx.Items["RawRequestBody"] = streamReader.ReadToEndAsync();
+            ctx.Items["RawRequestBody"] = await streamReader.ReadToEndAsync();
             ctx.Request.Body.Position = 0;
         }
 

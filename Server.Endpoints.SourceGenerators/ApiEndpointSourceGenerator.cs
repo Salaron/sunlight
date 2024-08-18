@@ -30,8 +30,7 @@ public class ApiEndpointSourceGenerator : ISourceGenerator
             var usedInAPi = apiAttribute.ConstructorArguments[1].Value!.ToString().ToLower();
             var ignoreVersion = apiAttribute.ConstructorArguments[2].Value.ToString().ToLower();
             var requireAuthorization = apiAttribute.ConstructorArguments[3].Value!.ToString().ToLower();
-            var directResponse = apiAttribute.ConstructorArguments[4].Value!.ToString().ToLower();
-            var codeCheckMode = (XCodeCheck)apiAttribute.ConstructorArguments[5].Value!; // TODO: remove cast
+            var codeCheckMode = (XCodeCheck)apiAttribute.ConstructorArguments[4].Value!; // TODO: remove cast
 
             var split = routePath.Split('/');
             var module = split.First();
@@ -42,7 +41,7 @@ public class ApiEndpointSourceGenerator : ISourceGenerator
             routeMapCode.Add(
                 $@"routeBuilder.MapPost(""/main.php/{routePath}"", (HttpContext ctx, [FromBody] {requestType} request) => ctx.RequestServices.GetService<ActionWrapper<{requestType}, {responseType}>>().Execute(request))
                 .WithTags(""{module}"")
-                .WithMetadata(new EndpointMetadata(""{routePath}"", {usedInAPi}, {ignoreVersion}, Server.Common.XCodeCheck.{codeCheckMode}, {requireAuthorization}, {directResponse}))
+                .WithMetadata(new EndpointMetadata(""{routePath}"", {usedInAPi}, {ignoreVersion}, Server.Common.XCodeCheck.{codeCheckMode}, {requireAuthorization}))
                 .AddEndpointFilter<MaintenanceFilter>()
                 .AddEndpointFilter<ClientVersionFilter>()
                 .AddEndpointFilter<XCodeFilter>()

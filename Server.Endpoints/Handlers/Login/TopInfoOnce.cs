@@ -14,25 +14,26 @@ internal record Notification(
     bool Birthday
 );
 
-internal record TopInfoOnceResponse(
-    uint NewAchievementCnt,
-    uint UnaccomplishedAchievementCnt,
-    bool LiveDailyRewardExist,
-    uint TrainingEnergy,
-    uint TrainingEnergyMax,
-    Notification Notification,
-    bool OpenArena,
-    bool CostumeStatus,
-    bool OpenAccessory,
-    bool ArenaSiSkillUniqueCheck,
-    bool OpenV98
-);
+internal record TopInfoOnceResponse
+{
+    public uint NewAchievementCnt { get; set; }
+    public uint UnaccomplishedAchievementCnt { get; set; }
+    public bool LiveDailyRewardExist { get; set; }
+    public uint TrainingEnergy { get; set; }
+    public uint TrainingEnergyMax { get; set; }
+    public Notification Notification { get; set; }
+    public bool OpenArena { get; set; }
+    public bool CostumeStatus { get; set; }
+    public bool OpenAccessory { get; set; }
+    public bool ArenaSiSkillUniqueCheck { get; set; }
+    public bool OpenV98 { get; set; }
+}
 
-[Endpoint("login/topInfoOnce")]
+[Endpoint("login/topInfoOnce", usedInApi: true)]
 internal class TopInfoOnceEndpoint : Action<EmptyObject, TopInfoResponse>
 {
     public override Task<TopInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(new TopInfoResponse());
     }
 }

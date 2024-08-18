@@ -8,13 +8,11 @@ internal class EndpointMetadata(
     bool usedInApi,
     bool ignoreVersion,
     XCodeCheck xCodeCheck,
-    bool requireAuthorization,
-    bool directResponse)
+    bool requireAuthorization)
 {
     public string Path => path;
     public bool UsedInApi => usedInApi;
     public XCodeCheck XCodeCheck => xCodeCheck;
     public bool IgnoreVersion => ignoreVersion;
     public bool RequireAuthorization => requireAuthorization;
-    public bool DirectResponse => directResponse;
 }
