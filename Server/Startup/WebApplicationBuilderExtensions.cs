@@ -1,8 +1,11 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 using Server.Common;
 using Server.Common.Config;
 using Server.Common.Json;
+using Server.Database.Game;
+using Server.Database.Server;
 using Server.Endpoints;
 
 namespace Server.Startup;
@@ -14,6 +17,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddRouting();
+        builder.Services.AddHttpContextAccessor();
         builder.Services.Configure<JsonOptions>(opts =>
         {
             opts.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
@@ -29,6 +33,19 @@ public static class WebApplicationBuilderExtensions
 
     public static WebApplicationBuilder SetupDbContext(this WebApplicationBuilder builder)
     {
+        builder.Services.AddDbContext<ServerContext>(opts =>
+        {
+            var selectedDatabase =
+                builder.Configuration["DatabaseBackend"] ?? throw new Exception("Database not provided");
+            opts.UseNpgsql(builder.Configuration.GetConnectionString(selectedDatabase)).UseSnakeCaseNamingConvention();
+        });
+
+        builder.Services.AddDbContext<ItemContext>();
+        builder.Services.AddDbContext<UnitContext>();
+        builder.Services.AddDbContext<LiveContext>();
+        builder.Services.AddDbContext<MuseumContext>();
+        builder.Services.AddDbContext<LiveNotesContext>();
+        
         return builder;
     }
 

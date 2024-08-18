@@ -12,9 +12,6 @@ internal class MessageSignerMiddleware(RequestDelegate next, ICryptoService cryp
         if (hasXMessageCode)
             ctx.Response.Body = bufferedResponse;
 
-        // time to flex
-        ctx.Response.Headers.Append("X-Powered-By", "SunLight Project v4");
-
         await next(ctx);
 
         if (hasXMessageCode)

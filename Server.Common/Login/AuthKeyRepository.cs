@@ -16,7 +16,7 @@ internal class AuthKeyRepository : BackgroundService, IAuthKeyRepository
     {
         if (_authKeys.TryGetValue(token, out var authKey))
         {
-            var isExpired = authKey.Expires.CompareTo(DateTime.UtcNow) > 0;
+            var isExpired = authKey.Expires.CompareTo(DateTime.UtcNow) < 0;
             if (isExpired)
                 return null;
         }
@@ -36,7 +36,7 @@ internal class AuthKeyRepository : BackgroundService, IAuthKeyRepository
         {
             foreach (var authKey in _authKeys.Values)
             {
-                if (authKey.Expires.CompareTo(DateTime.UtcNow) > 0)
+                if (authKey.Expires.CompareTo(DateTime.UtcNow) < 0)
                     _authKeys.TryRemove(authKey.AuthorizeToken, out _);
             }
         }

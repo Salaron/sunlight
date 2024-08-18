@@ -14,13 +14,13 @@ internal record AuthKeyRequest(string DummyToken, string AuthData);
 
 internal record AuthKeyResponse(string AuthorizeToken, string DummyToken);
 
-[Endpoint("login/authKey", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true)]
+[Endpoint("login/authKey", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true, requireAuthorization: false)]
 internal class AuthKeyEndpoint(
     ICryptoService cryptoService,
     IAuthKeyRepository authKeyRepository,
     IOptionsSnapshot<ServerConfig> serverConfig,
     XCodeVerifier xCodeVerifier,
-    HttpContext httpContext) : Action<AuthKeyRequest, AuthKeyResponse>
+    IActionContext actionContext) : Action<AuthKeyRequest, AuthKeyResponse>
 {
     private const int KeySize = 32;
 
@@ -54,11 +54,11 @@ internal class AuthKeyEndpoint(
         var serverBase = Xor(xorpadBytes, appKeyBytes);
         var signKey = Xor(clientKey, serverBase);
 
-        var clientCode = httpContext.Request.Headers["X-Message-Code"].FirstOrDefault();
+        var clientCode = actionContext.XMessageCode;
         if (clientCode is null)
             return false;
 
-        var requestData = httpContext.Items["RawRequestBody"] as string ?? string.Empty;
+        var requestData = actionContext.RawRequestBody;
 
         return xCodeVerifier.Verify(clientCode, requestData, signKey);
     }

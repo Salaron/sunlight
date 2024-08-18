@@ -8,4 +8,8 @@ public class ServerConfig
     public string Xorpad { get; init; }
     public string RsaPrivateKey { get; init; }
     public ReleaseInfo[] ReleaseInfo { get; init; }
+    
+    // TODO
+    public string ClientVersion { get; init; }
+    public bool Maintenance { get; init; }
 }

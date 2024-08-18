@@ -7,6 +7,7 @@ internal class EndpointAttribute : Attribute
     public EndpointAttribute(string path,
         bool usedInApi = false,
         bool ignoreVersion = false,
+        bool requireAuthorization = true,
         XCodeCheck xCodeCheck = XCodeCheck.Enabled)
     {
     }

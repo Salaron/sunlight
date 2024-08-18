@@ -3,7 +3,6 @@ using Server.Common;
 
 namespace Server.Endpoints.Filters;
 
-// used in generated code
 internal class XCodeFilter(XCodeVerifier xCodeVerifier) : IEndpointFilter
 {
     public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)

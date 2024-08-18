@@ -10,6 +10,7 @@ public static class CommonModule
     public static void AddCommonModule(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<ICryptoService, CryptoService>();
+        serviceCollection.AddSingleton<ICredentialsHelper, CredentialsHelper>();
         serviceCollection.AddSingleton<IAuthKeyRepository, AuthKeyRepository>();
         serviceCollection.AddHostedService<AuthKeyRepository>();
 

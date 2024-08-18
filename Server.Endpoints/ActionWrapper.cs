@@ -1,5 +1,5 @@
+using System.Net;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Server.Common;
 using Server.Common.Config;
@@ -10,19 +10,33 @@ internal record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode
 
 internal record ErrorResponse(int ErrorCode, string Message);
 
-internal class ActionWrapper<TRequest, TResponse>(IAction<TRequest, TResponse> action, IOptionsSnapshot<ServerConfig> config)
+internal class ActionWrapper<TRequest, TResponse>(
+    IAction<TRequest, TResponse> action,
+    IOptionsSnapshot<ServerConfig> config,
+    IHttpContextAccessor accessor,
+    IActionContext actionContext)
 {
     // TODO: exception handling, error response, release keys...
-    public async Task<IResult> Execute([FromBody] TRequest request)
+    public async Task<IResult> Execute(TRequest request)
     {
+        var responseHeaders = accessor.HttpContext!.Response.Headers;
+        // time to flex
+        responseHeaders["X-Powered-By"] = "SunLight Project v4";
+        responseHeaders["Server-Version"] = config.Value.ServerVersion;
+
         try
         {
             var result = await action.ExecuteAsync(request);
+            responseHeaders["status_code"] = HttpStatusCode.OK.ToString();
+            responseHeaders["authorize"] = actionContext.AuthorizeHeader.ToString();
             return TypedResults.Json(new ServerResponse<TResponse>(result, 200, config.Value.ReleaseInfo));
         }
         catch (ActionException ex)
         {
-            return TypedResults.Json(new ErrorResponse(ex.ErrorCode, ex.Message!), statusCode: ex.StatusCode);
+            responseHeaders["status_code"] = ex.StatusCode.ToString();
+            var errorResponse = new ErrorResponse(ex.ErrorCode, ex.Message ?? string.Empty);
+            return TypedResults.Json(
+                new ServerResponse<ErrorResponse>(errorResponse, ex.StatusCode, config.Value.ReleaseInfo));
         }
     }
 }
