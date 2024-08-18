@@ -38,20 +38,21 @@ public class ApiEndpointSourceGenerator : ISourceGenerator
                 action = split.Skip(1).First();
 
             routeMapCode.Add(
-                $@"routeBuilder.MapPost(""/main.php/{routePath}"", new ActionWrapper<{classSymbol}, {requestType}, {responseType}>(routeBuilder.ServiceProvider.GetService<{classSymbol}>()!).Wrap)
+                $@"routeBuilder.MapPost(""/main.php/{routePath}"", (HttpContext ctx, [FromBody] {requestType} request) => ctx.RequestServices.GetService<ActionWrapper<{requestType}, {responseType}>>().Execute(request))
                 .WithTags(""{module}"")
                 .WithMetadata(new EndpointMetadata(""{routePath}"", {usedInAPi}, {ignoreVersion}, Server.Common.XCodeCheck.{codeCheckMode}))
                 .AddEndpointFilter<XCodeFilter>()
                 .AddEndpointFilter<ClientVersionFilter>();");
-            actionRegisterCode.Add($"serviceCollection.AddSingleton<{classSymbol}>();");
-
-            endpointMapCode.Add(
-                $@"EndpointToActionMap.Add(""{module}/{action}"", serviceProvider.GetService<{classSymbol}>());");
+            actionRegisterCode.Add($"serviceCollection.AddScoped<IAction<{requestType}, {responseType}>, {classSymbol}>();");
+            if (usedInAPi == "true")
+                actionRegisterCode.Add($"serviceCollection.AddKeyedScoped<IAction, {classSymbol}>(\"{module}/{action}\");");
+            actionRegisterCode.Add($"serviceCollection.AddScoped<ActionWrapper<{requestType}, {responseType}>>();");
         }
 
         var sourceCode = $@"
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Endpoints.Filters;
@@ -64,8 +65,6 @@ public static class EndpointRegister
     {{
         {string.Join("\n" + "        ", routeMapCode)}
 
-        EndpointsMap.Add(routeBuilder.ServiceProvider);
-
         return routeBuilder as WebApplication;
     }}
 
@@ -76,22 +75,6 @@ public static class EndpointRegister
 }}";
 
         context.AddSource("EndpointRegister.generated.cs", SourceText.From(sourceCode, Encoding.UTF8));
-
-        var endpointsMap = $@"
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Server.Endpoints;
-
-internal partial class EndpointsMap
-{{
-    public static void Add(IServiceProvider serviceProvider)
-    {{
-        {string.Join("\n" + "        ", endpointMapCode)}
-    }}
-}}
-";
-
-        context.AddSource("EndpointsMap.generated.cs", SourceText.From(endpointsMap, Encoding.UTF8));
     }
 
     public void Initialize(GeneratorInitializationContext context)
