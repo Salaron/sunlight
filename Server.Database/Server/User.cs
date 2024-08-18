@@ -39,6 +39,7 @@ public class User
     public DateTime LastLogin { get; set; }
     public DateTime CreationTime { get; set; }
     public string AuthorizeToken { get; set; }
+    public string SessionKey { get; set; }
     public string LoginKey { get; set; }
     public string LoginPasswd { get; set; }
 

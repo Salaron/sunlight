@@ -31,11 +31,10 @@ internal class CryptoService : ICryptoService
         return signatureBytes;
     }
 
-    public string HmacSha1(string data, byte[] key)
+    public string HmacSha1(byte[] data, byte[] key)
     {
-        using var hmac = new HMACSHA1(key);
-        var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
-        var hashString = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+        var hashBytes = HMACSHA1.HashData(key, data);
+        var hashString = BitConverter.ToString(hashBytes).Replace("-", string.Empty).ToLower();
 
         return hashString;
     }

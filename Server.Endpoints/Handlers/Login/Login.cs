@@ -9,22 +9,32 @@ internal record LoginRequest(string LoginKey, string LoginPasswd);
 
 internal record LoginResponse(int UserId, string AuthorizeToken, bool IdfaEnabled, bool SkipLoginNews);
 
-[Endpoint("login/login", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true, requireAuthorization: false)]
-internal class LoginEndpoint(ICredentialsHelper credentialsHelper, IActionContext actionContext, ServerContext serverContext) : Action<LoginRequest, LoginResponse>
+[Endpoint("login/login", ignoreVersion: true, requireAuthorization: false)]
+internal class LoginEndpoint(
+    ICredentialsHelper credentialsHelper,
+    IActionContext actionContext,
+    ServerContext serverContext,
+    IAuthKeyRepository authKeyRepository) : Action<LoginRequest, LoginResponse>
 {
     public override async Task<LoginResponse> ExecuteAsync(LoginRequest requestBody)
     {
-        var (login, passwd) = credentialsHelper.DecryptCredentials(actionContext.AuthorizeHeader.Token, requestBody.LoginKey, requestBody.LoginPasswd);
+        var authKey = authKeyRepository.Get(actionContext.AuthorizeHeader.Token);
+        if (authKey == null)
+            throw new ActionException(500);
+
+        var (login, passwd) =
+            credentialsHelper.DecryptCredentials(authKey, requestBody.LoginKey, requestBody.LoginPasswd);
 
         var user = await serverContext.Users.FirstOrDefaultAsync(u => u.LoginKey == login && u.LoginPasswd == passwd);
         if (user is null)
             throw new ActionException(407);
 
+        user.SessionKey = authKey.SessionKey;
         user.AuthorizeToken = Guid.NewGuid().ToString();
         user.LastLogin = DateTime.UtcNow;
         serverContext.Users.Update(user);
         await serverContext.SaveChangesAsync();
-        
+
         return new LoginResponse(user.UserId, user.AuthorizeToken, false, false);
     }
 }

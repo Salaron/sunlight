@@ -44,8 +44,8 @@ public class ApiEndpointSourceGenerator : ISourceGenerator
                 .WithMetadata(new EndpointMetadata(""{routePath}"", {usedInAPi}, {ignoreVersion}, Server.Common.XCodeCheck.{codeCheckMode}, {requireAuthorization}))
                 .AddEndpointFilter<MaintenanceFilter>()
                 .AddEndpointFilter<ClientVersionFilter>()
-                .AddEndpointFilter<XCodeFilter>()
-                .AddEndpointFilter<AuthorizationFilter>();");
+                .AddEndpointFilter<AuthorizationFilter>()
+                .AddEndpointFilter<XCodeFilter>();");
             actionRegisterCode.Add($"serviceCollection.AddScoped<IAction<{requestType}, {responseType}>, {classSymbol}>();");
             if (usedInAPi == "true")
                 actionRegisterCode.Add($"serviceCollection.AddKeyedScoped<IAction, {classSymbol}>(\"{module}/{action}\");");

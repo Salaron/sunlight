@@ -3,17 +3,16 @@ using Server.Common.Crypto;
 
 namespace Server.Common.Login;
 
-internal class CredentialsHelper(IAuthKeyRepository authKeyRepository, ICryptoService cryptoService) : ICredentialsHelper
+internal class CredentialsHelper(ICryptoService cryptoService) : ICredentialsHelper
 {
-    public (string login, string password) DecryptCredentials(string authorizeToken, string encryptedLogin, string encryptedPassword)
+    public (string login, string password) DecryptCredentials(AuthKey authKey, string encryptedLogin, string encryptedPassword)
     {
-        var userAuthKey = authKeyRepository.Get(authorizeToken);
-        if (userAuthKey == null)
+        if (authKey == null)
             throw new AuthKeyNotFoundException();
 
         var loginBytes = Convert.FromBase64String(encryptedLogin);
         var passwordBytes = Convert.FromBase64String(encryptedPassword);
-        var sessionKeyBytes = Convert.FromBase64String(userAuthKey.SessionKey);
+        var sessionKeyBytes = Convert.FromBase64String(authKey.SessionKey);
 
         var key = new byte[16];
         Array.Copy(sessionKeyBytes, 0, key, 0, 16);

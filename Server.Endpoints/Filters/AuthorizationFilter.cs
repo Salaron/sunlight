@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Http;
+using Server.Common.Login;
 using Server.Database.Server;
 
 namespace Server.Endpoints.Filters;
 
-internal class AuthorizationFilter(ServerContext serverContext, IActionContext actionContext) : IEndpointFilter
+internal class AuthorizationFilter(ServerContext serverContext, IActionContext actionContext, IAuthKeyRepository authKeyRepository) : IEndpointFilter
 {
     public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
@@ -13,8 +14,16 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
         if (user != null)
         {
             (actionContext as ActionContext)!.UserId = user.UserId;
+            (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(user.SessionKey);
             context.HttpContext.Response.Headers["user_id"] = user.UserId.ToString();
         }
+        else
+        {
+            var authKey = authKeyRepository.Get(actionContext.AuthorizeHeader.Token);
+            if (authKey != null)
+                (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(authKey.SessionKey);
+        }
+        
         
         if (metadata.RequireAuthorization && user == null)
             return new ValueTask<object?>(new { Message = "Forbidden" });

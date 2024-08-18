@@ -22,7 +22,7 @@ internal class RequestBodyExtractorMiddleware(RequestDelegate next, ILogger<Requ
         {
             using var bodyReader = new StreamReader(ctx.Request.Body);
             var body = await bodyReader.ReadToEndAsync();
-            var bodySplit = body.Split("\n");
+            var bodySplit = body.Split("\r\n");
             var requestBody = bodySplit[3];
 
             ctx.Request.Body = await new StringContent(requestBody).ReadAsStreamAsync();

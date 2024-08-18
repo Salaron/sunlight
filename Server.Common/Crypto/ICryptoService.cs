@@ -8,5 +8,5 @@ public interface ICryptoService : IDisposable
 
     byte[] DecryptAes(byte[] key, byte[] data);
 
-    string HmacSha1(string data, byte[] key);
+    string HmacSha1(byte[] data, byte[] key);
 }

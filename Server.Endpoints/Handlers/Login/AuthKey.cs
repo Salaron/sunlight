@@ -52,7 +52,7 @@ internal class AuthKeyEndpoint(
         var xorpadBytes = Encoding.Default.GetBytes(serverConfig.Value.Xorpad);
         var appKeyBytes = Encoding.Default.GetBytes(serverConfig.Value.ApplicationKey);
         var serverBase = Xor(xorpadBytes, appKeyBytes);
-        var signKey = Xor(clientKey, serverBase);
+        var signKey = Xor(serverBase, clientKey);
 
         var clientCode = actionContext.XMessageCode;
         if (clientCode is null)
