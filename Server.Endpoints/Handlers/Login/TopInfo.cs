@@ -19,10 +19,12 @@ internal record LicenseUserStatus(DateTime EndDate);
 
 internal record ActivatedLicenseDetails(int LicenseId, LicenseType LicenseType, LicenseUserStatus UserStatus);
 
-internal record LicenseInfo(
-    IEnumerable<LicenseDetails> LicenseList,
-    IEnumerable<ActivatedLicenseDetails> LicensedInfo,
-    IEnumerable<object> ExpiredInfo);
+internal record LicenseInfo
+{
+    public IEnumerable<LicenseDetails> LicenseList { get; set; }
+    public IEnumerable<ActivatedLicenseDetails> LicensedInfo { get; set; }
+    public IEnumerable<object> ExpiredInfo { get; set; }
+}
 
 internal record TopInfoResponse
 {
@@ -53,7 +55,24 @@ internal class TopInfoEndpoint : Action<EmptyObject, TopInfoResponse>
     {
         return Task.FromResult(new TopInfoResponse
         {
-            ExchangeBadgeCnt = new List<int> { 0, 0, 0 }
+            ServerDatetime = DateTimeUtils.GetServerTime(),
+            ExchangeBadgeCnt = new List<int> { 0, 0, 0 },
+            LicenseInfo = new LicenseInfo
+            {
+                LicenseList = new List<LicenseDetails>
+                {
+                    new(1, LicenseType.Lbonus),
+                    new(2, LicenseType.Buff),
+                    new(3, LicenseType.Premium),
+                    new(4, LicenseType.Live),
+                },
+                LicensedInfo = new List<ActivatedLicenseDetails>
+                {
+                    new(3, LicenseType.Premium, new LicenseUserStatus(DateTime.MaxValue)),
+                    new(4, LicenseType.Live, new LicenseUserStatus(DateTime.MaxValue)),
+                },
+                ExpiredInfo = [],
+            }
         });
     }
 }

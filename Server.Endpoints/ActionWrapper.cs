@@ -6,7 +6,7 @@ using Server.Common.Config;
 
 namespace Server.Endpoints;
 
-internal record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, ReleaseInfo[] ReleaseInfo);
+internal record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, ReleaseInfo[] ReleaseInfo, long ServerTimestamp);
 
 internal record ErrorResponse(int ErrorCode, string Message);
 
@@ -31,14 +31,14 @@ internal class ActionWrapper<TRequest, TResponse>(
             responseHeaders["status_code"] = "200";
             responseHeaders["authorize"] = actionContext.AuthorizeHeader.ToString();
 
-            return TypedResults.Json(new ServerResponse<TResponse>(result, 200, config.Value.ReleaseInfo));
+            return TypedResults.Json(new ServerResponse<TResponse>(result, 200, config.Value.ReleaseInfo, DateTimeUtils.CurrentUnixTimeStamp()));
         }
         catch (ActionException ex)
         {
             responseHeaders["status_code"] = ex.StatusCode.ToString();
             var errorResponse = new ErrorResponse(ex.ErrorCode, ex.Message ?? string.Empty);
             return TypedResults.Json(
-                new ServerResponse<ErrorResponse>(errorResponse, ex.StatusCode, config.Value.ReleaseInfo));
+                new ServerResponse<ErrorResponse>(errorResponse, ex.StatusCode, config.Value.ReleaseInfo, DateTimeUtils.CurrentUnixTimeStamp()));
         }
     }
 }

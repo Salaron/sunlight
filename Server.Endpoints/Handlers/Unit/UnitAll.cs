@@ -49,6 +49,7 @@ internal class UnitAllEndpoint(IActionContext context, IUnitService unitService)
     {
         return new UnitInfo
         {
+            UnitOwningUserId = unit.UnitOwningUserId,
             UnitId = unit.UnitId,
             Exp = unit.Exp,
             NextExp = unit.NextExp,

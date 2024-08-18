@@ -27,12 +27,12 @@ internal class Api(IHttpContextAccessor context, ILogger<Api> logger) : Action<I
                 if (action == null)
                 {
                     logger.LogError($"Action {requestModule.Module}/{requestModule.Action} not found");
-                    result.Add(new ApiResponse(new EmptyObject(), 600, 0));
+                    result.Add(new ApiResponse(new EmptyObject(), 600, DateTimeUtils.CurrentUnixTimeStamp()));
                     continue;
                 }
 
                 var actionResult = await action!.ExecuteAsync(requestModule);
-                result.Add(new ApiResponse(actionResult, 200, 400));
+                result.Add(new ApiResponse(actionResult, 200, DateTimeUtils.CurrentUnixTimeStamp()));
             }
             catch (Exception ex)
             {

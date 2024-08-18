@@ -69,7 +69,7 @@ internal class LbonusExecuteEndpoint : Action<EmptyObject, LbonusResponse>
     public override async Task<LbonusResponse> ExecuteAsync(EmptyObject requestBody)
     {
         var dateNow = DateTimeUtils.GetServerTime();
-        var dateTomorrow = DateTime.UtcNow + TimeSpan.FromDays(1);
+        var dateTomorrow = dateNow + TimeSpan.FromDays(1);
 
         var currentMonth = new LbonusCalendarInfo.MonthInfo
         {
@@ -82,7 +82,7 @@ internal class LbonusExecuteEndpoint : Action<EmptyObject, LbonusResponse>
                     DayOfTheWeek = (int)(new DateTime(dateNow.Year, dateNow.Month, day).DayOfWeek),
                     SpecialDay = false,
                     SpecialImageAsset = "",
-                    Received = false,
+                    Received = true,
                     AdReceived = false,
                     Item = new List<Item_>
                     {

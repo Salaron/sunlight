@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Server.Common;
 using Server.Common.Items;
 using Server.Database.Server;
@@ -7,7 +8,7 @@ namespace Server.Endpoints.Main.Login;
 
 internal record UserBirth(uint BirthMonth, uint BirthDay);
 
-internal record UserInfoResponse(UserInfoDto User, UserBirth? Birth, bool AdStatus);
+internal record UserInfoResponse(UserInfoDto User, [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] UserBirth? Birth, bool AdStatus);
 
 [Endpoint("user/userInfo")]
 internal class UserInfoEndpoint(IActionContext actionContext, ServerContext serverContext) : Action<EmptyObject, UserInfoResponse>
