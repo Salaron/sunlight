@@ -9,7 +9,7 @@ internal record StartUpRequest(string LoginKey, string LoginPasswd);
 internal record StartUpResponse(int UserId, string AuthorizeToken);
 
 [Endpoint("login/startUp", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true, requireAuthorization: false)]
-internal class StartUp(ICredentialsHelper credentialsHelper, IActionContext actionContext, ServerContext serverContext) : Action<StartUpRequest, StartUpResponse>
+internal class StartUpEndpoint(ICredentialsHelper credentialsHelper, IActionContext actionContext, ServerContext serverContext) : Action<StartUpRequest, StartUpResponse>
 {
     public override async Task<StartUpResponse> ExecuteAsync(StartUpRequest requestBody)
     {

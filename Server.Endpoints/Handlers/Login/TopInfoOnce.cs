@@ -29,7 +29,7 @@ internal record TopInfoOnceResponse(
 );
 
 [Endpoint("login/topInfoOnce")]
-internal class TopInfoOnce : Action<EmptyObject, TopInfoResponse>
+internal class TopInfoOnceEndpoint : Action<EmptyObject, TopInfoResponse>
 {
     public override Task<TopInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {

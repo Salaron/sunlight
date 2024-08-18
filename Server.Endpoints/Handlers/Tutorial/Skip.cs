@@ -4,7 +4,7 @@ using Server.Database.Server;
 namespace Server.Endpoints.Main.Tutorial;
 
 [Endpoint("tutorial/skip")]
-internal class TutorialSkip(ServerContext serverContext, IActionContext context) : Action<EmptyObject, EmptyObject>
+internal class TutorialSkipEndpoint(ServerContext serverContext, IActionContext context) : Action<EmptyObject, EmptyObject>
 {
     public override async Task<EmptyObject> ExecuteAsync(EmptyObject requestBody)
     {

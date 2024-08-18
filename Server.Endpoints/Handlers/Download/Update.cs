@@ -4,8 +4,8 @@ namespace Server.Endpoints.Main.Download;
 
 internal record DownloadUpdateRequest(string TargetOs, Version InstallVersion, Version ExternalVersion, IReadOnlyList<string> PackageList);
 
-[Endpoint("download/update")]
-internal class DownloadUpdate(IDownloadService downloadService) : Action<DownloadUpdateRequest, IEnumerable<DownloadPackageInfo>>
+[Endpoint("download/update", ignoreVersion: true)]
+internal class UpdateEndpoint(IDownloadService downloadService) : Action<DownloadUpdateRequest, IEnumerable<DownloadPackageInfo>>
 {
     public override Task<IEnumerable<DownloadPackageInfo>> ExecuteAsync(DownloadUpdateRequest requestBody)
     {

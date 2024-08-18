@@ -46,7 +46,7 @@ internal record TopInfoResponse(
 );
 
 [Endpoint("login/topInfo")]
-internal class TopInfo : Action<EmptyObject, TopInfoResponse>
+internal class TopInfoEndpoint : Action<EmptyObject, TopInfoResponse>
 {
     public override Task<TopInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {

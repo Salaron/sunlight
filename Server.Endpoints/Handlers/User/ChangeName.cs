@@ -7,7 +7,7 @@ internal record ChangeNameRequest(string Name);
 internal record ChangeNameResponse(string AfterName);
 
 [Endpoint("user/changeName")]
-internal class ChangeName(ServerContext serverContext, IActionContext context) : Action<ChangeNameRequest, ChangeNameResponse>
+internal class ChangeNameEndpoint(ServerContext serverContext, IActionContext context) : Action<ChangeNameRequest, ChangeNameResponse>
 {
     public override async Task<ChangeNameResponse> ExecuteAsync(ChangeNameRequest requestBody)
     {

@@ -10,7 +10,7 @@ internal record UserBirth(uint BirthMonth, uint BirthDay);
 internal record UserInfoResponse(UserInfoDto User, UserBirth? Birth, bool AdStatus);
 
 [Endpoint("user/userInfo")]
-internal class UserInfo(IActionContext actionContext, ServerContext serverContext) : Action<EmptyObject, UserInfoResponse>
+internal class UserInfoEndpoint(IActionContext actionContext, ServerContext serverContext) : Action<EmptyObject, UserInfoResponse>
 {
     public override async Task<UserInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {

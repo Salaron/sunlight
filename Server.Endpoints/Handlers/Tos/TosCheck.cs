@@ -5,7 +5,7 @@ namespace Server.Endpoints.Main.Tos;
 internal record TosCheckResponse(uint TosId, uint TosType, bool IsAgreed);
 
 [Endpoint("tos/tosCheck")]
-internal class TosCheck : Action<EmptyObject, TosCheckResponse>
+internal class TosCheckEndpoint : Action<EmptyObject, TosCheckResponse>
 {
     public override Task<TosCheckResponse> ExecuteAsync(EmptyObject requestBody)
     {

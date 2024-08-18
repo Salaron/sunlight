@@ -4,7 +4,7 @@ using Server.Common.Download;
 namespace Server.Endpoints.Main.Download;
 
 [Endpoint("download/event")]
-internal class DownloadEvent: Action<EmptyObject, IEnumerable<DownloadPackageInfo>>
+internal class EventEndpoint: Action<EmptyObject, IEnumerable<DownloadPackageInfo>>
 {
     public override Task<IEnumerable<DownloadPackageInfo>> ExecuteAsync(EmptyObject requestBody)
     {

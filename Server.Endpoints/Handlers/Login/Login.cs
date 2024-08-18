@@ -10,7 +10,7 @@ internal record LoginRequest(string LoginKey, string LoginPasswd);
 internal record LoginResponse(int UserId, string AuthorizeToken, bool IdfaEnabled, bool SkipLoginNews);
 
 [Endpoint("login/login", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true, requireAuthorization: false)]
-internal class Login(ICredentialsHelper credentialsHelper, IActionContext actionContext, ServerContext serverContext) : Action<LoginRequest, LoginResponse>
+internal class LoginEndpoint(ICredentialsHelper credentialsHelper, IActionContext actionContext, ServerContext serverContext) : Action<LoginRequest, LoginResponse>
 {
     public override async Task<LoginResponse> ExecuteAsync(LoginRequest requestBody)
     {

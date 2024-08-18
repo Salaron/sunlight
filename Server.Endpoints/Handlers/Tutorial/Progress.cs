@@ -6,7 +6,7 @@ namespace Server.Endpoints.Main.Tutorial;
 internal record TutorialProgressRequest(int TutorialState);
 
 [Endpoint("tutorial/progress")]
-internal class TutorialProgress(ServerContext serverContext, IActionContext context) : Action<TutorialProgressRequest, EmptyObject>
+internal class TutorialProgressEndpoint(ServerContext serverContext, IActionContext context) : Action<TutorialProgressRequest, EmptyObject>
 {
     public override async Task<EmptyObject> ExecuteAsync(TutorialProgressRequest requestBody)
     {
