@@ -1,5 +1,6 @@
 using Server.Common;
 using Server.Common.Live;
+using Server.Endpoints.Dtos;
 
 namespace Server.Endpoints.Main.Unit;
 
@@ -17,12 +18,10 @@ internal class DeckInfoEndpoint(IActionContext context, IUnitDeckService deckSer
 {
     public override async Task<IEnumerable<UnitDeckInfoResponse>> ExecuteAsync(EmptyObject requestBody)
     {
+        var mapper = new UnitMapper();
         var deckList = await deckService.GetDeckListAsync(context.UserId);
 
-        var response = deckList.Select(deck => new UnitDeckInfoResponse(deck.UnitDeckId,
-            deck.MainFlag,
-            deck.DeckName,
-            deck.UnitOwningUserIds.Select(u => new UnitDeckSlot(u.UnitOwningUserId, u.Position))));
+        var response = deckList.Select(mapper.UnitDeckToDto);
 
         return response;
     }

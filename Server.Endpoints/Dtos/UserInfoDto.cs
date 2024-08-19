@@ -1,28 +1,30 @@
 namespace Server.Endpoints.Dtos;
 
-internal record UserInfoDto
+public class UserInfoDto
 {
-    public int UserId { get; set; }
-    public string Name { get; set; }
-    public uint Level { get; set; }
-    public uint PreviousExp { get; set; }
-    public uint NextExp { get; set; }
-    public uint GameCoin { get; set; }
-    public uint SnsCoin { get; set; }
-    public uint FreeSnsCoin { get; set; }
-    public uint PaidSnsCoin { get; set; }
-    public uint SocialPoint { get; set; }
-    public uint UnitMax { get; set; }
-    public uint WaitingUnitMax { get; set; }
-    public uint EnergyMax { get; set; }
-    public DateTime EnergyFullTime { get; set; }
-    public uint LicenseLiveEnergyRecoverlyTime { get; set; }
-    public uint EnergyFullNeedTime { get; set; }
-    public uint OverMaxEnergy { get; set; }
-    public uint TrainingEnergy { get; set; }
-    public uint TrainingEnergyMax { get; set; }
-    public uint FriendMax { get; set; }
-    public string InviteCode { get; set; }
-    public int TutorialState { get; set; }
-    public object LpRecoveryItem { get; set; }
+    public int UserId { get; init; }
+    public string Name { get; init; }
+    public int Level { get; init; }
+    public int PreviousExp { get; init; }
+    public int NextExp { get; init; }
+    public int GameCoin { get; init; }
+    public int SnsCoin { get; init; }
+    public int FreeSnsCoin { get; init; }
+    public int PaidSnsCoin { get; init; }
+    public int SocialPoint { get; init; }
+    public int UnitMax { get; init; }
+    public int WaitingUnitMax { get; init; }
+    public int EnergyMax { get; init; }
+    public DateTime EnergyFullTime { get; init; }
+    public int LicenseLiveEnergyRecoverlyTime { get; init; }
+    public int EnergyFullNeedTime { get; init; }
+    public int OverMaxEnergy { get; init; }
+    public int TrainingEnergy { get; init; }
+    public int TrainingEnergyMax { get; init; }
+    public int FriendMax { get; init; }
+    public string InviteCode { get; init; }
+    public int TutorialState { get; init; }
+    public List<object> LpRecoveryItem { get; init; }
+    public short UnlockRandomLiveMuse { get; init; }
+    public short UnlockRandomLiveAqours { get; init; }
 }

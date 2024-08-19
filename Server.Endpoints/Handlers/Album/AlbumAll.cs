@@ -1,10 +1,11 @@
 using Server.Common;
 using Server.Common.Unit;
 using Server.Database.Server;
+using Server.Endpoints.Dtos;
 
 namespace Server.Endpoints.Main.Album;
 
-internal record AlbumItem
+internal record AlbumItemDto
 {
     public int UnitId { get; set; }
     public bool RankMaxFlag { get; set; }
@@ -18,29 +19,14 @@ internal record AlbumItem
 }
 
 [Endpoint("album/albumAll", usedInApi: true)]
-internal class AlbumAllEndpoint(IActionContext context, IUnitService unitService) : Action<EmptyObject, IEnumerable<AlbumItem>>
+internal class AlbumAllEndpoint(IActionContext context, IUnitService unitService) : Action<EmptyObject, IEnumerable<AlbumItemDto>>
 {
-    public override async Task<IEnumerable<AlbumItem>> ExecuteAsync(EmptyObject requestBody)
+    public override async Task<IEnumerable<AlbumItemDto>> ExecuteAsync(EmptyObject requestBody)
     {
+        var mapper = new UnitMapper();
         var album = await unitService.GetAlbumAsync(context.UserId);
-        var albumItems = album.Select(MapAlbumUnit);
+        var albumItems = album.Select(mapper.AlbumItemToDto);
 
         return albumItems;
-    }
-
-    private AlbumItem MapAlbumUnit(UnitAlbum unit)
-    {
-        return new AlbumItem
-        {
-            UnitId = unit.UnitId,
-            RankMaxFlag = unit.RankMaxFlag,
-            LoveMaxFlag = unit.LoveMaxFlag,
-            RankLevelMaxFlag = unit.RankLevelMaxFlag,
-            AllMaxFlag = unit.AllMaxFlag,
-            HighestLovePerUnit = unit.HighestLovePerUnit,
-            TotalLove = unit.TotalLove,
-            FavoritePoint = unit.FavoritePoint,
-            SignFlag = unit.SignFlag
-        };
     }
 }
