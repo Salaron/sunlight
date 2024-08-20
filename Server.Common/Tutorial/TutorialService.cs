@@ -1,10 +1,11 @@
 using Server.Common.Items;
+using Server.Common.Users;
 using Server.Database.Enums;
 using Server.Database.Server;
 
 namespace Server.Common.Tutorial;
 
-internal class TutorialService(ServerContext serverContext, ItemManager itemManager) : ITutorialService
+internal class TutorialService(ServerContext serverContext, IUserService userService, ItemManager itemManager) : ITutorialService
 {
     public async Task ProcessStateAsync(int userId, TutorialState nextState)
     {
@@ -24,7 +25,15 @@ internal class TutorialService(ServerContext serverContext, ItemManager itemMana
             user.TutorialState = nextState;
         }
         else if (user.TutorialState == TutorialState.Top && nextState == TutorialState.End)
+        {
+            await itemManager.AddAsync(userId, Item.Award(1));
+            await itemManager.AddAsync(userId, Item.Award(23));
+            await itemManager.AddAsync(userId, Item.Background(1));
+            await userService.SetAwardAsync(userId, 1);
+            await userService.SetBackgroundAsync(userId, 1);
+
             user.TutorialState = nextState;
+        }
         else
             throw new TutorialInvalidStateException();
 

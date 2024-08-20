@@ -25,10 +25,13 @@ public static class CommonModule
         serviceCollection.AddScoped<IAddTypeHandler, SocialPointHandler>();
         serviceCollection.AddScoped<IAddTypeHandler, PlayerExpHandler>();
         serviceCollection.AddScoped<IAddTypeHandler, GameCoinHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, AwardHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, BackgroundHandler>();
         serviceCollection.AddScoped<ItemManager>();
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();
         serviceCollection.AddScoped<IUserService, UserService>();
         serviceCollection.AddScoped<ITutorialService, TutorialService>();
+        serviceCollection.AddScoped<IUnlockedItemsProvider, UnlockedItemsProvider>();
     }
 }

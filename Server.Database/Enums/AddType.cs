@@ -1,4 +1,4 @@
-namespace Server.Common.Items;
+namespace Server.Database.Enums;
 
 public enum AddType
 {

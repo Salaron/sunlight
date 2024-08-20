@@ -14,11 +14,14 @@ public class ServerContext : DbContext
     public DbSet<UnitOwning> UnitOwning { get; init; }
     public DbSet<UserUnitDeck> UserUnitDeck { get; init; }
     public DbSet<UserUnitDeckSlot> UserUnitDeckSlot { get; init; }
+    public DbSet<UserItemUnlock> UserItemUnlock { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().Property(p => p.InsertDate).HasDefaultValueSql("now()");
         modelBuilder.Entity<User>().Property(p => p.UpdateDate).HasDefaultValueSql("now()");
+        
+        modelBuilder.Entity<UserItemUnlock>().Property(p => p.InsertDate).HasDefaultValueSql("now()");
 
         base.OnModelCreating(modelBuilder);
     }

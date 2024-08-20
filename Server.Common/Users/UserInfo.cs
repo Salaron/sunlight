@@ -28,6 +28,8 @@ public record UserInfo
     public string InviteCode { get; init; }
     public TutorialState TutorialState { get; init; }
     public List<object> LpRecoveryItem { get; init; }
+    public int SettingAwardId { get; set; }
+    public int SettingBackgroundId { get; set; }
     public short UnlockRandomLiveMuse { get; init; }
     public short UnlockRandomLiveAqours { get; init; }
     public DateOnly? Birthday { get; init; }

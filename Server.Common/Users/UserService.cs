@@ -1,8 +1,10 @@
+using Server.Common.Items;
+using Server.Database.Enums;
 using Server.Database.Server;
 
 namespace Server.Common.Users;
 
-internal class UserService(ServerContext serverContext) : IUserService
+internal class UserService(ServerContext serverContext, IUnlockedItemsProvider itemsProvider) : IUserService
 {
     public async Task<UserInfo> CreateAsync(string login, string password)
     {
@@ -63,6 +65,36 @@ internal class UserService(ServerContext serverContext) : IUserService
         return levelInfo;
     }
 
+    public async Task SetAwardAsync(int userId, int awardId)
+    {
+        var user = await serverContext.Users.FindAsync(userId);
+        if (user == null)
+            throw new UserNotFoundException();
+
+        var isUnlocked = await itemsProvider.IsItemUnlockedAsync(userId, AddType.Award, awardId);
+        if (!isUnlocked)
+            throw new Exception(); // TODO
+        
+        user.SettingAwardId = awardId;
+        serverContext.Users.Update(user);
+        await serverContext.SaveChangesAsync();
+    }
+
+    public async Task SetBackgroundAsync(int userId, int backgroundId)
+    {
+        var user = await serverContext.Users.FindAsync(userId);
+        if (user == null)
+            throw new UserNotFoundException();
+
+        var isUnlocked = await itemsProvider.IsItemUnlockedAsync(userId, AddType.Background, backgroundId);
+        if (!isUnlocked)
+            throw new Exception(); // TODO
+        
+        user.SettingBackgroundId = backgroundId;
+        serverContext.Users.Update(user);
+        await serverContext.SaveChangesAsync();
+    }
+
     private UserInfo ConvertToUserInfo(User user)
     {
         return new UserInfo
@@ -91,7 +123,9 @@ internal class UserService(ServerContext serverContext) : IUserService
             InviteCode = user.InviteCode,
             TutorialState = user.TutorialState,
             LpRecoveryItem = [],
-            Birthday = user.Birthday
+            Birthday = user.Birthday,
+            SettingAwardId = user.SettingAwardId,
+            SettingBackgroundId = user.SettingBackgroundId
         };
     }
 

@@ -1,3 +1,5 @@
+using Server.Database.Enums;
+
 namespace Server.Common.Items;
 
 public interface IAddTypeHandler
@@ -19,13 +21,13 @@ public abstract class AddTypeHandler<TItem, TResult> : IAddTypeHandler<TItem, TR
     public abstract Task<TResult> AddAsync(int userId, TItem item);
     public abstract Task<TResult> SubtractAsync(int userId, TItem item);
     
-    public Task<object> AddAsync(int userId, IItem item)
+    public async Task<object> AddAsync(int userId, IItem item)
     {
-        return Task.FromResult<object>(AddAsync(userId, (TItem)item));
+        return Task.FromResult<object>(await AddAsync(userId, (TItem)item));
     }
 
-    public Task<object> SubtractAsync(int userId, IItem item)
+    public async Task<object> SubtractAsync(int userId, IItem item)
     {
-        return Task.FromResult<object>(SubtractAsync(userId, (TItem)item));
+        return Task.FromResult<object>(await AddAsync(userId, (TItem)item));
     }
 }
