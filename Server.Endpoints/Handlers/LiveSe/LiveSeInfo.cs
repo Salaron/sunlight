@@ -1,14 +1,17 @@
+using Microsoft.EntityFrameworkCore;
 using Server.Common;
+using Server.Database.Game;
 
 namespace Server.Endpoints.Main.LiveSe;
 
 internal record LiveSeInfoResponse(List<int> LiveSeList);
 
 [Endpoint("livese/liveseInfo", usedInApi: true)]
-internal class LiveSeEndpoint : Action<EmptyObject, LiveSeInfoResponse>
+internal class LiveSeEndpoint(ItemContext itemContext) : Action<EmptyObject, LiveSeInfoResponse>
 {
-    public override Task<LiveSeInfoResponse> ExecuteAsync(EmptyObject requestBody)
+    public override async Task<LiveSeInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new LiveSeInfoResponse([]));
+        var liveSeList = await itemContext.LiveSeM.Select(se => se.LiveSeId).ToListAsync();
+        return new LiveSeInfoResponse(liveSeList);
     }
 }
