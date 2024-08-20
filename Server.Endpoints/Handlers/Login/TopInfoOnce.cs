@@ -2,17 +2,18 @@ using Server.Common;
 
 namespace Server.Endpoints.Main.Login;
 
-internal record Notification(
-    bool Push,
-    bool Lp,
-    bool UpdateInfo,
-    bool Campaign,
-    bool Live,
-    bool Lbonus,
-    bool Event,
-    bool Secretbox,
-    bool Birthday
-);
+internal record Notification
+{
+    public bool Push { get; set; }
+    public bool Lp { get; set; }
+    public bool UpdateInfo { get; set; }
+    public bool Campaign { get; set; }
+    public bool Live { get; set; }
+    public bool Lbonus { get; set; }
+    public bool Event { get; set; }
+    public bool Secretbox { get; set; }
+    public bool Birthday { get; set; }
+}
 
 internal record TopInfoOnceResponse
 {
@@ -30,10 +31,23 @@ internal record TopInfoOnceResponse
 }
 
 [Endpoint("login/topInfoOnce", usedInApi: true)]
-internal class TopInfoOnceEndpoint : Action<EmptyObject, TopInfoResponse>
+internal class TopInfoOnceEndpoint : Action<EmptyObject, TopInfoOnceResponse>
 {
-    public override Task<TopInfoResponse> ExecuteAsync(EmptyObject requestBody)
+    public override Task<TopInfoOnceResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new TopInfoResponse());
+        return Task.FromResult(new TopInfoOnceResponse
+        {
+            NewAchievementCnt = 0,
+            UnaccomplishedAchievementCnt = 0,
+            LiveDailyRewardExist = false,
+            TrainingEnergy = 5,
+            TrainingEnergyMax = 5,
+            Notification = new Notification(),
+            OpenArena = false,
+            CostumeStatus = false,
+            OpenAccessory = false,
+            ArenaSiSkillUniqueCheck = false,
+            OpenV98 = true
+        });
     }
 }

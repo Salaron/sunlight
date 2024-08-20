@@ -1,28 +1,47 @@
 using Server.Common;
+using Server.Common.Live;
+using Server.Database.Enums;
+using Server.Endpoints.Dtos;
 
 namespace Server.Endpoints.Main.Live;
 
-internal record LiveStatus(
-    int LiveDifficultyId,
-    int Status,
-    int HiScore,
-    int HiComboCount,
-    int ClearCnt,
-    List<int> AchievedGoalIdList);
+internal record LiveStatusDto
+{
+    public int LiveDifficultyId { get; init; }
+    public LiveStatus Status { get; init; }
+    public int HiScore { get; init; }
+    public int HiComboCount { get; init; }
+    public int ClearCnt { get; init; }
+    public List<int> AchievedGoalIdList { get; init; }
+}
 
 internal record LiveStatusResponse(
-    List<LiveStatus> NormalLiveStatusList,
-    List<LiveStatus> SpecialLiveStatusList,
-    List<LiveStatus> MarathonLiveStatusList,
-    List<LiveStatus> TrainingLiveStatusList,
-    List<LiveStatus> FreeLiveStatusList,
+    IEnumerable<LiveStatusDto> NormalLiveStatusList,
+    IEnumerable<LiveStatusDto> SpecialLiveStatusList,
+    IEnumerable<LiveStatusDto> MarathonLiveStatusList,
+    IEnumerable<LiveStatusDto> TrainingLiveStatusList,
+    IEnumerable<LiveStatusDto> FreeLiveStatusList,
     bool CanResumeLive);
 
 [Endpoint("live/liveStatus", usedInApi: true)]
-internal class LiveStatusEndpoint : Action<EmptyObject, LiveStatusResponse>
+internal class LiveStatusEndpoint(IActionContext context, ILiveStatusProvider liveStatusProvider)
+    : Action<EmptyObject, LiveStatusResponse>
 {
-    public override Task<LiveStatusResponse> ExecuteAsync(EmptyObject requestBody)
+    private static readonly LiveMapper LiveMapper = new();
+
+    public override async Task<LiveStatusResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        return Task.FromResult(new LiveStatusResponse([], [], [], [], [], true));
+        var normalLives = await liveStatusProvider.GetNormalLiveStatusAsync(context.UserId);
+        var specialLives = await liveStatusProvider.GetSpecialLiveStatusAsync(context.UserId);
+
+        var response = new LiveStatusResponse(
+            NormalLiveStatusList: normalLives.Select(LiveMapper.LiveStatusInfoToDto),
+            SpecialLiveStatusList: specialLives.Select(LiveMapper.LiveStatusInfoToDto),
+            MarathonLiveStatusList: [],
+            TrainingLiveStatusList: [],
+            FreeLiveStatusList: [],
+            CanResumeLive: true);
+
+        return response;
     }
 }

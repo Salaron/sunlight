@@ -1,6 +1,6 @@
 namespace Server.Endpoints.Dtos;
 
-public class UserInfoDto
+internal class UserInfoDto
 {
     public int UserId { get; init; }
     public string Name { get; init; }

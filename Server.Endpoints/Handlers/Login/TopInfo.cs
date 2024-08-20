@@ -55,6 +55,7 @@ internal class TopInfoEndpoint : Action<EmptyObject, TopInfoResponse>
     {
         return Task.FromResult(new TopInfoResponse
         {
+            UsingBuffInfo = [],
             ServerDatetime = DateTimeUtils.GetServerTime(),
             ExchangeBadgeCnt = new List<int> { 0, 0, 0 },
             LicenseInfo = new LicenseInfo

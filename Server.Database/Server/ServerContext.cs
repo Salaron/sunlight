@@ -15,6 +15,8 @@ public class ServerContext : DbContext
     public DbSet<UserUnitDeck> UserUnitDeck { get; init; }
     public DbSet<UserUnitDeckSlot> UserUnitDeckSlot { get; init; }
     public DbSet<UserItemUnlock> UserItemUnlock { get; init; }
+    public DbSet<UserLiveStatus> UserLiveStatus { get; init; }
+    public DbSet<UserLiveStatusGoal> UserLiveStatusGoal { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

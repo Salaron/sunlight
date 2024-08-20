@@ -5,7 +5,11 @@ using Server.Database.Server;
 
 namespace Server.Common.Tutorial;
 
-internal class TutorialService(ServerContext serverContext, IUserService userService, ItemManager itemManager) : ITutorialService
+internal class TutorialService(
+    ServerContext serverContext,
+    IUserService userService,
+    ItemManager itemManager,
+    IInitialItemsUnlocker initialItemsUnlocker) : ITutorialService
 {
     public async Task ProcessStateAsync(int userId, TutorialState nextState)
     {
@@ -26,9 +30,7 @@ internal class TutorialService(ServerContext serverContext, IUserService userSer
         }
         else if (user.TutorialState == TutorialState.Top && nextState == TutorialState.End)
         {
-            await itemManager.AddAsync(userId, Item.Award(1));
-            await itemManager.AddAsync(userId, Item.Award(23));
-            await itemManager.AddAsync(userId, Item.Background(1));
+            await initialItemsUnlocker.UnlockAsync(userId);
             await userService.SetAwardAsync(userId, 1);
             await userService.SetBackgroundAsync(userId, 1);
 

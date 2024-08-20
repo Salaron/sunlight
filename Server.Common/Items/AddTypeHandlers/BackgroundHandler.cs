@@ -16,7 +16,7 @@ internal class BackgroundHandler(ServerContext serverContext) : AddTypeHandler<B
     public override async Task<EmptyObject> AddAsync(int userId, BackgroundItem item)
     {
         var backgroundUnlock = serverContext.UserItemUnlock.SingleOrDefault(u => u.AddType == AddType.Background && u.ItemId == item.BackgroundId);
-        if (backgroundUnlock == null)
+        if (backgroundUnlock != null)
             return new EmptyObject();
 
         backgroundUnlock = new UserItemUnlock
