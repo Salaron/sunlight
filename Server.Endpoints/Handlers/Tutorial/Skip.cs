@@ -1,17 +1,16 @@
 using Server.Common;
+using Server.Common.Tutorial;
 using Server.Database.Server;
 
 namespace Server.Endpoints.Main.Tutorial;
 
 [Endpoint("tutorial/skip")]
-internal class TutorialSkipEndpoint(ServerContext serverContext, IActionContext context) : Action<EmptyObject, EmptyObject>
+internal class TutorialSkipEndpoint(IActionContext context, ITutorialService tutorialService)
+    : Action<EmptyObject, EmptyObject>
 {
     public override async Task<EmptyObject> ExecuteAsync(EmptyObject requestBody)
     {
-        var user = await serverContext.Users.FindAsync(context.UserId);
-        user.TutorialState = -1;
-        serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
+        await tutorialService.SkipAsync(context.UserId);
 
         return new EmptyObject();
     }

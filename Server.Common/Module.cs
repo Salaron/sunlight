@@ -4,7 +4,9 @@ using Server.Common.Download;
 using Server.Common.Items;
 using Server.Common.Live;
 using Server.Common.Login;
+using Server.Common.Tutorial;
 using Server.Common.Unit;
+using Server.Common.Users;
 
 namespace Server.Common;
 
@@ -26,7 +28,7 @@ public static class CommonModule
         serviceCollection.AddScoped<ItemManager>();
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();
-
         serviceCollection.AddScoped<IUserService, UserService>();
+        serviceCollection.AddScoped<ITutorialService, TutorialService>();
     }
 }
