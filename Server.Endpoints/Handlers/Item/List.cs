@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Item;
+namespace Server.Endpoints.Main.Item_;
 
 [Endpoint("item/list", usedInApi: true)]
 internal class ItemListEndpoint : Action<EmptyObject, IEnumerable<EmptyObject>>

@@ -18,7 +18,11 @@ public static class CommonModule
         serviceCollection.AddSingleton<IAuthKeyRepository, AuthKeyRepository>();
         serviceCollection.AddHostedService<AuthKeyRepository>();
 
-        serviceCollection.AddScoped<IItemHandler, UnitHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, UnitHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, LovecaHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, SocialPointHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, PlayerExpHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, GameCoinHandler>();
         serviceCollection.AddScoped<ItemManager>();
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();
