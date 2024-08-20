@@ -12,6 +12,7 @@ internal static class WebApplicationExtensions
             app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<ExceptionLoggerMiddleware>();
         app.UseMiddleware<RequestBodyExtractorMiddleware>();
         app.UseMiddleware<NotFoundMiddleware>();
         app.UseMiddleware<MessageSignerMiddleware>();

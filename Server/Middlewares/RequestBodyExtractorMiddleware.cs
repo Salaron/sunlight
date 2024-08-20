@@ -1,38 +1,38 @@
 namespace Server.Middlewares;
 
-internal class RequestBodyExtractorMiddleware(RequestDelegate next, ILogger<RequestBodyExtractorMiddleware> logger)
+internal class RequestBodyExtractorMiddleware(ILogger<RequestBodyExtractorMiddleware> logger) : IMiddleware
 {
-    public async Task InvokeAsync(HttpContext ctx)
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        if (ctx.Request.ContentType == null)
+        if (context.Request.ContentType == null)
             return;
 
         // swagger/postman
-        if (ctx.Request.ContentType.Contains("application/json"))
+        if (context.Request.ContentType.Contains("application/json"))
         {
-            ctx.Request.EnableBuffering();
-            ctx.Request.Body.Position = 0;
-            using var streamReader = new StreamReader(ctx.Request.Body, leaveOpen: true);
-            ctx.Items["RawRequestBody"] = await streamReader.ReadToEndAsync();
-            ctx.Request.Body.Position = 0;
+            context.Request.EnableBuffering();
+            context.Request.Body.Position = 0;
+            using var streamReader = new StreamReader(context.Request.Body, leaveOpen: true);
+            context.Items["RawRequestBody"] = await streamReader.ReadToEndAsync();
+            context.Request.Body.Position = 0;
         }
 
         // game
-        if (ctx.Request.ContentType.Contains("multipart/form-data"))
+        if (context.Request.ContentType.Contains("multipart/form-data"))
         {
-            using var bodyReader = new StreamReader(ctx.Request.Body);
+            using var bodyReader = new StreamReader(context.Request.Body);
             var body = await bodyReader.ReadToEndAsync();
             var bodySplit = body.Split("\r\n");
             var requestBody = bodySplit[3];
 
-            ctx.Request.Body = await new StringContent(requestBody).ReadAsStreamAsync();
-            ctx.Request.ContentType = "application/json";
-            ctx.Items["RawRequestBody"] = requestBody;
-            ctx.SetEndpoint(null);
+            context.Request.Body = await new StringContent(requestBody).ReadAsStreamAsync();
+            context.Request.ContentType = "application/json";
+            context.Items["RawRequestBody"] = requestBody;
+            context.SetEndpoint(null);
         }
 
-        logger.LogDebug("{path}{newLine}{body}", ctx.Request.Path, Environment.NewLine, ctx.Items["RawRequestBody"]);
+        logger.LogTrace("{path}{newLine}{body}", context.Request.Path, Environment.NewLine, context.Items["RawRequestBody"]);
 
-        await next(ctx);
+        await next(context);
     }
 }

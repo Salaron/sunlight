@@ -7,7 +7,7 @@ namespace Server.Endpoints.Filters;
 internal class XCodeFilter(XCodeVerifier xCodeVerifier, IActionContext actionContext)
     : IEndpointFilter
 {
-    public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var metadata = context.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
         if (metadata.XCodeCheck != XCodeCheck.Disabled)
@@ -17,10 +17,7 @@ internal class XCodeFilter(XCodeVerifier xCodeVerifier, IActionContext actionCon
             var clientCode = context.HttpContext.Request.Headers["X-Message-Code"].FirstOrDefault();
             var isKeyMatch = xCodeVerifier.Verify(clientCode, requestBody, signKey, metadata.XCodeCheck);
             if (!isKeyMatch)
-            {
-                // TODO
-                return new ValueTask<object?>(new { Message = "Forbidden" });
-            }
+                return new ValueTask<object>(ResponseFactory.CreateErrorResponse("noway"));
         }
 
         return next(context);

@@ -1,15 +1,15 @@
 namespace Server.Middlewares;
 
-internal class NotFoundMiddleware(RequestDelegate next, ILogger<NotFoundMiddleware> logger)
+internal class NotFoundMiddleware(ILogger<NotFoundMiddleware> logger) : IMiddleware
 {
-    public async Task InvokeAsync(HttpContext ctx)
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        await next(ctx);
+        await next(context);
 
-        if (ctx.Response.StatusCode is 404)
+        if (context.Response.StatusCode is 404)
         {
-            logger.LogWarning("Unhandled:{newLine}{path}{newLine}{body}", Environment.NewLine, ctx.Request.Path,
-                Environment.NewLine, ctx.Items["RawRequestBody"]);
+            logger.LogWarning("Unhandled:{newLine}{path}{newLine}{body}", Environment.NewLine, context.Request.Path,
+                Environment.NewLine, context.Items["RawRequestBody"]);
         }
     }
 }

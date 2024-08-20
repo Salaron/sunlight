@@ -5,9 +5,9 @@ using Server.Common.Config;
 
 namespace Server.Endpoints;
 
-internal record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, ReleaseInfo[] ReleaseInfo, long ServerTimestamp);
+public record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, ReleaseInfo[] ReleaseInfo, long ServerTimestamp);
 
-internal record ErrorResponse(int ErrorCode, string Message);
+public record ErrorResponse(int ErrorCode, string Message);
 
 internal class ActionWrapper<TRequest, TResponse>(
     IAction<TRequest, TResponse> action,

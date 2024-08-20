@@ -13,7 +13,7 @@ internal class TransactionMiddleware(ServerContext serverContext) : IMiddleware
             await serverContext.SaveChangesAsync();
             await transaction.CommitAsync();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             await transaction.RollbackAsync();
             throw;

@@ -6,7 +6,7 @@ namespace Server.Endpoints.Filters;
 
 internal class AuthorizationFilter(ServerContext serverContext, IActionContext actionContext, IAuthKeyRepository authKeyRepository) : IEndpointFilter
 {
-    public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var metadata = context.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
         
@@ -28,7 +28,7 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
         }
         
         if (metadata.RequireAuthorization && user == null)
-            return new ValueTask<object?>(new { Message = "Forbidden" });
+            return new ValueTask<object>(ResponseFactory.CreateErrorResponse("noway"));
         
         return next(context);
     }

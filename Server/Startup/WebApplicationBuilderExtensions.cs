@@ -25,7 +25,13 @@ public static class WebApplicationBuilderExtensions
             opts.SerializerOptions.Converters.Add(new DateTimeJsonConverter());
         });
 
+        builder.Services.AddSingleton<ExceptionLoggerMiddleware>();
+        builder.Services.AddSingleton<MessageSignerMiddleware>();
+        builder.Services.AddSingleton<NotFoundMiddleware>();
+        builder.Services.AddSingleton<RequestBodyExtractorMiddleware>();
         builder.Services.AddScoped<TransactionMiddleware>();
+        
+        
         builder.Services.AddCommonModule();
         builder.Services.AddEndpointsModule();
         builder.Services.AddEndpoints();

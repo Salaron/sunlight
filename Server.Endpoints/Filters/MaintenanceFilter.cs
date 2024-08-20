@@ -7,12 +7,12 @@ namespace Server.Endpoints.Filters;
 
 internal class MaintenanceFilter(IOptionsSnapshot<ServerConfig> config) : IEndpointFilter
 {
-    public ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
+    public ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         if (config.Value.Maintenance)
         {
             context.HttpContext.Response.Headers["maintenance"] = "1";
-            return new ValueTask<object?>(ResponseFactory.Empty);
+            return new ValueTask<object>(ResponseFactory.CreateEmptyResponse());
         }
         
         return next(context);
