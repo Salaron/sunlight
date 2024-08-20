@@ -82,7 +82,6 @@ internal class UnitHandler(UnitContext unitContext, ServerContext serverContext)
         };
 
         await serverContext.UnitOwning.AddAsync(unit);
-        await serverContext.SaveChangesAsync();
 
         await UpdateAlbumAsync(userId, unit);
 
@@ -105,16 +104,21 @@ internal class UnitHandler(UnitContext unitContext, ServerContext serverContext)
             existingInfo = new UnitAlbum
             {
                 UserId = userId,
-                UnitId = unitOwning.UnitId
+                UnitId = unitOwning.UnitId,
+                // RankMaxFlag = unitOwning.IsRankMax,
+                // LoveMaxFlag = unitOwning.IsLoveMax,
+                // AllMaxFlag = unitOwning.IsRankMax && unitOwning.IsLoveMax
             };
             await serverContext.UnitAlbum.AddAsync(existingInfo);
-            await serverContext.SaveChangesAsync();
         }
-
-        // existingInfo.RankMaxFlag = existingInfo.RankMaxFlag || unitOwning.IsRankMax;
-        // existingInfo.LoveMaxFlag = existingInfo.LoveMaxFlag || unitOwning.IsLoveMax;
-        // existingInfo.AllMaxFlag = existingInfo.AllMaxFlag || (unitOwning.IsRankMax && unitOwning.IsLoveMax);
-        serverContext.UnitAlbum.Update(existingInfo);
+        else
+        {
+            // existingInfo.RankMaxFlag = existingInfo.RankMaxFlag || unitOwning.IsRankMax;
+            // existingInfo.LoveMaxFlag = existingInfo.LoveMaxFlag || unitOwning.IsLoveMax;
+            // existingInfo.AllMaxFlag = existingInfo.AllMaxFlag || (unitOwning.IsRankMax && unitOwning.IsLoveMax);
+            serverContext.UnitAlbum.Update(existingInfo);
+        }
+        
         await serverContext.SaveChangesAsync();
     }
 }

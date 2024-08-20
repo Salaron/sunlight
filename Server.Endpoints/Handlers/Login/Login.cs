@@ -32,7 +32,6 @@ internal class LoginEndpoint(
         user.SessionKey = authKey.SessionKey;
         user.AuthorizeToken = Guid.NewGuid().ToString();
         serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
 
         return new LoginResponse(user.UserId, user.AuthorizeToken, false, false);
     }

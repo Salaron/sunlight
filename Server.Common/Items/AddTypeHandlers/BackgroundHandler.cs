@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Server.Database.Enums;
 using Server.Database.Server;
 
@@ -34,12 +35,13 @@ internal class BackgroundHandler(ServerContext serverContext) : AddTypeHandler<B
 
     public override async Task<EmptyObject> SubtractAsync(int userId, BackgroundItem item)
     {
-        var backgroundUnlock = serverContext.UserItemUnlock.SingleOrDefault(u => u.AddType == AddType.Background && u.ItemId == item.BackgroundId);
+        var backgroundUnlock = await serverContext.UserItemUnlock.SingleOrDefaultAsync(u => u.AddType == AddType.Background && u.ItemId == item.BackgroundId);
         if (backgroundUnlock == null)
             return new EmptyObject();
         
         serverContext.UserItemUnlock.Remove(backgroundUnlock);
         await serverContext.SaveChangesAsync();
+
         return new EmptyObject();
     }
 }

@@ -36,5 +36,5 @@ public class UnitOwning
 
     public DateTime InsertDate { get; set; }
 
-    // public virtual User User { get; set; }
+    public virtual User User { get; set; }
 }

@@ -25,6 +25,8 @@ internal class UnitSelectEndpoint(
     {
         var units = _defaultUnitSet;
         units[4] = requestBody.UnitInitialSetId;
+        
+        var user = serverContext.Users.Find(context.UserId);
 
         var deckSlots = new List<UserUnitDeckSlot>();
         foreach (var (unitId, i) in units.Select((u, i) => (u, i)))
@@ -34,8 +36,14 @@ internal class UnitSelectEndpoint(
             deckSlots.Add(new UserUnitDeckSlot
             {
                 Position = i + 1,
-                UnitOwningUserId = unitOwning.UnitOwningUserId
+                UnitOwningUser = unitOwning
             });
+
+            if (i == 4)
+            {
+                user.PartnerUnit = unitOwning;
+                serverContext.Users.Update(user);
+            }
         }
 
         var initialDeckList = new List<UserUnitDeck>
@@ -46,17 +54,12 @@ internal class UnitSelectEndpoint(
                 UnitDeckId = 1,
                 MainFlag = true,
                 UserId = context.UserId,
-                UnitOwningUserIds = deckSlots
+                UnitDeckSlots = deckSlots
             }
         };
 
         await deckService.SetDeckListAsync(context.UserId, initialDeckList);
 
-        var user = serverContext.Users.Find(context.UserId);
-        user.PartnerUnitId = deckSlots[4].UnitOwningUserId;
-        serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
-        
         return new UnitSelectResponse(deckSlots.Select(slot => slot.UnitOwningUserId).ToList());
     }
 }

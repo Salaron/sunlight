@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Server.Database.Server;
@@ -10,5 +11,9 @@ public class UserItems
     public int ItemType { get; set; }
     public int ItemId { get; set; }
     public int Amount { get; set; }
+    
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime InsertDate { get; set; }
+    
+    public virtual User User { get; set; }
 }

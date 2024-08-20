@@ -12,13 +12,12 @@ internal class UnitDeckService(ServerContext serverContext) : IUnitDeckService
         serverContext.UserUnitDeck.RemoveRange(userDecks);
         
         await serverContext.UserUnitDeck.AddRangeAsync(deckList);
-        await serverContext.SaveChangesAsync();
     }
 
     public async Task<List<UserUnitDeck>> GetDeckListAsync(int userId)
     {
         var deckList = await serverContext.UserUnitDeck
-            .Include(deck => deck.UnitOwningUserIds)
+            .Include(deck => deck.UnitDeckSlots)
             .Where(deck => deck.UserId == userId)
             .ToListAsync();
 

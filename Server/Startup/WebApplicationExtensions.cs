@@ -15,6 +15,7 @@ internal static class WebApplicationExtensions
         app.UseMiddleware<RequestBodyExtractorMiddleware>();
         app.UseMiddleware<NotFoundMiddleware>();
         app.UseMiddleware<MessageSignerMiddleware>();
+        app.UseMiddleware<TransactionMiddleware>();
         
         app.UseRouting();
 

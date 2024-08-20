@@ -60,7 +60,6 @@ internal class UserService(ServerContext serverContext, IUnlockedItemsProvider i
         }
         
         serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
 
         return levelInfo;
     }
@@ -77,7 +76,6 @@ internal class UserService(ServerContext serverContext, IUnlockedItemsProvider i
         
         user.SettingAwardId = awardId;
         serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
     }
 
     public async Task SetBackgroundAsync(int userId, int backgroundId)
@@ -92,7 +90,6 @@ internal class UserService(ServerContext serverContext, IUnlockedItemsProvider i
         
         user.SettingBackgroundId = backgroundId;
         serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
     }
 
     private UserInfo ConvertToUserInfo(User user)

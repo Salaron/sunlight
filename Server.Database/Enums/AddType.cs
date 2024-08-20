@@ -19,6 +19,7 @@ public enum AddType
     Award = 5100,
     Background = 5200,
     Scenario = 5300,
+    Subscenario = 5310, // to keep things cool
     EventScenario = 5330,
     MultiUnitScenario = 5340,
     LiveSe = 5400,

@@ -15,4 +15,6 @@ public class UserItemUnlock
     
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime InsertDate { get; set; }
+    
+    public virtual User User { get; set; }
 }

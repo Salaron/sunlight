@@ -19,7 +19,6 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
             
             user.LastActivityDate = DateTime.UtcNow;
             serverContext.Users.Update(user);
-            serverContext.SaveChanges();
         }
         else
         {

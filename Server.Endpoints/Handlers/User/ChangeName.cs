@@ -14,7 +14,6 @@ internal class ChangeNameEndpoint(ServerContext serverContext, IActionContext co
         var user = await serverContext.Users.FindAsync(context.UserId);
         user.Name = requestBody.Name;
         serverContext.Users.Update(user);
-        await serverContext.SaveChangesAsync();
         
         return new ChangeNameResponse(requestBody.Name);
     }

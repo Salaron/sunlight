@@ -7,7 +7,7 @@ namespace Server.Endpoints.Main.Login;
 
 internal record StartUpRequest(string LoginKey, string LoginPasswd);
 
-internal record StartUpResponse(int UserId, string AuthorizeToken);
+internal record StartUpResponse(int UserId);
 
 [Endpoint("login/startUp", xCodeCheck: XCodeCheck.Disabled, ignoreVersion: true, requireAuthorization: false)]
 internal class StartUpEndpoint(
@@ -27,6 +27,6 @@ internal class StartUpEndpoint(
 
         var user = await userService.CreateAsync(login, passwd);
 
-        return new StartUpResponse(user.UserId, AuthorizeToken: Guid.NewGuid().ToString());
+        return new StartUpResponse(user.UserId);
     }
 }

@@ -7,6 +7,7 @@ using Server.Common.Json;
 using Server.Database.Game;
 using Server.Database.Server;
 using Server.Endpoints;
+using Server.Middlewares;
 
 namespace Server.Startup;
 
@@ -24,6 +25,7 @@ public static class WebApplicationBuilderExtensions
             opts.SerializerOptions.Converters.Add(new DateTimeJsonConverter());
         });
 
+        builder.Services.AddScoped<TransactionMiddleware>();
         builder.Services.AddCommonModule();
         builder.Services.AddEndpointsModule();
         builder.Services.AddEndpoints();

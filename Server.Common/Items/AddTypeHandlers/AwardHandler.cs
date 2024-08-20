@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Server.Database.Enums;
 using Server.Database.Server;
 
@@ -34,12 +35,13 @@ internal class AwardHandler(ServerContext serverContext) : AddTypeHandler<AwardI
 
     public override async Task<EmptyObject> SubtractAsync(int userId, AwardItem item)
     {
-        var awardUnlock = serverContext.UserItemUnlock.SingleOrDefault(u => u.AddType == AddType.Award && u.ItemId == item.AwardId);
+        var awardUnlock = await serverContext.UserItemUnlock.SingleOrDefaultAsync(u => u.AddType == AddType.Award && u.ItemId == item.AwardId);
         if (awardUnlock == null)
             return new EmptyObject();
         
         serverContext.UserItemUnlock.Remove(awardUnlock);
         await serverContext.SaveChangesAsync();
+
         return new EmptyObject();
     }
 }

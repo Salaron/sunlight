@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Server.Database.Enums;
 using Server.Database.Server;
 
@@ -15,7 +16,7 @@ internal class LiveHandler(ServerContext serverContext) : AddTypeHandler<LiveIte
 
     public override async Task<EmptyObject> AddAsync(int userId, LiveItem item)
     {
-        var liveStatus = serverContext.UserLiveStatus.SingleOrDefault(u => u.UserId == userId && u.LiveDifficultyId == item.LiveDifficultyId);
+        var liveStatus = await serverContext.UserLiveStatus.SingleOrDefaultAsync(u => u.UserId == userId && u.LiveDifficultyId == item.LiveDifficultyId);
         if (liveStatus != null)
             return new EmptyObject();
         

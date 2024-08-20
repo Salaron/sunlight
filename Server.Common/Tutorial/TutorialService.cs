@@ -23,24 +23,24 @@ internal class TutorialService(
             user.TutorialState = nextState;
         else if (user.TutorialState == TutorialState.Live && nextState == TutorialState.Top)
         {
+            user.TutorialState = nextState;
+
             await itemManager.AddAsync(userId, Item.GameCoin(36400));
             await itemManager.AddAsync(userId, Item.SocialPoint(5));
             await itemManager.AddAsync(userId, Item.PlayerExp(11));
-            user.TutorialState = nextState;
         }
         else if (user.TutorialState == TutorialState.Top && nextState == TutorialState.End)
         {
+            user.TutorialState = nextState;
+
             await initialItemsUnlocker.UnlockAsync(userId);
             await userService.SetAwardAsync(userId, 1);
             await userService.SetBackgroundAsync(userId, 1);
-
-            user.TutorialState = nextState;
         }
         else
             throw new TutorialInvalidStateException();
 
         serverContext.Update(user);
-        await serverContext.SaveChangesAsync();
     }
 
     public async Task SkipAsync(int userId)
