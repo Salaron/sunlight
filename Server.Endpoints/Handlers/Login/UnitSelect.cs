@@ -1,4 +1,3 @@
-using Server.Common;
 using Server.Common.Items;
 using Server.Common.Live;
 using Server.Database.Server;
@@ -30,8 +29,7 @@ internal class UnitSelectEndpoint(
         var deckSlots = new List<UserUnitDeckSlot>();
         foreach (var (unitId, i) in units.Select((u, i) => (u, i)))
         {
-            var itemDescription = new ItemDescription<UnitParams>(AddType.Unit, unitId);
-            var unitOwning = await itemManager.AddAsync<UnitParams, UnitOwning>(context.UserId, itemDescription);
+            var unitOwning = await itemManager.AddAsync<UnitItem, UnitOwning>(context.UserId, Item.Unit(unitId));
 
             deckSlots.Add(new UserUnitDeckSlot
             {

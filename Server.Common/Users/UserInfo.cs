@@ -1,6 +1,8 @@
-namespace Server.Endpoints.Dtos;
+using Server.Database.Enums;
 
-public class UserInfoDto
+namespace Server.Common.Users;
+
+public record UserInfo
 {
     public int UserId { get; init; }
     public string Name { get; init; }
@@ -24,8 +26,9 @@ public class UserInfoDto
     public int TrainingEnergyMax { get; init; }
     public int FriendMax { get; init; }
     public string InviteCode { get; init; }
-    public int TutorialState { get; init; }
+    public TutorialState TutorialState { get; init; }
     public List<object> LpRecoveryItem { get; init; }
     public short UnlockRandomLiveMuse { get; init; }
     public short UnlockRandomLiveAqours { get; init; }
+    public DateOnly? Birthday { get; init; }
 }

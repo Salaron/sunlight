@@ -16,6 +16,10 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
             (actionContext as ActionContext)!.UserId = user.UserId;
             (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(user.SessionKey);
             context.HttpContext.Response.Headers["user_id"] = user.UserId.ToString();
+            
+            user.LastActivityDate = DateTime.UtcNow;
+            serverContext.Users.Update(user);
+            serverContext.SaveChanges();
         }
         else
         {
@@ -23,7 +27,6 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
             if (authKey != null)
                 (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(authKey.SessionKey);
         }
-        
         
         if (metadata.RequireAuthorization && user == null)
             return new ValueTask<object?>(new { Message = "Forbidden" });

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Server.Database.Enums;
 
 namespace Server.Database.Game.Unit;
 
@@ -89,10 +90,10 @@ public partial class UnitM
     public int DisableRankUp { get; set; }
 
     [Column("rank_min")]
-    public int RankMin { get; set; }
+    public UnitRank RankMin { get; set; }
 
     [Column("rank_max")]
-    public int RankMax { get; set; }
+    public UnitRank RankMax { get; set; }
 
     [Column("unit_level_up_pattern_id")]
     public int UnitLevelUpPatternId { get; set; }

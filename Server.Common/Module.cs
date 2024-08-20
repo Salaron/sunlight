@@ -27,5 +27,6 @@ public static class CommonModule
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();
 
+        serviceCollection.AddScoped<IUserService, UserService>();
     }
 }

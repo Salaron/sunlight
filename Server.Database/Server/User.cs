@@ -1,7 +1,9 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Server.Database.Enums;
+
+#nullable enable
 
 namespace Server.Database.Server;
 
@@ -11,38 +13,46 @@ public class User
     public int UserId { get; init; }
 
     [MaxLength(20)]
-    public string Name { get; set; }
-    public uint Level { get; set; }
-    public uint PreviousExp { get; set; }
-    public uint NextExp { get; set; }
-    public uint GameCoin { get; set; }
-    public uint SnsCoin { get; set; }
-    public uint FreeSnsCoin { get; set; }
-    public uint PaidSnsCoin { get; set; }
-    public uint SocialPoint { get; set; }
-    public uint UnitMax { get; set; }
-    public uint WaitingUnitMax { get; set; }
-    public uint EnergyMax { get; set; }
+    public string Name { get; set; } = string.Empty;
+
+    public int Level { get; set; }
+    public int PreviousExp { get; set; }
+    public int Exp { get; set; }
+    public int NextExp { get; set; }
+    public int GameCoin { get; set; }
+    public int FreeSnsCoin { get; set; }
+    public int PaidSnsCoin { get; set; }
+    public int SocialPoint { get; set; }
+    public int UnitMax { get; set; }
+    public int WaitingUnitMax { get; set; }
+    public int EnergyMax { get; set; }
     public DateTime EnergyFullTime { get; set; }
-    public uint LicenseLiveEnergyRecoveryTime { get; set; }
-    public uint EnergyFullNeedTime { get; set; }
-    public uint OverMaxEnergy { get; set; }
-    public uint TrainingEnergy { get; set; }
-    public uint TrainingEnergyMax { get; set; }
-    public uint FriendMax { get; set; }
+    public int LicenseLiveEnergyRecoveryTime { get; set; }
+    public int OverMaxEnergy { get; set; }
+    public int TrainingEnergy { get; set; }
+    public int TrainingEnergyMax { get; set; }
+    public int FriendMax { get; set; }
     public string InviteCode => UserId.ToString();
-    public int TutorialState { get; set; }
+    public TutorialState TutorialState { get; set; }
     public int SettingAwardId { get; set; }
     public int SettingBackgroundId { get; set; }
-    public int? PartnerUnitId { get; set; }
-    public ICollection<object> LpRecoveryItem => new List<object>();
-    public DateTime LastLogin { get; set; }
-    public DateTime CreationTime { get; set; }
-    public string AuthorizeToken { get; set; }
-    public string SessionKey { get; set; }
     public string LoginKey { get; set; }
     public string LoginPasswd { get; set; }
 
+    public string AuthorizeToken { get; set; } = string.Empty;
+    public string SessionKey { get; set; } = string.Empty;
+    public int? PartnerUnitId { get; set; }
+
     [ForeignKey(nameof(PartnerUnitId))]
     public virtual UnitOwning? PartnerUnit { get; set; }
+
+    public DateOnly? Birthday { get; set; }
+
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime InsertDate { get; set; }
+
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime UpdateDate { get; set; }
+
+    public DateTime LastActivityDate { get; set; }
 }

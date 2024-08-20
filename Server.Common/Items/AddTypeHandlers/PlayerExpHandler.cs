@@ -8,23 +8,19 @@ public class PlayerExpItem(int amount) : IItem
     public int Amount => amount;
 }
 
-public record PlayerExpInfo(int Level, int FromExp);
-
-internal class PlayerExpHandler(IUserService userService) : AddTypeHandler<PlayerExpItem, List<PlayerExpInfo>>
+internal class PlayerExpHandler(IUserService userService) : AddTypeHandler<PlayerExpItem, IReadOnlyList<UserNextLevelInfo>>
 {
     public override AddType AddType => AddType.PlayerExp;
 
-    public override async Task<List<PlayerExpInfo>> AddAsync(int userId, PlayerExpItem item)
+    public override Task<IReadOnlyList<UserNextLevelInfo>> AddAsync(int userId, PlayerExpItem item)
     {
         if (item.Amount < 0)
             throw new ArgumentOutOfRangeException(nameof(item.Amount));
 
-        await userService.AddExp(userId, item.Amount);
-
-        return [];
+        return userService.AddExp(userId, item.Amount);
     }
 
-    public override Task<List<PlayerExpInfo>> SubtractAsync(int userId, PlayerExpItem item)
+    public override Task<IReadOnlyList<UserNextLevelInfo>> SubtractAsync(int userId, PlayerExpItem item)
     {
         throw new InvalidOperationException();
     }

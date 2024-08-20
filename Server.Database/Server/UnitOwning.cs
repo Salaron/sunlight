@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Server.Database.Enums;
 
 namespace Server.Database.Server;
 
@@ -14,8 +15,8 @@ public class UnitOwning
     public int Level { get; set; }
     public int MaxLevel { get; set; }
     public int LevelLimitId { get; set; }
-    public int Rank { get; set; }
-    public int MaxRank { get; set; }
+    public UnitRank Rank { get; set; }
+    public UnitRank MaxRank { get; set; }
     public int Love { get; set; }
     public int MaxLove { get; set; }
     public int UnitSkillExp { get; set; }
@@ -25,19 +26,13 @@ public class UnitOwning
     public int UnitRemovableSkillCapacity { get; set; }
     public int MaxUnitRemovableSkillCapacity { get; set; }
     public int FavoriteFlag { get; set; }
-    public int DisplayRank { get; set; }
-    public int IsSigned { get; set; }
+    public UnitRank DisplayRank { get; set; }
+    public bool IsSigned { get; set; }
 
     public int Attribute { get; set; }
     public int StatSmile { get; set; }
     public int StatPure { get; set; }
     public int StatCool { get; set; }
-
-    public bool IsRankMax => Rank >= MaxRank;
-    public bool IsLoveMax => Love >= MaxLove;
-    public bool IsLevelMax => Level >= MaxLevel;
-    public bool IsSkillLevelMax => UnitSkillLevel >= MaxUnitSkillLevel;
-    public bool IsRemovableSkillCapacityMax => UnitRemovableSkillCapacity >= MaxUnitRemovableSkillCapacity;
 
     public DateTime InsertDate { get; set; }
 
