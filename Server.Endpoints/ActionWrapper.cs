@@ -20,7 +20,7 @@ internal class ActionWrapper<TRequest, TResponse>(
     {
         var responseHeaders = accessor.HttpContext!.Response.Headers;
         // time to flex
-        responseHeaders["X-Powered-By"] = "SunLight Project v4";
+        responseHeaders["X-Powered-By"] = "SunLight Project v4 (re:Light)";
         responseHeaders["Server-Version"] = config.Value.ServerVersion;
 
         try
