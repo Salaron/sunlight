@@ -14,4 +14,6 @@ public class ServerConfig
     public bool Maintenance { get; init; }
     
     public DownloadConfig Download { get; init; }
+    
+    public LoginBonusConfig LoginBonus { get; init; }
 }

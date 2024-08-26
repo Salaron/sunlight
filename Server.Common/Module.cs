@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Server.Common.Crypto;
 using Server.Common.Download;
 using Server.Common.Items;
+using Server.Common.Lbonus;
 using Server.Common.Live;
 using Server.Common.Login;
 using Server.Common.Tutorial;
@@ -36,5 +37,6 @@ public static class CommonModule
         serviceCollection.AddScoped<ILiveStatusProvider, LiveStatusProvider>();
         serviceCollection.AddScoped<ITutorialService, TutorialService>();
         serviceCollection.AddScoped<IUnlockedItemsProvider, UnlockedItemsProvider>();
+        serviceCollection.AddScoped<ILoginBonusService, LoginBonusService>();
     }
 }

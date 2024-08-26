@@ -9,6 +9,7 @@ public class ServerContext : DbContext
         Database.EnsureCreated();
     }
 
+    public DbSet<LoginBonus> LoginBonus { get; init; }
     public DbSet<User> Users { get; init; }
     public DbSet<UnitAlbum> UnitAlbum { get; init; }
     public DbSet<UnitOwning> UnitOwning { get; init; }

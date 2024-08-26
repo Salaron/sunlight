@@ -30,8 +30,7 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddSingleton<NotFoundMiddleware>();
         builder.Services.AddSingleton<RequestBodyExtractorMiddleware>();
         builder.Services.AddScoped<TransactionMiddleware>();
-        
-        
+
         builder.Services.AddCommonModule();
         builder.Services.AddEndpointsModule();
         builder.Services.AddEndpoints();
@@ -53,16 +52,21 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddDbContext<LiveContext>();
         builder.Services.AddDbContext<MuseumContext>();
         builder.Services.AddDbContext<LiveNotesContext>();
-        
+
         return builder;
     }
 
     public static WebApplicationBuilder AddConfig(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddYamlFile("config.yml", optional: false, reloadOnChange: true);
+        builder.Configuration.AddYamlFile("config.modules.yml", optional: true, reloadOnChange: true);
 
         builder.Services.AddOptions<ServerConfig>()
             .Bind(builder.Configuration)
+            .ValidateOnStart();
+
+        builder.Services.AddOptions<LoginBonusConfig>()
+            .Bind(builder.Configuration.GetSection("LoginBonus"))
             .ValidateOnStart();
 
         return builder;

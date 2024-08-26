@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Server.Common.Json;
 
@@ -10,6 +11,7 @@ public static class JsonSerializerDefaultOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
             Converters = { new DateTimeJsonConverter() },
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
         };
 
         return jsonOptions;
