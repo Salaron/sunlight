@@ -4,19 +4,22 @@ using Server.Database.Server;
 
 namespace Server.Endpoints.Filters;
 
-internal class AuthorizationFilter(ServerContext serverContext, IActionContext actionContext, IAuthKeyRepository authKeyRepository) : IEndpointFilter
+internal class AuthorizationFilter(
+    ServerContext serverContext,
+    IActionContext actionContext,
+    IAuthKeyRepository authKeyRepository) : IEndpointFilter
 {
     public ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var metadata = context.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
-        
+
         var user = serverContext.Users.FirstOrDefault(u => u.AuthorizeToken == actionContext.AuthorizeHeader.Token);
         if (user != null)
         {
             (actionContext as ActionContext)!.UserId = user.UserId;
             (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(user.SessionKey);
             context.HttpContext.Response.Headers["user_id"] = user.UserId.ToString();
-            
+
             user.LastActivityDate = DateTime.UtcNow;
             serverContext.Users.Update(user);
         }
@@ -26,10 +29,11 @@ internal class AuthorizationFilter(ServerContext serverContext, IActionContext a
             if (authKey != null)
                 (actionContext as ActionContext)!.SessionKey = Convert.FromBase64String(authKey.SessionKey);
         }
-        
+
         if (metadata.RequireAuthorization && user == null)
+            // TODO: client restart
             return new ValueTask<object>(ResponseFactory.CreateErrorResponse("noway"));
-        
+
         return next(context);
     }
 }

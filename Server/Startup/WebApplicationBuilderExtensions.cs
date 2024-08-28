@@ -1,6 +1,8 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Server.Common;
 using Server.Common.Config;
 using Server.Common.Json;
@@ -8,6 +10,7 @@ using Server.Database.Game;
 using Server.Database.Server;
 using Server.Endpoints;
 using Server.Middlewares;
+using Server.Swagger;
 
 namespace Server.Startup;
 
@@ -16,7 +19,18 @@ public static class WebApplicationBuilderExtensions
     public static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(opts =>
+        {
+            opts.AddSecurityDefinition("Authorize", new OpenApiSecurityScheme
+            {
+                Name = "Authorize",
+                In = ParameterLocation.Header,
+                Description = "Authorization token",
+                Type = SecuritySchemeType.ApiKey
+            });
+            
+            opts.OperationFilter<AuthorizationHeaderOperationFilter>();
+        });
         builder.Services.AddRouting();
         builder.Services.AddHttpContextAccessor();
         builder.Services.Configure<JsonOptions>(opts =>
@@ -34,6 +48,13 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddCommonModule();
         builder.Services.AddEndpointsModule();
         builder.Services.AddEndpoints();
+        
+        builder.Services.Configure<JsonOptions>(options =>
+        {
+            options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+            options.SerializerOptions.Converters.Add(new DateTimeJsonConverter());
+            options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        });
 
         return builder;
     }
