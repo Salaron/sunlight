@@ -8,4 +8,5 @@ WebApplication.CreateSlimBuilder(args)
     .Build()
     .UseMiddleware()
     .MapEndpoints()
+    .SetupDatabase()
     .Run();

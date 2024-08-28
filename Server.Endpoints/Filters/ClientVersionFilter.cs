@@ -9,14 +9,14 @@ internal class ClientVersionFilter(IOptionsSnapshot<ServerConfig> config) : IEnd
     public ValueTask<object> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var clientVersion = context.HttpContext.Request.Headers["bundle-version"].ToString();
-        
+
         var metadata = context.HttpContext.GetEndpoint()!.Metadata.GetRequiredMetadata<EndpointMetadata>();
-        if (!metadata.IgnoreVersion && config.Value.ClientVersion != clientVersion)
+        if (!metadata.IgnoreVersion && config.Value.ClientAppVersion != clientVersion)
         {
             context.HttpContext.Response.Headers["client-update"] = "1";
             return new ValueTask<object>(ResponseFactory.CreateEmptyResponse());
         }
-        
+
         return next(context);
     }
 }

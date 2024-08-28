@@ -5,7 +5,7 @@ using Server.Common.Config;
 
 namespace Server.Endpoints;
 
-public record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, ReleaseInfo[] ReleaseInfo, long ServerTimestamp);
+public record ServerResponse<TResponse>(TResponse ResponseData, int StatusCode, List<ReleaseInfo> ReleaseInfo, long ServerTimestamp);
 
 public record ErrorResponse(int ErrorCode, string Message);
 

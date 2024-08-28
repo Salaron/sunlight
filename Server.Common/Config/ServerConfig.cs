@@ -1,19 +1,15 @@
 namespace Server.Common.Config;
 
-public class ServerConfig
+public record ServerConfig
 {
-    public string ServerVersion { get; init; }
+    public required string ServerVersion { get; init; }
+    public required string ClientAppVersion { get; init; }
     public bool CheckXMessageCode { get; init; }
-    public string ApplicationKey { get; init; }
-    public string Xorpad { get; init; }
-    public string RsaPrivateKey { get; init; }
-    public ReleaseInfo[] ReleaseInfo { get; init; }
-    
-    // TODO
-    public string ClientVersion { get; init; }
-    public bool Maintenance { get; init; }
-    
-    public DownloadConfig Download { get; init; }
-    
-    public LoginBonusConfig LoginBonus { get; init; }
+    public required string ApplicationKey { get; init; }
+    public required string Xorpad { get; init; }
+    public required string RsaPrivateKey { get; init; }
+    public required List<ReleaseInfo> ReleaseInfo { get; init; } = [];
+    public required MaintenanceConfigSection Maintenance { get; init; }
+    public required DownloadConfigSection Download { get; init; }
+    public required LoginBonusConfigSection LoginBonus { get; init; }
 }

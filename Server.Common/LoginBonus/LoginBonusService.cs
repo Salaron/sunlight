@@ -4,7 +4,7 @@ using Server.Database.Server;
 
 namespace Server.Common.Lbonus;
 
-internal class LoginBonusService(IOptionsSnapshot<LoginBonusConfig> loginBonusConfig, ServerContext serverContext) : ILoginBonusService
+internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, ServerContext serverContext) : ILoginBonusService
 {
     public MonthInfo GetCalendar(int userId, DateOnly date)
     {
@@ -29,7 +29,7 @@ internal class LoginBonusService(IOptionsSnapshot<LoginBonusConfig> loginBonusCo
                     SpecialImageAsset = string.Empty,
                     Received = userLoginDays.Contains(day),
                     AdReceived = false,
-                    Item = loginBonusConfig.Value.CalendarBase[day]
+                    Item = serverConfig.Value.LoginBonus.CalendarBase[day]
                 }).ToList()
         };
     }

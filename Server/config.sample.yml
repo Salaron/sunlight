@@ -1,6 +1,25 @@
-ServerVersion: "59.4"
+ServerVersion: 59.4
+ClientAppVersion: 9.11
 CheckXMessageCode: true
-ApplicationKey: 
-Xorpad: 
+ApplicationKey: b6e6c940a93af2357ea3e0ace0b98afc
+Xorpad: eit4Ahph4aiX4ohmephuobei6SooX9xo
 RsaPrivateKey: 
-ReleaseInfo:
+Database: SQLite3
+ReleaseInfo: []
+
+Download:
+  NppsDownloadApiUrl: null
+  NppsDownloadApiKey: null
+
+Maintenance:
+  IsForced: false
+  Schedule:
+    - Start: 2024-08-28 00:00:00
+      End: 2024-08-28 23:59:59
+    - Start: 2024-08-29 00:00:00
+      End: 2024-08-29 23:59:59
+      Message: Sample maintenance
+      
+ConnectionStrings:
+  PostgreSQL: Server=localhost;Port=5432;Database=SunLightNewv2;User ID=postgres;Password=masterkey;
+  SQLite3: DataSource=SunLight.db;

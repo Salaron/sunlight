@@ -1,3 +1,4 @@
+using Server.Database.Server;
 using Server.Middlewares;
 
 namespace Server.Startup;
@@ -17,8 +18,16 @@ internal static class WebApplicationExtensions
         app.UseMiddleware<NotFoundMiddleware>();
         app.UseMiddleware<MessageSignerMiddleware>();
         app.UseMiddleware<TransactionMiddleware>();
-        
+
         app.UseRouting();
+
+        return app;
+    }
+
+    public static WebApplication SetupDatabase(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        scope.ServiceProvider.GetRequiredService<ServerContext>();
 
         return app;
     }

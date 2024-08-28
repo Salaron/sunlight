@@ -21,10 +21,10 @@ public class ServerContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().Property(p => p.InsertDate).HasDefaultValueSql("now()");
-        modelBuilder.Entity<User>().Property(p => p.UpdateDate).HasDefaultValueSql("now()");
+        modelBuilder.Entity<User>().Property(p => p.InsertDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        modelBuilder.Entity<User>().Property(p => p.UpdateDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         
-        modelBuilder.Entity<UserItemUnlock>().Property(p => p.InsertDate).HasDefaultValueSql("now()");
+        modelBuilder.Entity<UserItemUnlock>().Property(p => p.InsertDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         base.OnModelCreating(modelBuilder);
     }

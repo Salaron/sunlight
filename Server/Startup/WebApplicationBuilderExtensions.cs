@@ -42,9 +42,16 @@ public static class WebApplicationBuilderExtensions
     {
         builder.Services.AddDbContext<ServerContext>(opts =>
         {
-            var selectedDatabase =
-                builder.Configuration["DatabaseBackend"] ?? throw new Exception("Database not provided");
-            opts.UseNpgsql(builder.Configuration.GetConnectionString(selectedDatabase)).UseSnakeCaseNamingConvention();
+            var database = builder.Configuration["Database"];
+            var connectionString = builder.Configuration.GetConnectionString(database!);
+            var optsBuilder = database switch
+            {
+                "SQLite3" => opts.UseSqlite(connectionString),
+                "PostgreSQL" => opts.UseNpgsql(connectionString),
+                _ => throw new Exception("Database not provided")
+            };
+
+            optsBuilder.UseSnakeCaseNamingConvention();
         });
 
         builder.Services.AddDbContext<ItemContext>();
@@ -52,21 +59,17 @@ public static class WebApplicationBuilderExtensions
         builder.Services.AddDbContext<LiveContext>();
         builder.Services.AddDbContext<MuseumContext>();
         builder.Services.AddDbContext<LiveNotesContext>();
-
+        
         return builder;
     }
 
     public static WebApplicationBuilder AddConfig(this WebApplicationBuilder builder)
     {
         builder.Configuration.AddYamlFile("config.yml", optional: false, reloadOnChange: true);
-        builder.Configuration.AddYamlFile("config.modules.yml", optional: true, reloadOnChange: true);
+        builder.Configuration.AddYamlFile("config.lbonus.yml", optional: true, reloadOnChange: true);
 
         builder.Services.AddOptions<ServerConfig>()
             .Bind(builder.Configuration)
-            .ValidateOnStart();
-
-        builder.Services.AddOptions<LoginBonusConfig>()
-            .Bind(builder.Configuration.GetSection("LoginBonus"))
             .ValidateOnStart();
 
         return builder;
