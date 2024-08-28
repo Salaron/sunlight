@@ -3,11 +3,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class LovecaItem(int amount, bool isPaid = false) : IItem
+public record LovecaItem(int Amount, bool IsPaid = false) : IItem
 {
     public AddType AddType => AddType.Loveca;
-    public int Amount => amount;
-    public bool IsPaid => isPaid;
 }
 
 public record LovecaCount(int Total, int Free, int Paid);

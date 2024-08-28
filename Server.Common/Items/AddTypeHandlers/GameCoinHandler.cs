@@ -3,10 +3,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class GameCoinItem(int amount) : IItem
+public record GameCoinItem(int Amount) : IItem
 {
     public AddType AddType => AddType.GameCoin;
-    public int Amount => amount;
 }
 
 public record GameCoinCount(int Total);

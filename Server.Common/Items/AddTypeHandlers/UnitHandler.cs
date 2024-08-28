@@ -1,18 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using Server.Database;
 using Server.Database.Enums;
 using Server.Database.Game;
 using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class UnitItem(int unitId, int level = 1, UnitRank rank = UnitRank.Normal, bool isSigned = false) : IItem
+public record UnitItem(int UnitId, int Level = 1, UnitRank Rank = UnitRank.Normal, bool IsSigned = false) : IItem
 {
     public AddType AddType => AddType.Unit;
-    public int UnitId => unitId;
-    public int Level => level;
-    public UnitRank Rank => rank;
-    public bool IsSigned => isSigned;
 }
 
 internal class UnitHandler(UnitContext unitContext, ServerContext serverContext) : AddTypeHandler<UnitItem, UnitOwning>

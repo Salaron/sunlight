@@ -4,10 +4,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class BackgroundItem(int backgroundId) : IItem
+public record BackgroundItem(int BackgroundId) : IItem
 {
     public AddType AddType => AddType.Background;
-    public int BackgroundId => backgroundId;
 }
 
 internal class BackgroundHandler(ServerContext serverContext) : AddTypeHandler<BackgroundItem, EmptyObject>

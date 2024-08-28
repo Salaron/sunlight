@@ -4,10 +4,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class LiveItem(int liveDifficultyId) : IItem
+public record LiveItem(int LiveDifficultyId) : IItem
 {
     public AddType AddType => AddType.Live;
-    public int LiveDifficultyId => liveDifficultyId;
 }
 
 internal class LiveHandler(ServerContext serverContext) : AddTypeHandler<LiveItem, EmptyObject>

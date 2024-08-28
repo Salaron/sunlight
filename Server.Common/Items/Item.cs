@@ -20,7 +20,7 @@ public static class Item
     
     public static BackgroundItem Background(int backgroundId) => new(backgroundId);
 
-    public static IItem ExchangePoint(int rarity, int amount) => throw new NotImplementedException();
+    public static ExchangePointItem ExchangePoint(int rarity, int amount) => new(rarity, amount);
 
     public static IItem FromGameItem(GameItem gameItem) => gameItem.AddType switch
     {
@@ -32,6 +32,7 @@ public static class Item
         AddType.Live => Live(gameItem.ItemId!.Value),
         AddType.Award => Award(gameItem.ItemId!.Value),
         AddType.Background => Background(gameItem.ItemId!.Value),
+        AddType.ExchangePoint => ExchangePoint(gameItem.ItemId!.Value, gameItem.Amount),
         _ => throw new ArgumentOutOfRangeException()
     };
     
@@ -45,6 +46,7 @@ public static class Item
         LiveItem live => new GameItem(AddType.PlayerExp, live.LiveDifficultyId),
         AwardItem award => new GameItem(AddType.PlayerExp, award.AwardId),
         BackgroundItem background => new GameItem(AddType.PlayerExp, background.BackgroundId),
+        ExchangePointItem exchangePoint => new GameItem(AddType.ExchangePoint, exchangePoint.Rarity),
         _ => throw new ArgumentOutOfRangeException()
     };
 }

@@ -3,10 +3,9 @@ using Server.Database.Enums;
 
 namespace Server.Common.Items;
 
-public class PlayerExpItem(int amount) : IItem
+public record PlayerExpItem(int Amount) : IItem
 {
     public AddType AddType => AddType.PlayerExp;
-    public int Amount => amount;
 }
 
 internal class PlayerExpHandler(IUserService userService) : AddTypeHandler<PlayerExpItem, IReadOnlyList<UserNextLevelInfo>>

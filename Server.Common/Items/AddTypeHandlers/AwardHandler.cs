@@ -4,10 +4,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class AwardItem(int awardId) : IItem
+public record AwardItem(int AwardId) : IItem
 {
     public AddType AddType => AddType.Award;
-    public int AwardId => awardId;
 }
 
 internal class AwardHandler(ServerContext serverContext) : AddTypeHandler<AwardItem, EmptyObject>

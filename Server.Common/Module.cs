@@ -29,6 +29,7 @@ public static class CommonModule
         serviceCollection.AddScoped<IAddTypeHandler, AwardHandler>();
         serviceCollection.AddScoped<IAddTypeHandler, BackgroundHandler>();
         serviceCollection.AddScoped<IAddTypeHandler, LiveHandler>();
+        serviceCollection.AddScoped<IAddTypeHandler, ExchangePointHandler>();
         serviceCollection.AddScoped<ItemManager>();
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();

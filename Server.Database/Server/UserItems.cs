@@ -15,5 +15,8 @@ public class UserItems
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime InsertDate { get; set; }
     
+    [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+    public DateTime UpdateDate { get; set; }
+    
     public virtual User User { get; set; }
 }

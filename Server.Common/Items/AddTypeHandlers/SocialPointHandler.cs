@@ -3,10 +3,9 @@ using Server.Database.Server;
 
 namespace Server.Common.Items;
 
-public class SocialPointItem(int amount) : IItem
+public record SocialPointItem(int Amount) : IItem
 {
     public AddType AddType => AddType.SocialPoint;
-    public int Amount => amount;
 }
 
 public record SocialPointCount(int Total);
