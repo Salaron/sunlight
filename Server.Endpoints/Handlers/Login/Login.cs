@@ -1,5 +1,5 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using Server.Common;
 using Server.Common.Login;
 using Server.Database.Server;
 
@@ -33,6 +33,6 @@ internal class LoginEndpoint(
         user.AuthorizeToken = Guid.NewGuid().ToString();
         serverContext.Users.Update(user);
 
-        return new LoginResponse(user.UserId, user.AuthorizeToken, false, false);
+        return new LoginResponse(user.UserId, user.AuthorizeToken, false, Debugger.IsAttached);
     }
 }

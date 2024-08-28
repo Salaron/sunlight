@@ -1,3 +1,4 @@
+using System.Collections.Frozen;
 using Server.Common;
 using Server.Common.Unit;
 using Server.Database.Game;
@@ -13,16 +14,16 @@ internal class SeriesAllEndpoint : Action<EmptyObject, IEnumerable<AlbumSeriesDt
     private readonly IActionContext _context;
     private readonly IUnitService _unitService;
     private readonly UnitContext _unitDbContext;
-    private static Lazy<Dictionary<int, int>> _seriesIdByUnitId;
+    private static Lazy<FrozenDictionary<int, int>> _seriesIdByUnitId;
 
     public SeriesAllEndpoint(IActionContext context, IUnitService unitService, UnitContext unitDbContext)
     {
         _context = context;
         _unitService = unitService;
         _unitDbContext = unitDbContext;
-        _seriesIdByUnitId ??= new Lazy<Dictionary<int, int>>(CreateUnitIdBySeriesMap, LazyThreadSafetyMode.ExecutionAndPublication);
+        _seriesIdByUnitId ??= new Lazy<FrozenDictionary<int, int>>(CreateUnitIdBySeriesMap, LazyThreadSafetyMode.ExecutionAndPublication);
     }
-    
+
     public override async Task<IEnumerable<AlbumSeriesDto>> ExecuteAsync(EmptyObject requestBody)
     {
         var mapper = new UnitMapper();
@@ -44,17 +45,17 @@ internal class SeriesAllEndpoint : Action<EmptyObject, IEnumerable<AlbumSeriesDt
         return result.Select(pairs => new AlbumSeriesDto(pairs.Key, pairs.Value));
     }
 
-    private Dictionary<int, int> CreateUnitIdBySeriesMap()
+    private FrozenDictionary<int, int> CreateUnitIdBySeriesMap()
     {
         var map = new Dictionary<int, int>();
         foreach (var unit in _unitDbContext.UnitM)
         {
             if (!unit.AlbumSeriesId.HasValue)
                 continue;
-            
+
             map[unit.UnitId] = unit.AlbumSeriesId.Value;
         }
 
-        return map;
+        return map.ToFrozenDictionary();
     }
 }

@@ -43,10 +43,10 @@ internal class TopInfoOnceEndpoint : Action<EmptyObject, TopInfoOnceResponse>
             TrainingEnergy = 5,
             TrainingEnergyMax = 5,
             Notification = new Notification(),
-            OpenArena = false,
-            CostumeStatus = false,
-            OpenAccessory = false,
-            ArenaSiSkillUniqueCheck = false,
+            OpenArena = true,
+            OpenAccessory = true,
+            CostumeStatus = true,
+            ArenaSiSkillUniqueCheck = true,
             OpenV98 = true
         });
     }
