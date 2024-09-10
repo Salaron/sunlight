@@ -4,7 +4,7 @@ using Server.Common.Unit;
 using Server.Database.Game;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Album;
+namespace Server.Endpoints.Handlers.Album;
 
 internal record AlbumSeriesDto(int SeriesId, IEnumerable<AlbumItemDto> UnitList);
 

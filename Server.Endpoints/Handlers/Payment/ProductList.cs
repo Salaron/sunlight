@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Payment;
+namespace Server.Endpoints.Handlers.Payment;
 
 internal record PaymentRestrictionInfo(bool Restricted);
 

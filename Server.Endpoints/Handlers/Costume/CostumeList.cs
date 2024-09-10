@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Costume;
+namespace Server.Endpoints.Handlers.Costume;
 
 internal record CostumeDetails(int UnitId, bool IsRankMax, bool IsSigned);
 

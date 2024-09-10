@@ -1,8 +1,22 @@
 using Server.Common;
 using Server.Common.Items;
 using Server.Common.Lbonus;
+using Server.Common.Users;
 
-namespace Server.Endpoints.Main.Lbonus;
+namespace Server.Endpoints.Handlers.Lbonus;
+
+public record SheetReward(int Seq, List<GameItem> Reward);
+
+internal record LbonusSheet
+{
+    public int NlbonusItemNum { get; init; }
+    public string DetailText { get; init; }
+    public string BgAsset { get; init; }
+    public bool ShowNextItem { get; init; }
+    public List<SheetReward> Items { get; init; }
+    public int StampNum { get; init; }
+    public List<GameItem> GetItem { get; set; }
+}
 
 internal record LbonusCalendarInfo
 {

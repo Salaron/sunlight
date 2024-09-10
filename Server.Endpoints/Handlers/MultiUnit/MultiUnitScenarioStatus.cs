@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.MultiUnit;
+namespace Server.Endpoints.Handlers.MultiUnit;
 
 internal record MultiUnitScenarioStatusResponse(List<object> MultiUnitScenarioStatusList);
 

@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.PersonalNotice;
+namespace Server.Endpoints.Handlers.PersonalNotice;
 
 internal record PersonalNoticeResponse(bool HasNotice, int NoticeId, int Type, string Title, string Contents);
 

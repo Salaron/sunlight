@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Museum;
+namespace Server.Endpoints.Handlers.Museum;
 
 internal record MuseumStats(int Smile, int Pure, int Cool);
 

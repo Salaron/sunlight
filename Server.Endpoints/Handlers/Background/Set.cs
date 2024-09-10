@@ -1,7 +1,7 @@
 using Server.Common;
 using Server.Common.Users;
 
-namespace Server.Endpoints.Main.Background;
+namespace Server.Endpoints.Handlers.Background;
 
 internal record BackgroundSetRequest(int BackgroundId);
 

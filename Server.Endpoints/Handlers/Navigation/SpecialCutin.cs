@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Navigation;
+namespace Server.Endpoints.Handlers.Navigation;
 
 internal record SpecialCutinResponse(List<object> SpecialCutinList);
 

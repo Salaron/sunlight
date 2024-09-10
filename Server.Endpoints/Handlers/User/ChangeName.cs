@@ -1,6 +1,6 @@
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record ChangeNameRequest(string Name);
 
@@ -14,7 +14,7 @@ internal class ChangeNameEndpoint(ServerContext serverContext, IActionContext co
         var user = await serverContext.Users.FindAsync(context.UserId);
         user.Name = requestBody.Name;
         serverContext.Users.Update(user);
-        
+
         return new ChangeNameResponse(requestBody.Name);
     }
 }

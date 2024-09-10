@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Gdpr;
+namespace Server.Endpoints.Handlers.Gdpr;
 
 internal record GdprGetResponse(bool EnableGdpr, bool IsEea, bool HasRequested, IEnumerable<object> Permissions);
 

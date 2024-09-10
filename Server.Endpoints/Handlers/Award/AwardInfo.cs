@@ -3,7 +3,7 @@ using Server.Common.Items;
 using Server.Common.Users;
 using Server.Database.Enums;
 
-namespace Server.Endpoints.Main.Award;
+namespace Server.Endpoints.Handlers.Award;
 
 internal record AwardInfo(int AwardId, bool IsSet, DateTime InsertDate);
 
@@ -20,7 +20,7 @@ internal class AwardInfoEndpoint(IActionContext context, IUserService userServic
 
         var awardList = unlockedAwards.Select(item =>
             new AwardInfo(item.ItemId, item.ItemId == user.SettingAwardId, item.UnlockDate));
-        
+
         return new AwardInfoResponse(awardList);
     }
 }

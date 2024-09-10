@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Unit;
+namespace Server.Endpoints.Handlers.Unit;
 
 internal record AccessoryAllResponse(List<object> AccessoryList, List<object> WearingInfo, bool EspecialCreateFlag);
 

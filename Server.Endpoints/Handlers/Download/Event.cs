@@ -1,10 +1,10 @@
 using Server.Common;
 using Server.Common.Download;
 
-namespace Server.Endpoints.Main.Download;
+namespace Server.Endpoints.Handlers.Download;
 
 [Endpoint("download/event")]
-internal class EventEndpoint: Action<EmptyObject, IEnumerable<DownloadPackageInfo>>
+internal class EventEndpoint : Action<EmptyObject, IEnumerable<DownloadPackageInfo>>
 {
     public override Task<IEnumerable<DownloadPackageInfo>> ExecuteAsync(EmptyObject requestBody)
     {

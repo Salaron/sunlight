@@ -2,7 +2,7 @@ using Server.Common;
 using Server.Common.Tutorial;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Tutorial;
+namespace Server.Endpoints.Handlers.Tutorial;
 
 [Endpoint("tutorial/skip")]
 internal class TutorialSkipEndpoint(IActionContext context, ITutorialService tutorialService)

@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Live;
+namespace Server.Endpoints.Handlers.Live;
 
 internal record EventSchedule;
 

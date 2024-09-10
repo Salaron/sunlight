@@ -1,7 +1,7 @@
 using Riok.Mapperly.Abstractions;
 using Server.Database.Server;
-using Server.Endpoints.Main.Album;
-using Server.Endpoints.Main.Unit;
+using Server.Endpoints.Handlers.Album;
+using Server.Endpoints.Handlers.Unit;
 
 namespace Server.Endpoints.Dtos;
 
@@ -9,9 +9,9 @@ namespace Server.Endpoints.Dtos;
 internal partial class UnitMapper
 {
     public partial UnitInfoDto UnitOwningToDto(UnitOwning unit);
-    
+
     [MapProperty(nameof(UserUnitDeck.UnitDeckSlots), nameof(UnitDeckInfoResponse.UnitOwningUserIds))]
     public partial UnitDeckInfoResponse UnitDeckToDto(UserUnitDeck unitDeck);
-    
+
     public partial AlbumItemDto AlbumItemToDto(UnitAlbum unit);
 }

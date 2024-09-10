@@ -3,7 +3,7 @@ using Server.Common.Live;
 using Server.Database.Enums;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Live;
+namespace Server.Endpoints.Handlers.Live;
 
 internal record LiveStatusDto
 {

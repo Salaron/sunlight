@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Banner;
+namespace Server.Endpoints.Handlers.Banner;
 
 internal record BannerListResponse(DateTime TimeLimit, List<object> BannerList);
 

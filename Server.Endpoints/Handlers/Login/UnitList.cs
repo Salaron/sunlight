@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record UnitListInfo(int UnitId, bool IsRankMax);
 

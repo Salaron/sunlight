@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Common.Login;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record LoginRequest(string LoginKey, string LoginPasswd);
 

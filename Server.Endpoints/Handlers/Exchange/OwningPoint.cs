@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Exchange;
+namespace Server.Endpoints.Handlers.Exchange;
 
 [Endpoint("exchange/owningPoint", usedInApi: true)]
 internal class OwningPointEndpoint : Action<EmptyObject, IEnumerable<EmptyObject>>

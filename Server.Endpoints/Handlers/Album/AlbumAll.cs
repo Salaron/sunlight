@@ -1,9 +1,8 @@
 using Server.Common;
 using Server.Common.Unit;
-using Server.Database.Server;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Album;
+namespace Server.Endpoints.Handlers.Album;
 
 internal record AlbumItemDto
 {

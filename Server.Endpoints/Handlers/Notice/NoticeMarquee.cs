@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Notice;
+namespace Server.Endpoints.Handlers.Notice;
 
 internal record Marquee(int MarqueeId, string Text, DateTime StartDate, DateTime EndDate);
 

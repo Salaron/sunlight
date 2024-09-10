@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Common;
 using Server.Database.Game;
 
-namespace Server.Endpoints.Main.LiveIcon;
+namespace Server.Endpoints.Handlers.LiveIcon;
 
 internal record LiveIconInfoResponse(List<int> LiveNotesIconList);
 

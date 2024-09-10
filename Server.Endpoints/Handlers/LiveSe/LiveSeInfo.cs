@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Server.Common;
 using Server.Database.Game;
 
-namespace Server.Endpoints.Main.LiveSe;
+namespace Server.Endpoints.Handlers.LiveSe;
 
 internal record LiveSeInfoResponse(List<int> LiveSeList);
 

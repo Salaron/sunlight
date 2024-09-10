@@ -1,6 +1,6 @@
 using Server.Common.Download;
 
-namespace Server.Endpoints.Main.Download;
+namespace Server.Endpoints.Handlers.Download;
 
 internal record DownloadAdditionalRequest(int PackageType, int PackageId, string TargetOs, int[] ExcludedPackageIds);
 
@@ -11,7 +11,7 @@ internal class DownloadAdditionalEndpoint(IDownloadService downloadService) : Ac
     {
         var platform = PlatformHelper.GetPlatformId(requestBody.TargetOs);
         var urls = downloadService.GetPackageUrlsAsync(platform, requestBody.PackageType, requestBody.PackageId);
-        
+
         return urls;
     }
 }

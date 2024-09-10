@@ -2,7 +2,7 @@ using Server.Common;
 using Server.Common.Live;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Unit;
+namespace Server.Endpoints.Handlers.Unit;
 
 internal record UnitDeckSlot(int UnitOwningUserId, int Position);
 

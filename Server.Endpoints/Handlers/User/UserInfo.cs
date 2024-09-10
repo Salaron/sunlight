@@ -3,7 +3,7 @@ using Server.Common;
 using Server.Common.Users;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record UserBirth(int BirthMonth, int BirthDay);
 

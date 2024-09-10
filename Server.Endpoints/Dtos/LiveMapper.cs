@@ -1,6 +1,6 @@
 using Riok.Mapperly.Abstractions;
 using Server.Common.Live;
-using Server.Endpoints.Main.Live;
+using Server.Endpoints.Handlers.Live;
 
 namespace Server.Endpoints.Dtos;
 

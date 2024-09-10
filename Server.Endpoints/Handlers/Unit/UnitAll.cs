@@ -3,7 +3,7 @@ using Server.Common.Unit;
 using Server.Database.Server;
 using Server.Endpoints.Dtos;
 
-namespace Server.Endpoints.Main.Unit;
+namespace Server.Endpoints.Handlers.Unit;
 
 internal record UnitAllResponse(IEnumerable<UnitInfoDto> Active, IEnumerable<UnitInfoDto> Waiting);
 

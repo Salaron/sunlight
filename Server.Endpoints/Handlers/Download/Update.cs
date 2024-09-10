@@ -1,6 +1,6 @@
 using Server.Common.Download;
 
-namespace Server.Endpoints.Main.Download;
+namespace Server.Endpoints.Handlers.Download;
 
 internal record DownloadUpdateRequest(string TargetOs, Version InstallVersion, Version ExternalVersion, IReadOnlyList<string> PackageList);
 
@@ -12,7 +12,7 @@ internal class UpdateEndpoint(IDownloadService downloadService) : Action<Downloa
         var platform = PlatformHelper.GetPlatformId(requestBody.TargetOs);
         var versions = new[] { requestBody.InstallVersion, requestBody.ExternalVersion };
         var urls = downloadService.GetUpdateUrlsAsync(platform, versions.Min().ToString());
-        
+
         return urls;
     }
 }

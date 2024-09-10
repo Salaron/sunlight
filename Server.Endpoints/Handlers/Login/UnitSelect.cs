@@ -2,7 +2,7 @@ using Server.Common.Items;
 using Server.Common.Live;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record UnitSelectRequest(int UnitInitialSetId);
 
@@ -25,7 +25,7 @@ internal class UnitSelectEndpoint(
     {
         var units = _defaultUnitSet;
         units[4] = requestBody.UnitInitialSetId;
-        
+
         var user = serverContext.Users.Find(context.UserId);
 
         var deckSlots = new List<UserUnitDeckSlot>();

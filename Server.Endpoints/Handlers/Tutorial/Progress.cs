@@ -3,7 +3,7 @@ using Server.Common.Tutorial;
 using Server.Database.Enums;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Tutorial;
+namespace Server.Endpoints.Handlers.Tutorial;
 
 internal record TutorialProgressRequest(TutorialState TutorialState);
 

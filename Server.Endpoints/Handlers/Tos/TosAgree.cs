@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Tos;
+namespace Server.Endpoints.Handlers.Tos;
 
 internal record TosAgreeResponse(uint TosId, uint TosType, bool IsAgreed);
 

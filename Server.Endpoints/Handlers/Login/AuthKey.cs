@@ -8,7 +8,7 @@ using Server.Common.Config;
 using Server.Common.Crypto;
 using Server.Common.Login;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record AuthKeyRequest(string DummyToken, string AuthData);
 

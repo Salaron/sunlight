@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 [Endpoint("user/setNotificationToken")]
 internal class SetNotificationTokenEndpoint : Action<EmptyObject, IEnumerable<EmptyObject>>

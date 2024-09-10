@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Marathon;
+namespace Server.Endpoints.Handlers.Marathon;
 
 [Endpoint("marathon/marathonInfo", usedInApi: true)]
 internal class MarathonInfoEndpoint : Action<EmptyObject, IEnumerable<EmptyObject>>

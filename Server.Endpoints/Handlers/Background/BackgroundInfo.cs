@@ -3,7 +3,7 @@ using Server.Common.Items;
 using Server.Common.Users;
 using Server.Database.Enums;
 
-namespace Server.Endpoints.Main.Background;
+namespace Server.Endpoints.Handlers.Background;
 
 internal record BackgroundInfo(int BackgroundId, bool IsSet, DateTime InsertDate);
 
@@ -19,7 +19,7 @@ internal class AwardInfoEndpoint(IActionContext context, IUserService userServic
 
         var backgroundList = unlockedItems.Select(item =>
             new BackgroundInfo(item.ItemId, item.ItemId == user.SettingBackgroundId, item.UnlockDate));
-        
+
         return new BackgroundInfoResponse(backgroundList);
     }
 }

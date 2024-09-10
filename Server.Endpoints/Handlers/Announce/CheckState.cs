@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Announce;
+namespace Server.Endpoints.Handlers.Announce;
 
 internal record AnnounceCheckStateResponse(bool HasUnreadAnnounce);
 

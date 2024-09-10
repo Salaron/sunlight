@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Handover;
+namespace Server.Endpoints.Handlers.Handover;
 
 internal record KidStatusResponse(bool HasKlabId);
 

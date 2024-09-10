@@ -1,6 +1,6 @@
 using Server.Common.Download;
 
-namespace Server.Endpoints.Main.Download;
+namespace Server.Endpoints.Handlers.Download;
 
 internal record DownloadBatchRequest(int PackageType, string Os, int[] ExcludedPackageIds);
 
@@ -11,7 +11,7 @@ internal class DownloadBatchEndpoint(IDownloadService downloadService) : Action<
     {
         var platform = PlatformHelper.GetPlatformId(requestBody.Os);
         var urls = downloadService.GetBatchUrlsAsync(platform, requestBody.PackageType, requestBody.ExcludedPackageIds);
-        
+
         return urls;
     }
 }

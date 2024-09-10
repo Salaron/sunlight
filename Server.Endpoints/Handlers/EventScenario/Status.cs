@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.EventScenario;
+namespace Server.Endpoints.Handlers.EventScenario;
 
 internal record EventScenarioStatusResponse(List<object> EventScenarioList);
 

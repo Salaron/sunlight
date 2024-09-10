@@ -1,7 +1,7 @@
 using Server.Common;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record UserNavi(int UserId, int UnitOwningUserId);
 

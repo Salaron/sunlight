@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Stamp;
+namespace Server.Endpoints.Handlers.Stamp;
 
 internal record StampInfoResponse(List<int> OwningStampIds, List<object> StampSetting);
 

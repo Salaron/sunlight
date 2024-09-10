@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Scenario;
+namespace Server.Endpoints.Handlers.Scenario;
 
 internal record ScenarioStatusResponse(List<object> ScenarioStatusList);
 

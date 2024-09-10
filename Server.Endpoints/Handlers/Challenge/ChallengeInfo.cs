@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Challenge;
+namespace Server.Endpoints.Handlers.Challenge;
 
 [Endpoint("challenge/challengeInfo", usedInApi: true)]
 internal class ChallengeInfoEndpoint : Action<EmptyObject, IEnumerable<EmptyObject>>

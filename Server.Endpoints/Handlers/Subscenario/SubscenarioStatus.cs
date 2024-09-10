@@ -1,6 +1,6 @@
 using Server.Common;
 
-namespace Server.Endpoints.Main.Subscenario;
+namespace Server.Endpoints.Handlers.Subscenario;
 
 internal record SubscenarioStatusResponse(List<object> SubscenarioStatusList, List<int> UnlockedSubscenarioIds);
 

@@ -3,7 +3,7 @@ using Server.Common.Login;
 using Server.Common.Users;
 using Server.Database.Server;
 
-namespace Server.Endpoints.Main.Login;
+namespace Server.Endpoints.Handlers.Login;
 
 internal record StartUpRequest(string LoginKey, string LoginPasswd);
 

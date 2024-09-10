@@ -1,7 +1,7 @@
 using Server.Common;
 using Server.Common.Users;
 
-namespace Server.Endpoints.Main.Award;
+namespace Server.Endpoints.Handlers.Award;
 
 internal record AwardSetRequest(int AwardId);
 
