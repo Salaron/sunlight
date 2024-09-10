@@ -35,7 +35,7 @@ internal record TotalLoginInfo
 
 internal record LbonusResponse
 {
-    public List<object> Sheets { get; set; }
+    public List<LbonusSheet> Sheets { get; set; }
     public LbonusCalendarInfo CalendarInfo { get; set; }
     public TotalLoginInfo TotalLoginInfo { get; set; }
     public List<object> LicenseLbonusList { get; set; }
@@ -45,11 +45,15 @@ internal record LbonusResponse
 }
 
 [Endpoint("lbonus/execute", xCodeCheck: XCodeCheck.Special)]
-internal class LbonusExecuteEndpoint(IActionContext context, ILoginBonusService loginBonusService, ItemManager itemManager) : Action<EmptyObject, LbonusResponse>
+internal class LbonusExecuteEndpoint(
+    IActionContext context,
+    ILoginBonusService loginBonusService,
+    ItemManager itemManager) : Action<EmptyObject, LbonusResponse>
 {
     public override async Task<LbonusResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        var currentDate = DateOnly.FromDateTime(DateTimeUtils.GetServerTime());
+        var currentDateTime = DateTimeUtils.GetServerTime();
+        var currentDate = DateOnly.FromDateTime(currentDateTime);
 
         var calendar = new LbonusCalendarInfo
         {
@@ -58,13 +62,34 @@ internal class LbonusExecuteEndpoint(IActionContext context, ILoginBonusService 
             NextMonth = loginBonusService.GetCalendar(context.UserId, currentDate.AddMonths(1)),
         };
 
+        var sheets = loginBonusService.GetSheets(context.UserId, currentDateTime).Select(sheet => new LbonusSheet
+        {
+            NlbonusItemNum = sheet.Items.Count,
+            DetailText = sheet.DetailText,
+            BgAsset = sheet.BgAsset,
+            ShowNextItem = true,
+            StampNum = sheet.StampNum,
+            Items = sheet.Items.Select(i => new SheetReward(i.Day, i.Items)).ToList()
+        }).ToList();
+
         if (loginBonusService.HasLoginBonus(context.UserId, currentDate))
         {
-            var item = calendar.CurrentMonth.Days[currentDate.Day - 1].Item;
-            await itemManager.AddAsync(context.UserId, Item.FromGameItem(item));
-            calendar.GetItem = item;
-            
-            // TODO...
+            var itemOfTheDay = calendar.CurrentMonth.Days[currentDate.Day - 1].Item;
+            await itemManager.AddAsync(context.UserId, Item.FromGameItem(itemOfTheDay));
+            calendar.GetItem = itemOfTheDay;
+
+            foreach (var sheet in sheets)
+            {
+                if (sheet.StampNum != sheet.NlbonusItemNum)
+                {
+                    sheet.GetItem = sheet.Items[sheet.StampNum].Reward;
+
+                    await Task.WhenAll(sheet.GetItem.Select(item =>
+                        itemManager.AddAsync(context.UserId, Item.FromGameItem(item))));
+                }
+            }
+
+            loginBonusService.MarkDay(context.UserId, currentDate);
         }
 
         var totalLogin = new TotalLoginInfo
@@ -76,19 +101,21 @@ internal class LbonusExecuteEndpoint(IActionContext context, ILoginBonusService 
         
         var response = new LbonusResponse
         {
-            Sheets = [],
+            Sheets = sheets,
             CalendarInfo = calendar,
             TotalLoginInfo = totalLogin,
             LicenseLbonusList = [],
             StartDashSheets = [],
-            EffortPoint = [
-            new
-            {
-                LiveEffortPointBoxSpecId = 1,
-                Capacity = 1,
-                Before = 0,
-                After = 0
-            }],
+            EffortPoint =
+            [
+                new
+                {
+                    LiveEffortPointBoxSpecId = 1,
+                    Capacity = 1,
+                    Before = 0,
+                    After = 0
+                }
+            ],
             LimitedEffortBox = [],
         };
 

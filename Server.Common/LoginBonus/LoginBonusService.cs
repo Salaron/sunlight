@@ -1,11 +1,30 @@
 using Microsoft.Extensions.Options;
 using Server.Common.Config;
+using Server.Common.LoginBonus;
 using Server.Database.Server;
 
 namespace Server.Common.Lbonus;
 
-internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, ServerContext serverContext) : ILoginBonusService
+internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, ServerContext serverContext)
+    : ILoginBonusService
 {
+    public IEnumerable<SheetInfo> GetSheets(int userId, DateTime date)
+    {
+        var activeSheets =
+            serverConfig.Value.LoginBonus.Sheets.Where(sheet => date >= sheet.StartDate && date <= sheet.EndDate);
+        foreach (var sheet in activeSheets)
+        {
+            var collectedCount = serverContext.LoginBonus.Count(d => date >= sheet.StartDate && date <= sheet.EndDate);
+            yield return new SheetInfo
+            {
+                DetailText = sheet.Text,
+                BgAsset = sheet.AssetPath,
+                StampNum = collectedCount,
+                Items = sheet.Days
+            };
+        }
+    }
+
     public MonthInfo GetCalendar(int userId, DateOnly date)
     {
         var start = new DateOnly(date.Year, date.Month, 1);
@@ -33,8 +52,15 @@ internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, Se
                 }).ToList()
         };
     }
+    
+    public void MarkDay(int userId, DateOnly date) => serverContext.LoginBonus.Add(new Database.Server.LoginBonus()
+    {
+        UserId = userId,
+        Date = date,
+    });
 
-    public bool HasLoginBonus(int userId, DateOnly date) => !serverContext.LoginBonus.Any(login => login.UserId == userId && login.Date == date);
+    public bool HasLoginBonus(int userId, DateOnly date) =>
+        !serverContext.LoginBonus.Any(login => login.UserId == userId && login.Date == date);
 
     public int GetLoginCount(int userId) => serverContext.LoginBonus.Count(login => login.UserId == userId);
 }
