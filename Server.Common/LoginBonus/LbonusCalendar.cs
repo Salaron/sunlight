@@ -1,6 +1,6 @@
 namespace Server.Common.Lbonus;
 
-public record MonthInfo
+public record LbonusCalendar
 {
     public int Year { get; set; }
     public int Month { get; set; }

@@ -17,15 +17,17 @@ internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, Se
             var collectedCount = serverContext.LoginBonus.Count(d => date >= sheet.StartDate && date <= sheet.EndDate);
             yield return new SheetInfo
             {
+                NlbonusItemNum = sheet.Days.Count,
                 DetailText = sheet.Text,
                 BgAsset = sheet.AssetPath,
                 StampNum = collectedCount,
-                Items = sheet.Days
+                ShowNextItem = true,
+                Items = sheet.Days.Select(day => new SheetReward(day.Day, day.Items)).ToList()
             };
         }
     }
 
-    public MonthInfo GetCalendar(int userId, DateOnly date)
+    public LbonusCalendar GetCalendar(int userId, DateOnly date)
     {
         var start = new DateOnly(date.Year, date.Month, 1);
         var end = new DateOnly(date.Year, date.Month, DateTime.DaysInMonth(date.Year, date.Month));
@@ -35,7 +37,7 @@ internal class LoginBonusService(IOptionsSnapshot<ServerConfig> serverConfig, Se
             .Select(d => d.Date.Day)
             .ToList();
 
-        return new MonthInfo
+        return new LbonusCalendar
         {
             Year = date.Year,
             Month = date.Month,

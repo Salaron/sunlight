@@ -28,7 +28,7 @@ public static class Item
         AddType.SocialPoint => SocialPoint(gameItem.Amount),
         AddType.PlayerExp => PlayerExp(gameItem.Amount),
         AddType.Loveca => Loveca(gameItem.Amount),
-        AddType.Unit => Unit(gameItem.UnitId!.Value),
+        AddType.Unit => Unit(gameItem.UnitId ?? gameItem.ItemId ?? throw new ArgumentNullException()),
         AddType.Live => Live(gameItem.ItemId!.Value),
         AddType.Award => Award(gameItem.ItemId!.Value),
         AddType.Background => Background(gameItem.ItemId!.Value),
