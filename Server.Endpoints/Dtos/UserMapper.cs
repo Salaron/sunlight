@@ -7,4 +7,6 @@ namespace Server.Endpoints.Dtos;
 internal partial class UserMapper
 {
     public partial UserInfoDto UserInfoToDto(UserInfo userInfo);
+    
+    public partial LiveUserInfo UserInfoToLiveUserInfo(UserInfo userInfo);
 }

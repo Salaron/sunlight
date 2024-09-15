@@ -14,4 +14,6 @@ internal partial class UnitMapper
     public partial UnitDeckInfoResponse UnitDeckToDto(UserUnitDeck unitDeck);
 
     public partial AlbumItemDto AlbumItemToDto(UnitAlbum unit);
+    
+    public partial LiveUnitInfo UnitOwningToLiveUnitInfo(UnitOwning unit);
 }

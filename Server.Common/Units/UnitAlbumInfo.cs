@@ -1,4 +1,4 @@
-namespace Server.Common.Unit;
+namespace Server.Common.Units;
 
 public record UnitAlbumInfo
 {

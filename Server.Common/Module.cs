@@ -7,6 +7,7 @@ using Server.Common.Live;
 using Server.Common.Login;
 using Server.Common.Tutorial;
 using Server.Common.Unit;
+using Server.Common.Units;
 using Server.Common.Users;
 
 namespace Server.Common;
@@ -39,5 +40,8 @@ public static class CommonModule
         serviceCollection.AddScoped<ITutorialService, TutorialService>();
         serviceCollection.AddScoped<IUnlockedItemsProvider, UnlockedItemsProvider>();
         serviceCollection.AddScoped<ILoginBonusService, LoginBonusService>();
+
+        serviceCollection.AddScoped<ILiveInfoProvider, LiveInfoProvider>();
+        serviceCollection.AddScoped<ILiveShowStarter, LiveShowStarter>();
     }
 }
