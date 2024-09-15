@@ -1,8 +1,11 @@
+using System.Text.Json;
+using Server.Common.Json;
+
 namespace Server.Endpoints;
 
 internal interface IAction
 {
-    Task<object> ExecuteAsync(object requestBody);
+    Task<object> ExecuteAsync(JsonElement requestBody);
 }
 
 internal interface IAction<in TRequest, TResponse> : IAction
@@ -14,9 +17,10 @@ internal abstract class Action<TRequest, TResponse> : IAction<TRequest, TRespons
 {
     public abstract Task<TResponse> ExecuteAsync(TRequest requestBody);
 
-    async Task<object> IAction.ExecuteAsync(object requestBody)
+    async Task<object> IAction.ExecuteAsync(JsonElement rawRequestBody)
     {
-        return await ExecuteAsync(requestBody as TRequest);
+        var requestBody = rawRequestBody.Deserialize<TRequest>(JsonSerializerDefaultOptions.GetOptions());
+        return await ExecuteAsync(requestBody);
     }
 }
 

@@ -33,6 +33,8 @@ public enum AddType
     LotteryTicket = 7500,
     RecoverLpItem = 8000,
     TradeCapital = 10000,
+    FeverSkill = 11000, // ?????
+    PassiveEffect = 12000, // ??
     Museum = 14000,
     AdReward = 50000
 }

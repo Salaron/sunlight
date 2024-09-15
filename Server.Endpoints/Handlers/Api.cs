@@ -1,8 +1,10 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Server.Common;
+using Server.Common.Json;
 
 namespace Server.Endpoints.Handlers;
 
@@ -18,14 +20,15 @@ internal record ApiResponse(object Result, int Status)
 }
 
 [Endpoint("api")]
-internal class ApiHandler(IHttpContextAccessor context, ILogger<ApiHandler> logger) : Action<IEnumerable<ApiRequest>, IEnumerable<ApiResponse>>
+internal class ApiHandler(IHttpContextAccessor context, ILogger<ApiHandler> logger) : Action<IEnumerable<JsonElement>, IEnumerable<ApiResponse>>
 {
-    public override async Task<IEnumerable<ApiResponse>> ExecuteAsync(IEnumerable<ApiRequest> requestModules)
+    public override async Task<IEnumerable<ApiResponse>> ExecuteAsync(IEnumerable<JsonElement> requestModules)
     {
         var result = new List<ApiResponse>();
 
-        foreach (var requestModule in requestModules)
+        foreach (var rawRequest in requestModules)
         {
+            var requestModule = rawRequest.Deserialize<ApiRequest>(JsonSerializerDefaultOptions.GetOptions());
             try
             {
                 var action = context.HttpContext!.RequestServices.GetKeyedService<IAction>($"{requestModule.Module}/{requestModule.Action}");
@@ -35,8 +38,8 @@ internal class ApiHandler(IHttpContextAccessor context, ILogger<ApiHandler> logg
                     result.Add(new ApiResponse(new EmptyObject(), 600));
                     continue;
                 }
-
-                var actionResult = await action!.ExecuteAsync(requestModule);
+                
+                var actionResult = await action.ExecuteAsync(rawRequest);
                 result.Add(new ApiResponse(actionResult, 200));
             }
             catch (Exception ex)

@@ -19,6 +19,7 @@ public class ServerContext : DbContext
     public DbSet<UserItems> UserItems { get; init; }
     public DbSet<UserLiveStatus> UserLiveStatus { get; init; }
     public DbSet<UserLiveStatusGoal> UserLiveStatusGoal { get; init; }
+    public DbSet<RewardBoxItem> RewardBoxItems { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +30,9 @@ public class ServerContext : DbContext
 
         modelBuilder.Entity<UserItems>().Property(p => p.InsertDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         modelBuilder.Entity<UserItems>().Property(p => p.UpdateDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        
+        modelBuilder.Entity<RewardBoxItem>().Property(p => p.InsertDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
 
         base.OnModelCreating(modelBuilder);
     }

@@ -32,6 +32,7 @@ public static class CommonModule
         serviceCollection.AddScoped<IAddTypeHandler, LiveHandler>();
         serviceCollection.AddScoped<IAddTypeHandler, ExchangePointHandler>();
         serviceCollection.AddScoped<ItemManager>();
+        serviceCollection.AddScoped<IRewardBox, RewardBox>();
         serviceCollection.AddScoped<IUnitDeckService, UnitDeckService>();
         serviceCollection.AddScoped<IUnitService, UnitService>();
         serviceCollection.AddScoped<IUserService, UserService>();
