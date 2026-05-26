@@ -18,10 +18,9 @@ internal class DeckInfoEndpoint(IActionContext context, IUnitDeckService deckSer
 {
     public override async Task<IEnumerable<UnitDeckInfoResponse>> ExecuteAsync(EmptyObject requestBody)
     {
-        var mapper = new UnitMapper();
         var deckList = await deckService.GetDeckListAsync(context.UserId);
 
-        var response = deckList.Select(mapper.UnitDeckToDto);
+        var response = deckList.Select(Mappers.Unit.UnitDeckToDto);
 
         return response;
     }

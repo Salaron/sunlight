@@ -2,7 +2,6 @@ namespace Server.Common.Units;
 
 public record UnitInfo
 {
-    public int UnitOwningUserId { get; init; }
     public int UnitId { get; init; }
     public int Exp { get; init; }
     public int NextExp { get; init; }
@@ -27,5 +26,4 @@ public record UnitInfo
     public bool IsSkillLevelMax => UnitSkillLevel >= MaxUnitSkillLevel;
     public bool IsRemovableSkillCapacityMax => UnitRemovableSkillCapacity >= MaxUnitRemovableSkillCapacity;
     public bool IsSigned { get; init; }
-    public DateTime InsertDate { get; init; }
 }

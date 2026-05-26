@@ -126,7 +126,7 @@ internal class UserService(ServerContext serverContext, IUnlockedItemsProvider i
         };
     }
 
-    // the following formulas are taken from NPPS4 by AuahDark
+    // https://github.com/DarkEnergyProcessor/NPPS4/blob/d425cb1c2921586761484c20e38c43621de15983/npps4/system/core.py
     private int GetNextExp(int level)
     {
         var exp = 0d;

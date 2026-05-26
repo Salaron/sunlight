@@ -1,6 +1,3 @@
 namespace Server.Common.Users;
 
-public class UserNotFoundException : Exception
-{
-    
-}
+public class UserNotFoundException : Exception;

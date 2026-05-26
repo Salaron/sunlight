@@ -16,15 +16,13 @@ internal record RewardOpenResponse(
 internal class OpenEndpoint(IActionContext context, IRewardBox rewardBox, IUserService userService)
     : Action<RewardOpenRequest, RewardOpenResponse>
 {
-    private static readonly UserMapper Mapper = new();
-
     public override async Task<RewardOpenResponse> ExecuteAsync(RewardOpenRequest requestBody)
     {
-        var beforeUserInfo = Mapper.UserInfoToDto(await userService.GetAsync(context.UserId));
+        var beforeUserInfo = Mappers.User.UserInfoToDto(await userService.GetAsync(context.UserId));
         var item = await rewardBox.OpenAsync(context.UserId, requestBody.IncentiveId);
-        var afterUserInfo = Mapper.UserInfoToDto(await userService.GetAsync(context.UserId));
+        var afterUserInfo = Mappers.User.UserInfoToDto(await userService.GetAsync(context.UserId));
 
-        var response = new RewardOpenResponse(1, [item], beforeUserInfo, afterUserInfo);
+        var response = new RewardOpenResponse(OpenedNum: 1, [item], beforeUserInfo, afterUserInfo);
         return response;
     }
 }

@@ -12,9 +12,8 @@ internal class UnitAllEndpoint(IActionContext context, IUnitService unitService)
 {
     public override async Task<UnitAllResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        var mapper = new UnitMapper();
         var units = await unitService.GetUnitsAsync(context.UserId);
-        var unitInfo = units.Select(mapper.UnitOwningToDto);
+        var unitInfo = units.Select(Mappers.Unit.UnitOwningToDto);
 
         return new UnitAllResponse(unitInfo, []);
     }

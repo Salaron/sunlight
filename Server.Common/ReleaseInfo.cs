@@ -1,7 +1,3 @@
 namespace Server.Common;
 
-public record ReleaseInfo
-{
-    public string Id { get; set; }
-    public string Key { get; set; }
-}
+public record ReleaseInfo(string Id, string Key);

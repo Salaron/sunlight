@@ -27,16 +27,14 @@ internal record LiveStatusResponse(
 internal class LiveStatusEndpoint(IActionContext context, ILiveStatusProvider liveStatusProvider)
     : Action<EmptyObject, LiveStatusResponse>
 {
-    private static readonly LiveMapper LiveMapper = new();
-
     public override async Task<LiveStatusResponse> ExecuteAsync(EmptyObject requestBody)
     {
         var normalLives = await liveStatusProvider.GetNormalLiveStatusAsync(context.UserId);
         var specialLives = await liveStatusProvider.GetSpecialLiveStatusAsync(context.UserId);
 
         var response = new LiveStatusResponse(
-            NormalLiveStatusList: normalLives.Select(LiveMapper.LiveStatusInfoToDto),
-            SpecialLiveStatusList: specialLives.Select(LiveMapper.LiveStatusInfoToDto),
+            NormalLiveStatusList: normalLives.Select(Mappers.Live.LiveStatusInfoToDto),
+            SpecialLiveStatusList: specialLives.Select(Mappers.Live.LiveStatusInfoToDto),
             MarathonLiveStatusList: [],
             TrainingLiveStatusList: [],
             FreeLiveStatusList: [],

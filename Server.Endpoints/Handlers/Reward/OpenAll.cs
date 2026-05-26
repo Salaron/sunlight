@@ -21,7 +21,6 @@ internal class OpenAllEndpoint(IActionContext context, IRewardBox rewardBox, IUs
     : Action<RewardOpenAllRequest, RewardOpenAllResponse>
 {
     private const int Limit = 1000;
-    private static readonly UserMapper Mapper = new();
 
     public override async Task<RewardOpenAllResponse> ExecuteAsync(RewardOpenAllRequest requestBody)
     {
@@ -29,12 +28,12 @@ internal class OpenAllEndpoint(IActionContext context, IRewardBox rewardBox, IUs
         var items = await rewardBox.GetAsync(context.UserId, filter);
         var totalItems = await rewardBox.GetTotalAsync(context.UserId);
 
-        var beforeUserInfo = Mapper.UserInfoToDto(await userService.GetAsync(context.UserId));
+        var beforeUserInfo = Mappers.User.UserInfoToDto(await userService.GetAsync(context.UserId));
 
         var rewardOpenTasks = items.Select(item => rewardBox.OpenAsync(context.UserId, item.Id));
         var rewardList = await Task.WhenAll(rewardOpenTasks);
 
-        var afterUserInfo = Mapper.UserInfoToDto(await userService.GetAsync(context.UserId));
+        var afterUserInfo = Mappers.User.UserInfoToDto(await userService.GetAsync(context.UserId));
 
         var response = new RewardOpenAllResponse(rewardList.Length,
             rewardList.Length,

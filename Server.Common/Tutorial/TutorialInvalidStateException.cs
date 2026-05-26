@@ -1,6 +1,3 @@
 namespace Server.Common.Tutorial;
 
-public class TutorialInvalidStateException : Exception
-{
-    
-}
+public class TutorialInvalidStateException : Exception;

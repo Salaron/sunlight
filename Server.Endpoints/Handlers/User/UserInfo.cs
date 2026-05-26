@@ -19,9 +19,8 @@ internal class UserInfoEndpoint(IActionContext actionContext, IUserService userS
 {
     public override async Task<UserInfoResponse> ExecuteAsync(EmptyObject requestBody)
     {
-        var mapper = new UserMapper();
         var user = await userService.GetAsync(actionContext.UserId);
-        var userDto = mapper.UserInfoToDto(user);
+        var userDto = Mappers.User.UserInfoToDto(user);
 
         UserBirth? birthday = null;
         if (user.Birthday.HasValue)

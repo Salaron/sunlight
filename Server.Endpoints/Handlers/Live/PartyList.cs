@@ -44,8 +44,8 @@ internal class PartyListEndpoint(IActionContext action, IUserService userService
         var user = await userService.GetAsync(action.UserId);
         var centerUnit = await unitService.GetCenterUnitAsync(action.UserId);
 
-        var liveUserInfo = Mappers.UserMapper.UserInfoToLiveUserInfo(user);
-        var liveCenterUnitInfo = Mappers.UnitMapper.UnitOwningToLiveUnitInfo(centerUnit);
+        var liveUserInfo = Mappers.User.UserInfoToLiveUserInfo(user);
+        var liveCenterUnitInfo = Mappers.Unit.UnitOwningToLiveUnitInfo(centerUnit);
 
         var response = new LivePartyListResponse
         {

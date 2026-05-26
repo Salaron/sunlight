@@ -22,9 +22,8 @@ internal class AlbumAllEndpoint(IActionContext context, IUnitService unitService
 {
     public override async Task<IEnumerable<AlbumItemDto>> ExecuteAsync(EmptyObject requestBody)
     {
-        var mapper = new UnitMapper();
         var album = await unitService.GetAlbumAsync(context.UserId);
-        var albumItems = album.Select(mapper.AlbumItemToDto);
+        var albumItems = album.Select(Mappers.Unit.AlbumItemToDto);
 
         return albumItems;
     }

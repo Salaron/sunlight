@@ -53,7 +53,6 @@ internal class RewardListEndpoint(
     : Action<RewardListRequest, RewardListResponse>
 {
     private const int Limit = 20;
-    private static readonly ItemMapper ItemMapper = new();
 
     public override async Task<RewardListResponse> ExecuteAsync(RewardListRequest requestBody)
     {
@@ -61,8 +60,6 @@ internal class RewardListEndpoint(
         var rewards = await rewardBox.GetAsync(context.UserId, filter);
         var total = await rewardBox.GetTotalAsync(context.UserId);
         
-        await rewardBox.AddAsync(context.UserId, Item.ToGameItem(Item.Loveca(1)), "Hi");
-
         var rewardItems = rewards.Select(r =>
         {
             if (r.AddType == AddType.Unit)

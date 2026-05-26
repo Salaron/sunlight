@@ -26,9 +26,8 @@ internal class SeriesAllEndpoint : Action<EmptyObject, IEnumerable<AlbumSeriesDt
 
     public override async Task<IEnumerable<AlbumSeriesDto>> ExecuteAsync(EmptyObject requestBody)
     {
-        var mapper = new UnitMapper();
         var album = await _unitService.GetAlbumAsync(_context.UserId);
-        var albumItems = album.Select(mapper.AlbumItemToDto);
+        var albumItems = album.Select(Mappers.Unit.AlbumItemToDto);
 
         var result = new Dictionary<int, List<AlbumItemDto>>();
         foreach (var albumSeries in _unitDbContext.AlbumSeriesM)
